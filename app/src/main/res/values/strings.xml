@@ -1,0 +1,82 @@
+<resources>
+    <string name="app_name">Around</string>
+
+    <!-- Strings with Global Scope -->
+    <string name="around_next">Next</string>
+    <string name="posts_radius">Post Radius</string>
+    <string name="update">Update</string>
+
+    <!-- Strings for Register Activity -->
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">Email Address</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+
+    <!-- Strings for New Post -->
+    <string name="sport_name">Sport Name:</string>
+    <string name="pick_sport">Please pick a sport</string>
+    <string name="on">On</string>
+    <string name="search">Search</string>
+    <string name="location">Location</string>
+    <string name="date">Date:</string>
+    <string name="time">Time:</string>
+    <string name="new_post">New Post</string>
+    <string name="please_fill">Please fill all the details</string>
+    <string name="use_current_location">Use Current Location</string>
+    <string name="age_group_title">Age Group:</string>
+    <string name="age_group_content">Please pick an age group</string>
+    <string name="small_ag">5 - 12 years</string>
+    <string name="teenage_ag">13 - 20 years</string>
+    <string name="adult_ag">20 - 40 years</string>
+    <string name="old_ag">40+ years</string>
+    <string name="age_group_chart">Age group chart</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="no_preference">No Preference</string>
+    <string name="gender_preference">Gender Preference:</string>
+    <string name="enter_a_location">Enter a location</string>
+    <string name="description">Description</string>
+    <string name="enter_description">Enter some description</string>
+
+    <!-- String for User Profile -->
+    <string name="user_profile">USER PROFILE</string>
+    <string name="help_and_settings">HELP AND SETTINGS</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="user_posts">Your Posts</string>
+    <string name="feedback">Feedback</string>
+    <string name="terms_of_service">Terms of Service</string>
+    <string name="logout">Logout</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="progress_indicator">In Progress</string>
+
+    <!-- Sports Names -->
+    <string name="cricket">Cricket</string>
+    <string name="football">Football</string>
+    <string name="baseball">Baseball</string>
+    <string name="badminton">Badminton</string>
+    <string name="ping_pong">Ping Pong</string>
+    <string name="tennis">Tennis</string>
+    <string name="soccer">Soccer</string>
+    <string name="gym">Gym</string>
+    <string name="basketball">Basketball</string>
+    <string name="lacrosse">Lacrosse</string>
+    <string name="volleyball">Volleyball</string>
+    <string name="boxing">Boxing</string>
+    <string name="ice_hockey">Ice Hockey</string>
+    <string name="bowling">Bowling</string>
+
+    <!-- Strings for Feedback Screen-->
+    <string name="enter_feedback">Please enter the feedback below:</string>
+    <string name="send">Send</string>
+    <string name="feedback_notice">Your feedback will be send to bhavesh.lath@gmail.com . </string>
+
+    <string name="default_info_title">Default Location</string>
+    <string name="default_info_snippet">No places found, because location permission is disabled.</string>
+    <string name="option_get_place">Get place</string>
+    <string name="pick_place">Choose a place</string>
+
+</resources>

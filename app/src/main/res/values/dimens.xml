@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- margins -->
+    <dimen name="margin_xsmall">4dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_medium">16dp</dimen>
+    <dimen name="margin_large">24dp</dimen>
+    <dimen name="margin_4">32dp</dimen>
+    <dimen name="margin_5">40dp</dimen>
+    <dimen name="margin_6">48dp</dimen>
+    <dimen name="margin_7">56dp</dimen>
+    <dimen name="margin_8">64dp</dimen>
+    <dimen name="margin_9">72dp</dimen>
+    <dimen name="margin_10">80dp</dimen>
+
+    <!-- paddings -->
+    <dimen name="padding_xsmall">4dp</dimen>
+    <dimen name="padding_small">8dp</dimen>
+    <dimen name="padding_medium">16dp</dimen>
+    <dimen name="padding_large">24dp</dimen>
+    <dimen name="padding_3">21dp</dimen>
+    <dimen name="padding_4">32dp</dimen>
+    <dimen name="padding_5">40dp</dimen>
+    <dimen name="padding_6">48dp</dimen>
+    <dimen name="padding_7">56dp</dimen>
+    <dimen name="padding_8">64dp</dimen>
+    <dimen name="padding_9">72dp</dimen>
+    <dimen name="padding_10">80dp</dimen>
+
+    <!-- labels text sizes -->
+    <dimen name="text_size_h1">28dp</dimen>
+    <dimen name="text_size_h2">20sp</dimen>
+    <dimen name="text_size_h3">17sp</dimen>
+    <dimen name="text_size_primary">14sp</dimen>
+    <dimen name="text_size_secondary">12sp</dimen>
+    <dimen name="text_size_small">10sp</dimen>
+    <dimen name="text_size_header">16sp</dimen>
+
+    <!-- card corners -->
+    <dimen name="card_corner_radius">6dp</dimen>
+    <dimen name="card_corner_elevation">5dp</dimen>
+
+    <!-- button text sizes -->
+    <dimen name="text_size_primary_button">14sp</dimen>
+    <dimen name="text_size_secondary_button">12sp</dimen>
+
+    <!-- line spacing multipliers -->
+    <item name="line_spacing_multiplier_h1" format="float" type="dimen">1.0</item>
+    <item name="line_spacing_multiplier_h2" format="float" type="dimen">1.0</item>
+    <item name="line_spacing_multiplier_h3" format="float" type="dimen">1.0</item>
+    <item name="line_spacing_multiplier_primary" format="float" type="dimen">1.12</item>
+    <item name="line_spacing_multiplier_secondary" format="float" type="dimen">1.2</item>
+    <item name="line_spacing_multiplier_small" format="float" type="dimen">1.15</item>
+
+    <dimen name="register_user_image">64dp</dimen>
+    <dimen name="posts_user_icon">48dp</dimen>
+    <dimen name="map_height">240dp</dimen>
+    <dimen name="profile_icons">20dp</dimen>
+</resources>

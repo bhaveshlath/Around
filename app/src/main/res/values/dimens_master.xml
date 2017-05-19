@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="divider_normal">1px</dimen>
+    <dimen name="divider_medium">2px</dimen>
+    <dimen name="divider_broad">4px</dimen>
+    <dimen name="progress_bar_height">32dp</dimen>
+    <dimen name="header_content_height">112dp</dimen>
+</resources>

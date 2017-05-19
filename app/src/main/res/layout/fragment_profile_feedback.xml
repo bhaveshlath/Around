@@ -1,0 +1,39 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:padding="@dimen/padding_medium"
+              tools:context="com.example.blath.around.fragments.ProfileFeedbackFragment">
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/MediumText.Dark"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:text="@string/enter_feedback"/>
+
+    <EditText
+            android:id="@+id/feedback_content"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/feedback_edittext_border">
+    </EditText>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/feedback_notice"
+            android:paddingTop="@dimen/padding_small"
+            style="@style/SecondaryText.Gray"/>
+    <Button
+            android:id="@+id/feedback_send"
+            android:text="@string/send"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            style="@drawable/button_white_rounded"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_alignParentBottom="true"/>
+
+</LinearLayout>
