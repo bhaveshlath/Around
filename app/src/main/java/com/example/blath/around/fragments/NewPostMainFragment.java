@@ -251,21 +251,21 @@ public class NewPostMainFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onConnected(Bundle connectionHint) {
-        // Build the map.
-        SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager()
-                .findFragmentById(R.id.new_post_map);
-        mapFragment.getMapAsync(this);
+            // Build the map.
+            SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager()
+                    .findFragmentById(R.id.new_post_map);
+            mapFragment.getMapAsync(this);
     }
 
     /**
      * Handles failure to connect to the Google Play services client.
      */
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult result) {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         // Refer to the reference doc for ConnectionResult to see what error codes might
         // be returned in onConnectionFailed.
         Log.d(TAG, "Play services connection failed: ConnectionResult.getErrorCode() = "
-                + result.getErrorCode());
+                + connectionResult.getErrorCode());
     }
 
     /**

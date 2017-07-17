@@ -4,21 +4,26 @@ package com.example.blath.around.models;
  * Created by blath on 4/17/17.
  */
 
-public class Location {
+public class AroundLocation {
 
-    private long mLatitude;
-    private long mLongitude;
+    private double mLatitude;
+    private double mLongitude;
     private String mCity;
     private String mCountry;
 
-    public Location(long mLatitude, long mLongitude, String mCity, String mCountry) {
-        this.mLatitude = mLatitude;
-        this.mLongitude = mLongitude;
-        this.mCity = mCity;
-        this.mCountry = mCountry;
+    public AroundLocation(double latitude, double longitude){
+        mLatitude = latitude;
+        mLongitude = longitude;
     }
 
-    public long getLatitude() {
+    public AroundLocation(double latitude, double longitude, String city, String country) {
+        mLatitude = latitude;
+        mLongitude = longitude;
+        mCity = city;
+        mCountry = country;
+    }
+
+    public double getLatitude() {
         return mLatitude;
     }
 
@@ -26,7 +31,7 @@ public class Location {
         this.mLatitude = mLatitude;
     }
 
-    public long getLongitude() {
+    public double getLongitude() {
         return mLongitude;
     }
 

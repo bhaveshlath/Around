@@ -2,9 +2,8 @@ package com.example.blath.around.activities;
 
 import android.support.annotation.Nullable;
 
+import com.example.blath.around.models.AroundLocation;
 import com.example.blath.around.models.DateRange;
-import com.example.blath.around.models.Location;
-import com.example.blath.around.models.Sport;
 
 import java.util.Date;
 
@@ -19,7 +18,7 @@ public interface INewPostListener {
 
     DateRange getDateRange();
 
-    Location getLocation();
+    AroundLocation getLocation();
 
     void setSportName(String sportName);
     void setDateRange(Date startDate, Date endDate);

@@ -1,35 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/around_background"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:padding="@dimen/padding_medium"
         tools:context="com.example.blath.around.activities.LoginActivity">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:padding="@dimen/padding_medium">
+        <ImageView
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:src="@drawable/binoculars"
+                android:layout_width="70dp"
+                android:layout_height="70dp"/>
 
-    <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:hint="Username"
-            android:ems="10"
-            android:id="@+id/editText"/>
-    <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="Password"
-            android:ems="10"
-            android:id="@+id/editText3"/>
-    <Button
-            android:text="Button"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_white_rounded"
-            android:id="@+id/button"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:hint="Username"
+                style="@style/MediumText.White"
+                android:textColorHint="@color/white_56"
+                android:ems="10"
+                android:id="@+id/username"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                style="@style/MediumText.White"
+                android:textColorHint="@color/white_56"
+                android:hint="Password"
+                android:ems="10"
+                android:id="@+id/password"/>
+        <LinearLayout
+                android:weightSum="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <Button
+                    android:text="@string/login"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_primary"
+                    android:textColor="@color/around_background_end_color"
+                    android:background="@drawable/button_white_rounded"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:id="@+id/login_button"/>
 
-</LinearLayout>
+            <Button
+                    android:text="@string/sign_up"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_size_primary"
+                    android:textColor="@color/around_background_end_color"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:background="@drawable/button_white_rounded"
+                    android:id="@+id/signup_button"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

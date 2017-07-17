@@ -18,10 +18,9 @@ import com.example.blath.around.models.Post;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-public class DashboardPostsFragment extends Fragment {
+public class HomePostsFragment extends Fragment {
 
     RecyclerView mRecyclerView;
     List<Post> mDataSet;
@@ -37,7 +36,7 @@ public class DashboardPostsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_dashboard_posts, container, false);
+        View view =  inflater.inflate(R.layout.fragment_home_posts, container, false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.posts_recycler);
         mRecyclerView.setHasFixedSize(true);
 
@@ -102,7 +101,8 @@ public class DashboardPostsFragment extends Fragment {
             holder.mPostDay.setText(calendar.get(Calendar.DAY_OF_MONTH));
             holder.mPostMonthYear.setText(calendar.get(Calendar.MONTH) + calendar.get(Calendar.YEAR));
             holder.mPostWeekDay.setText(calendar.get(Calendar.DAY_OF_WEEK));
-            holder.mPostUsername.setText(post.getUser().getUsername());
+            holder.mPostUsername.setText(post.getUser().getUserPersonalInformation().getFirstName() + " " +
+                    post.getUser().getUserPersonalInformation().getLastName());
             holder.mPostSportName.setText(post.getSport().getName());
             holder.mPostCity.setText(post.getLocation().getCity());
             holder.mPostDescription.setText(post.getDescription());

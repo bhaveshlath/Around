@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/around_background"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="@dimen/padding_medium"
+        tools:context="com.example.blath.around.activities.LoginActivity">
+
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="Username"
+            android:ems="10"
+            android:id="@+id/username"/>
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="Password"
+            android:ems="10"
+            android:id="@+id/password"/>
+    <LinearLayout
+            android:weightSum="2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <Button
+                android:text="Button"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_white_rounded"
+                android:layout_marginRight="@dimen/margin_small"
+                android:id="@+id/login_button"/>
+
+        <Button
+                android:text="Button"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:background="@drawable/button_white_rounded"
+                android:id="@+id/signup_button"/>
+
+    </LinearLayout>
+
+</LinearLayout>

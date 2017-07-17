@@ -5,37 +5,39 @@ package com.example.blath.around.models;
  */
 
 public class User {
-    private String mUsername;
-    private String mDOB;
-    private String mPhoneNumber;
+    private UserPersonalInformation mUserPersonalInformation;
+    private AroundLocation mLastLocation;
+    private String mProfileStatus;
 
-    public User(String username, String DOB, String phoneNumber) {
-        mUsername = username;
-        mDOB = DOB;
-        mPhoneNumber = phoneNumber;
+    public User(){}
+
+    public User(UserPersonalInformation userPersonalInformation, AroundLocation lastLocation, String profileStatus) {
+        mUserPersonalInformation = userPersonalInformation;
+        mLastLocation = lastLocation;
+        mProfileStatus = profileStatus;
     }
 
-    public String getUsername() {
-        return mUsername;
+    public AroundLocation getLastLocation() {
+        return mLastLocation;
     }
 
-    public void setUsername(String username) {
-        mUsername = username;
+    public void setLastLocation(AroundLocation lastLocation) {
+        mLastLocation = lastLocation;
     }
 
-    public String getDOB() {
-        return mDOB;
+    public String getProfileStatus() {
+        return mProfileStatus;
     }
 
-    public void setDOB(String DOB) {
-        mDOB = DOB;
+    public void setProfileStatus(String profileStatus) {
+        mProfileStatus = profileStatus;
     }
 
-    public String getPhoneNumber() {
-        return mPhoneNumber;
+    public UserPersonalInformation getUserPersonalInformation() {
+        return mUserPersonalInformation;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        mPhoneNumber = phoneNumber;
+    public void setUserPersonalInformation(UserPersonalInformation userPersonalInformation) {
+        mUserPersonalInformation = userPersonalInformation;
     }
 }

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/padding_medium"
+        android:background="@drawable/around_background"
+        tools:context="com.example.blath.around.fragments.RegisterMainFragment">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <ImageView
+                android:src="@drawable/ic_user"
+                android:id="@+id/register_user_image"
+                android:layout_width="@dimen/register_user_image"
+                android:layout_height="@dimen/register_user_image"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/padding_large"/>
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:weightSum="2">
+            <EditText
+                    android:id="@+id/register_first_name"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    style="@style/MediumText.White"
+                    android:textColorHint="@color/white_56"
+                    android:hint="@string/first_name"/>
+            <EditText
+                    android:id="@+id/register_last_name"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    style="@style/MediumText.White"
+                    android:textColorHint="@color/white_56"
+                    android:hint="@string/last_name"/>
+        </LinearLayout>
+
+        <EditText
+                android:id="@+id/register_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                style="@style/MediumText.White"
+                android:textColorHint="@color/white_56"
+                android:hint="@string/email"
+                android:ems="10"/>
+        <LinearLayout
+                android:weightSum="6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <EditText
+                    android:id="@+id/register_DOB"
+                    android:layout_width="0dp"
+                    android:layout_weight="5"
+                    android:layout_height="wrap_content"
+                    android:inputType="date"
+                    style="@style/MediumText.White"
+                    android:textColorHint="@color/white_56"
+                    android:hint="@string/date_of_birth"
+                    android:ems="10"/>
+            <ImageButton
+                    android:id="@+id/register_date_picker_button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/calendar"
+                    android:padding="@dimen/padding_xsmall"
+                    android:background="@drawable/button_white_rounded"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <EditText
+                android:id="@+id/register_phone_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                style="@style/MediumText.White"
+                android:textColorHint="@color/white_56"
+                android:hint="@string/phone_number"
+                android:ems="10"/>
+        <EditText
+                android:id="@+id/register_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                style="@style/MediumText.White"
+                android:textColorHint="@color/white_56"
+                android:hint="@string/password"
+                android:ems="10"/>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="4">
+
+            <View android:layout_width="0dp"
+                  android:layout_height="@dimen/divider_normal"
+                  android:layout_weight="1.5"
+                  android:background="@color/white_76"
+                  android:layout_gravity="center_vertical"/>
+            <TextView android:layout_width="0dp"
+                      android:layout_height="wrap_content"
+                      android:layout_weight="1"
+                      android:gravity="center_horizontal"
+                      android:layout_margin="@dimen/margin_medium"
+                      style="@style/MediumText.White"
+                      android:text="@string/location"/>
+            <View android:layout_width="0dp"
+                  android:layout_height="@dimen/divider_normal"
+                  android:layout_weight="1.5"
+                  android:background="@color/white_76"
+                  android:layout_gravity="center_vertical"/>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical"
+                      android:background="@android:color/transparent">
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:weightSum="5"
+                          android:layout_marginBottom="@dimen/margin_medium">
+                <TextView android:id="@+id/register_map_loc_text"
+                          android:layout_width="0dp"
+                          android:layout_weight="4"
+                          android:layout_gravity="center_vertical"
+                          android:layout_height="match_parent"
+                          style="@style/MediumText.Light"
+                          android:text="@string/use_current_location"/>
+                <Switch
+                        android:id="@+id/register_map_loc_button"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_height="match_parent"/>
+            </LinearLayout>
+            <FrameLayout
+                    android:id="@+id/map_search_bar_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/MediumText.White"
+                    android:textColorHint="@color/white_56"
+
+                    android:visibility="gone">
+                <fragment
+                        android:id="@+id/register_map_search_container"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/MediumText.White"
+                        android:textColorHint="@color/white_56"
+                        android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"/>
+            </FrameLayout>
+            <fragment
+                    android:id="@+id/register_map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"/>
+        </LinearLayout>
+
+        <Button
+                android:id="@+id/register_button"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="@string/register"
+                android:textSize="@dimen/text_size_h3"
+                android:textColor="@color/around_background_end_color"
+                android:background="@drawable/button_white_rounded"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_alignParentBottom="true"/>
+
+
+        <include layout="@layout/layout_progress"/>
+    </LinearLayout>
+</ScrollView>

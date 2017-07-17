@@ -6,8 +6,8 @@ import android.support.v4.app.FragmentActivity;
 
 import com.example.blath.around.R;
 import com.example.blath.around.fragments.NewPostMainFragment;
+import com.example.blath.around.models.AroundLocation;
 import com.example.blath.around.models.DateRange;
-import com.example.blath.around.models.Location;
 import com.example.blath.around.models.Sport;
 
 import java.util.Date;
@@ -21,7 +21,7 @@ public class NewPostActivity extends FragmentActivity implements INewPostListene
 
     Sport mSport;
     DateRange mDateRange ;
-    Location mLocation;
+    AroundLocation mLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +68,7 @@ public class NewPostActivity extends FragmentActivity implements INewPostListene
     }
 
     @Override
-    public Location getLocation() {
+    public AroundLocation getLocation() {
         return null;
     }
 
@@ -84,6 +84,6 @@ public class NewPostActivity extends FragmentActivity implements INewPostListene
 
     @Override
     public void setLocation(long latitude, long longitude, String city, String country) {
-        mLocation = new Location(latitude, longitude, city, country);
+        mLocation = new AroundLocation(latitude, longitude, city, country);
     }
 }

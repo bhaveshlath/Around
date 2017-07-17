@@ -54,17 +54,17 @@
 
             <View android:layout_width="0dp"
                   android:layout_height="@dimen/divider_normal"
-                  android:layout_weight="1.5"
+                  android:layout_weight="1"
                   android:background="@color/black_50"
                   android:layout_gravity="center_vertical"/>
             <TextView android:layout_width="0dp"
                       android:layout_height="wrap_content"
                       android:layout_weight="1"
                       android:layout_margin="@dimen/margin_small"
-                        android:text="@string/posts_radius"/>
+                        android:text="@string/posts_search_radius"/>
             <View android:layout_width="0dp"
                   android:layout_height="@dimen/divider_normal"
-                  android:layout_weight="1.5"
+                  android:layout_weight="1"
                   android:background="@color/black_50"
                   android:layout_gravity="center_vertical"/>
         </LinearLayout>

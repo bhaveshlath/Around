@@ -10,12 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class DashboardProfileFragment extends Fragment implements View.OnClickListener{
+public class HomeProfileFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_dashboard_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_home_profile, container, false);
         View userPosts = view.findViewById(R.id.profile_user_posts_row);
         userPosts.setOnClickListener(this);
         View editProfile = view.findViewById(R.id.profile_edit_profile_row);

@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.blath.around.R;
 
@@ -149,5 +150,13 @@ public class UIUTils{
             view = new View(activity);
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public static void showShortToast(String toastText, Context context){
+        Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
+    }
+
+    public static void showLongToast(String toastText, Context context){
+        Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
     }
 }

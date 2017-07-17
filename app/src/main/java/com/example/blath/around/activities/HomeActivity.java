@@ -10,7 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.PagerAdapter;
 import android.os.Bundle;
 
-public class DashboardActivity extends FragmentActivity{
+public class HomeActivity extends FragmentActivity{
 
     private TabLayout mTabLayout;
 
@@ -24,7 +24,7 @@ public class DashboardActivity extends FragmentActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.example.blath.around.R.layout.activity_dashboard);
+        setContentView(com.example.blath.around.R.layout.activity_home);
 
         ViewPager pager = (ViewPager) findViewById(R.id.around_fragment_container);
         PagerAdapter pagerAdapter = new com.example.blath.around.adapters.DashboardPagerAdapter(getSupportFragmentManager());

@@ -1,10 +1,10 @@
 package com.example.blath.around.adapters;
 
-import com.example.blath.around.fragments.DashboardMessageFragment;
-import com.example.blath.around.fragments.DashboardPostsFragment;
-import com.example.blath.around.activities.DashboardActivity;
-import com.example.blath.around.fragments.DashboardProfileFragment;
-import com.example.blath.around.fragments.DashboardSearchFragment;
+import com.example.blath.around.fragments.HomeMessageFragment;
+import com.example.blath.around.fragments.HomePostsFragment;
+import com.example.blath.around.activities.HomeActivity;
+import com.example.blath.around.fragments.HomeProfileFragment;
+import com.example.blath.around.fragments.HomeSearchFragment;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -24,13 +24,13 @@ public class DashboardPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         Fragment fragment = null;
         switch(position){
-            case 0: fragment = new DashboardPostsFragment();
+            case 0: fragment = new HomePostsFragment();
                     break;
-            case 1: fragment = new DashboardSearchFragment();
+            case 1: fragment = new HomeSearchFragment();
                     break;
-            case 2: fragment = new DashboardMessageFragment();
+            case 2: fragment = new HomeMessageFragment();
                     break;
-            case 3: fragment = new DashboardProfileFragment();
+            case 3: fragment = new HomeProfileFragment();
                     break;
         }
         return fragment;
@@ -38,6 +38,6 @@ public class DashboardPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return DashboardActivity.NUM_PAGES;
+        return HomeActivity.NUM_PAGES;
     }
 }

@@ -1,7 +1,5 @@
 package com.example.blath.around.models;
 
-import android.util.EventLogTags;
-
 /**
  * Created by blath on 4/17/17.
  */
@@ -11,10 +9,10 @@ public class Post {
     private User mUser;
     private Sport mSport;
     private DateRange mDates;
-    private Location mLocation;
+    private AroundLocation mLocation;
     private String mDescription;
 
-    public Post(Sport sport, DateRange dates, Location location, User user, String description ) {
+    public Post(Sport sport, DateRange dates, AroundLocation location, User user, String description ) {
         mSport = sport;
         mDates = dates;
         mLocation = location;
@@ -38,11 +36,11 @@ public class Post {
         mDates = dates;
     }
 
-    public Location getLocation() {
+    public AroundLocation getLocation() {
         return mLocation;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(AroundLocation location) {
         mLocation = location;
     }
 
@@ -61,6 +59,4 @@ public class Post {
     public void setDescription(String description) {
         mDescription = description;
     }
-
-
 }
