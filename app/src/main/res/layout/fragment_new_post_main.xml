@@ -21,7 +21,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:padding="@dimen/padding_large">
+                    android:padding="@dimen/padding_medium">
                 <View
                         android:layout_margin="@dimen/margin_medium"
                         android:layout_width="match_parent"
@@ -40,14 +40,14 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="@dimen/margin_xsmall"
                                 android:text="@string/sport_name"
-                                style="@style/SmallText.White"/>
+                                style="@style/MediumText.White"/>
                         <TextView
                                 android:id="@+id/sport_name_content"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/margin_small"
                                 android:text="@string/pick_sport"
-                                style="@style/SmallText.White"/>
+                                style="@style/MediumText.White"/>
                     </LinearLayout>
                     <GridView
                             android:id="@+id/sports_grid"
@@ -79,21 +79,27 @@
                                   android:layout_weight="4"
                                   android:layout_gravity="center_vertical"
                                   android:layout_height="match_parent"
-                                  style="@style/SmallText.White"
+                                  style="@style/MediumText.White"
                                   android:text="@string/use_current_location"/>
                         <Switch
-                                android:id="@+id/new_post_map_search_loc_button"
+                                android:id="@+id/new_post_map_switch"
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
                                 android:checked="true"
                                 android:layout_gravity="center_vertical"
                                 android:layout_height="match_parent"/>
                     </LinearLayout>
-                    <fragment
-                            android:id="@+id/new_post_map_search_container"
+                    <FrameLayout
+                            android:id="@+id/new_post_map_search_bar"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"/>
+                            android:visibility="gone">
+                        <fragment
+                                android:id="@+id/new_post_place_auto_complete"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"/>
+                    </FrameLayout>
                     <fragment
                             android:id="@+id/new_post_map"
                             android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -112,45 +118,54 @@
                               android:background="@android:color/transparent">
                     <LinearLayout android:layout_width="match_parent"
                                   android:layout_height="wrap_content"
-                                  android:weightSum="4">
+                                  android:weightSum="5">
                         <TextView android:layout_width="0dp"
                                   android:layout_height="match_parent"
                                   android:text="@string/date"
                                   android:layout_weight="1"
                                   android:gravity="center_vertical"
-                                  style="@style/SmallText.White"/>
+                                  style="@style/MediumText.White"/>
                         <TextView android:id="@+id/new_post_date_txt"
                                   android:layout_width="0dp"
                                   android:layout_height="match_parent"
-                                  android:layout_weight="2"
+                                  android:layout_weight="3"
                                   android:layout_marginLeft="@dimen/margin_small"
                                   android:gravity="center_vertical"
-                                  style="@style/SmallText.White"/>
-                        <Button android:id="@+id/new_post_date_button"
+                                  style="@style/MediumText.White"/>
+                        <ImageButton
+                                android:id="@+id/new_post_date_button"
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
-                                android:layout_height="match_parent"/>
+                                android:src="@drawable/calendar"
+                                android:padding="@dimen/padding_xsmall"
+                                android:background="@drawable/button_white_rounded"
+                                android:layout_height="wrap_content"/>
                     </LinearLayout>
-                    <LinearLayout android:layout_width="match_parent"
+                    <LinearLayout android:layout_marginTop="@dimen/padding_xsmall"
+                                  android:layout_width="match_parent"
                                   android:layout_height="wrap_content"
-                                  android:weightSum="4">
+                                  android:weightSum="5">
                         <TextView android:layout_width="0dp"
                                   android:layout_height="match_parent"
                                   android:text="@string/time"
                                   android:layout_weight="1"
                                   android:gravity="center_vertical"
-                                  style="@style/SmallText.White"/>
+                                  style="@style/MediumText.White"/>
                         <TextView android:id="@+id/new_post_time_txt"
                                   android:layout_width="0dp"
                                   android:layout_height="match_parent"
-                                  android:layout_weight="2"
+                                  android:layout_weight="3"
                                   android:layout_marginLeft="@dimen/margin_small"
                                   android:gravity="center_vertical"
-                                  style="@style/SmallText.White"/>
-                        <Button android:id="@+id/new_post_time_button"
+                                  style="@style/MediumText.White"/>
+                        <ImageButton
+                                android:id="@+id/new_post_time_button"
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
-                                android:layout_height="match_parent"/>
+                                android:src="@drawable/ic_clock"
+                                android:padding="@dimen/padding_xsmall"
+                                android:background="@drawable/button_white_rounded"
+                                android:layout_height="wrap_content"/>
                     </LinearLayout>
                 </LinearLayout>
                 <View
@@ -160,128 +175,95 @@
                         android:background="@drawable/new_post_divider"></View>
                 <LinearLayout android:layout_width="match_parent"
                               android:layout_height="wrap_content"
+                              android:weightSum="8"
                               android:background="@android:color/transparent">
                     <TextView
-                            android:id="@+id/age_group_title"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/age_range_title"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/margin_xsmall"
-                            android:text="@string/age_group_title"
-                            style="@style/SmallText.White"/>
+                            android:layout_weight="2.5"
+                            android:text="@string/age_range"
+                            style="@style/MediumText.White"/>
+                    <EditText
+                            android:id="@+id/age_range_min_years"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:maxLength="3"
+                            android:inputType="numberPassword"
+                            style="@style/MediumText.White"/>
                     <TextView
-                            android:id="@+id/age_group_content"
-                            android:layout_width="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/margin_small"
-                            android:text="@string/age_group_content"
+                            android:gravity="center_horizontal"
+                            android:text="@string/to"
                             style="@style/SmallText.White"/>
-                </LinearLayout>
-                <HorizontalScrollView
-                        android:id="@+id/age_group_spinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent">
-                    <LinearLayout android:layout_width="match_parent"
-                                  android:layout_height="match_parent">
-                        <ImageButton
-                                android:id="@+id/new_post_small_age_button"
-                                android:background="@drawable/button_white_rounded"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:padding="@dimen/padding_small"
-                                android:layout_margin="@dimen/margin_xsmall"
-                                android:src="@drawable/small_ag"/>
-
-                        <ImageButton
-                                android:id="@+id/new_post_teenage_age_button"
-                                android:background="@drawable/button_white_rounded"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:padding="@dimen/padding_small"
-                                android:layout_margin="@dimen/margin_xsmall"
-                                android:src="@drawable/teenage_ag"/>
-
-                        <ImageButton
-                                android:id="@+id/new_post_adult_age_button"
-                                android:background="@drawable/button_white_rounded"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:padding="@dimen/padding_small"
-                                android:layout_margin="@dimen/margin_xsmall"
-                                android:src="@drawable/adult_ag"/>
-
-                        <ImageButton
-                                android:id="@+id/new_post_old_age_button"
-                                android:background="@drawable/button_white_rounded"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:padding="@dimen/padding_small"
-                                android:layout_margin="@dimen/margin_xsmall"
-                                android:src="@drawable/old_ag"/>
-                    </LinearLayout>
-                </HorizontalScrollView>
-                <LinearLayout
-                        android:layout_marginTop="@dimen/margin_large"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:padding="@dimen/padding_small"
-                        android:background="@android:color/transparent">
+                    <EditText
+                            android:id="@+id/age_range_max_years"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:maxLength="3"
+                            android:inputType="numberPassword"
+                            style="@style/MediumText.White"/>
                     <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_weight="2.5"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            style="@style/SecondaryText"
-                            android:textColor="@color/dark_red"
-                            android:text="@string/age_group_chart"/>
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/list"/>
+                            style="@style/MediumText.White"
+                            android:gravity="center_horizontal"
+                            android:text="@string/years"/>
                 </LinearLayout>
 
                 <View android:layout_margin="@dimen/margin_medium"
                       android:layout_width="match_parent"
                       android:layout_height="4px"
                       android:background="@drawable/new_post_divider"></View>
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/gender_preference"
-                        style="@style/SmallText.White"
-                        android:background="@android:color/transparent"/>
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent">
-                    <RadioGroup
+
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:background="@android:color/transparent">
+                    <TextView
+                            android:id="@+id/gender_selection_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_xsmall"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/gender_preference"
+                            style="@style/MediumText.White"/>
+
+                    <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/padding_xsmall"
+                            android:layout_margin="@dimen/margin_small"
+                            android:background="@drawable/spinner_background"
                             android:orientation="horizontal">
 
-                        <RadioButton
-                                android:id="@+id/male_selection"
-                                android:layout_width="wrap_content"
+                        <Spinner
+                                android:id="@+id/gender_selection_spinner"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/margin_small"
-                                android:drawableTop="@drawable/male"
-                                android:text="@string/male"/>
-                        <RadioButton
-                                android:id="@+id/female_selection"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:drawableTop="@drawable/female"
-                                android:layout_margin="@dimen/margin_small"
-                                android:text="@string/female"/>
-                        <RadioButton
-                                android:id="@+id/no_preference_selection"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:drawableTop="@drawable/genders"
-                                android:layout_margin="@dimen/margin_small"
-                                android:text="@string/no_preference"/>
-                    </RadioGroup>
-                </LinearLayout>
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="center"
+                                android:background="@android:color/transparent"
+                                android:gravity="center"
+                                android:layout_marginLeft="@dimen/margin_xsmall"
+                                android:spinnerMode="dropdown" />
 
+                        <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="center"
+                                android:layout_marginRight="@dimen/margin_xsmall"
+                                android:src="@drawable/ic_spinner" />
+
+                    </RelativeLayout>
+                </LinearLayout>
                 <View android:layout_margin="@dimen/margin_medium"
                       android:layout_width="match_parent"
                       android:layout_height="@dimen/divider_broad"
@@ -290,14 +272,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/description"
-                        style="@style/SmallText.White"
-                        android:background="@android:color/transparent"/>
+                        style="@style/MediumText.White"/>
 
                 <EditText
                         android:id="@+id/new_post_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/enter_description"
+                        style="@style/MediumText.White"
+                        android:textColorHint="@color/white_56"
                         android:inputType="textCapSentences|textMultiLine"
                         android:maxLength="2000"
                         android:maxLines="5"/>
@@ -313,8 +296,9 @@
             android:text="@string/around_next"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:background="@color/white"
-            style="@drawable/button_white_rounded"
+            android:textSize="@dimen/text_size_h3"
+            android:textColor="@color/around_background_end_color"
+            android:background="@drawable/button_white_rounded"
             android:layout_marginTop="@dimen/margin_small"
             android:layout_alignParentBottom="true"/>
 

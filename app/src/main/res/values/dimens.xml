@@ -56,4 +56,7 @@
     <dimen name="posts_user_icon">48dp</dimen>
     <dimen name="map_height">240dp</dimen>
     <dimen name="profile_icons">20dp</dimen>
+
+    <!-- header heights -->
+    <dimen name="header_short_height">56dp</dimen>
 </resources>

@@ -7,68 +7,47 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v13.app.ActivityCompat;
 import android.support.v13.view.ViewCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.blath.around.R;
 import com.example.blath.around.adapters.NewPostSportAdapter;
-import com.example.blath.around.commons.Utils.UIUTils;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.Places;
-import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
-import com.google.android.gms.location.places.ui.PlaceSelectionListener;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.example.blath.around.commons.Utils.DateUtils;
+import com.example.blath.around.commons.Utils.MapUtils;
+import com.example.blath.around.commons.Utils.RequestOperations;
+import com.example.blath.around.commons.Utils.UIUtils;
+import com.example.blath.around.models.AgeRange;
+import com.example.blath.around.models.Post;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Calendar;
 
 
-public class NewPostMainFragment extends Fragment implements View.OnClickListener,
-        OnMapReadyCallback,
-        GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+public class NewPostMainFragment extends Fragment implements View.OnClickListener {
 
+    public static final String KEY_NEW_POST = "key_new_post";
     private static final String TAG = NewPostMainFragment.class.getSimpleName();
 
-    View mView;
     private int[] mSportNames = { R.string.baseball, R.string.cricket, R.string.basketball, R.string.soccer,
             R.string.ping_pong, R.string.tennis, R.string.football, R.string.badminton, R.string.gym,
-            R.string.lacrosse, R.string.volleyball, R.string.bowling, R.string.boxing, R.string.ice_hockey};
+            R.string.lacrosse, R.string.volleyball, R.string.bowling, R.string.boxing, R.string.ice_hockey };
     private int[] mSportIcons = { R.drawable.baseball, R.drawable.cricket, R.drawable.basketball, R.drawable.soccer,
             R.drawable.ping_pong, R.drawable.tennis, R.drawable.soccer, R.drawable.badminton, R.drawable.gym,
-            R.drawable.lacrosse, R.drawable.volleyball, R.drawable.bowling, R.drawable.boxing, R.drawable.ice_hockey};
-
-    private int[] mAgeGroupNames = { R.string.small_ag, R.string.teenage_ag, R.string.adult_ag, R.string.old_ag};
-    private int[] mAgeGroupIcons = { R.drawable.small_ag, R.drawable.teenage_ag, R.drawable.adult_ag, R.drawable.old_ag};
-
-    private GoogleApiClient mGoogleApiClient;
-    private GoogleMap mGoogleMap;
-    private CameraPosition mCameraPosition;
-    private Marker mMarker;
+            R.drawable.lacrosse, R.drawable.volleyball, R.drawable.bowling, R.drawable.boxing, R.drawable.ice_hockey };
 
     // Keys for storing activity state.
     private static final String KEY_CAMERA_POSITION = "camera_position";
@@ -77,41 +56,26 @@ public class NewPostMainFragment extends Fragment implements View.OnClickListene
     // The geographical location where the device is currently located. That is, the last-known
     // location retrieved by the Fused Location Provider.
     private Location mLastKnownLocation;
+    private CameraPosition mCameraPosition;
 
     // A default location (Sydney, Australia) and default zoom to use when location permission is
     // not granted.
-    private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
-    private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private boolean mLocationPermissionGranted;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    private View mView;
+    private FragmentActivity mActivity;
 
-        if (savedInstanceState != null) {
-            mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
-            mCameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
-        }
+    private MapUtils mMapUtils;
 
-        mGoogleApiClient = new GoogleApiClient
-                .Builder(getActivity())
-                .enableAutoManage(getActivity(),
-                        this)
-                .addConnectionCallbacks(this)
-                .addApi(LocationServices.API)
-                .addApi(Places.GEO_DATA_API)
-                .addApi(Places.PLACE_DETECTION_API)
-                .build();
-        mGoogleApiClient.connect();
-
-    }
+    private TextView mSportName, mDate, mTime;
+    private EditText mAgeRangeMin, mAgeRangeMax;
+    private String mGenderPreference;
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        if (mGoogleMap != null) {
-            outState.putParcelable(KEY_CAMERA_POSITION, mGoogleMap.getCameraPosition());
-            outState.putParcelable(KEY_LOCATION, mLastKnownLocation);
+        if (mMapUtils.mGoogleMap != null) {
+            outState.putParcelable(KEY_CAMERA_POSITION, mMapUtils.mGoogleMap.getCameraPosition());
+            outState.putParcelable(KEY_LOCATION, mMapUtils.mLastKnownLocation);
             super.onSaveInstanceState(outState);
         }
     }
@@ -121,41 +85,29 @@ public class NewPostMainFragment extends Fragment implements View.OnClickListene
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_new_post_main, container, false);
+        mActivity = getActivity();
 
-        TextView sportContent = (TextView) mView.findViewById(R.id.sport_name_content);
+        if (savedInstanceState != null) {
+            mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
+            mCameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
+        }
+
+        mSportName = (TextView) mView.findViewById(R.id.sport_name_content);
         GridView sportsGrid = (GridView) mView.findViewById(R.id.sports_grid);
-        sportsGrid.setAdapter(new NewPostSportAdapter(getActivity(), mSportNames, mSportIcons, sportContent));
+        sportsGrid.setAdapter(new NewPostSportAdapter(mActivity, mSportNames, mSportIcons, mSportName));
         ViewCompat.setNestedScrollingEnabled(sportsGrid, true);
 
-        PlaceAutocompleteFragment placeAutocompleteFragment = (PlaceAutocompleteFragment) getActivity().getFragmentManager().findFragmentById(R.id.new_post_map_search_container);
-        placeAutocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
-                LatLng latLng = place.getLatLng();
-                double lat = latLng.latitude;
-                double lng = latLng.longitude;
-                gotoLocation(lat, lng, DEFAULT_ZOOM);
-                displayMarker(lat, lng);
-            }
+        mMapUtils = new MapUtils(mActivity, this, TAG, mLastKnownLocation, mCameraPosition, R.id.new_post_place_auto_complete, R.id.new_post_map);
 
-            @Override
-            public void onError(Status status) {
-
-            }
-        });
-        View mapSearchContainer = mView.findViewById(R.id.new_post_map_search_container);
-        mapSearchContainer.setVisibility(View.GONE);
-
-        Switch toggle = (Switch) mView.findViewById(R.id.new_post_map_search_loc_button);
+        Switch toggle = (Switch) mView.findViewById(R.id.new_post_map_switch);
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                View mapSearchContainer = mView.findViewById(R.id.new_post_map_search_bar);
                 if (isChecked) {
-                    View mapSearchContainer = mView.findViewById(R.id.new_post_map_search_container);
                     mapSearchContainer.setVisibility(View.GONE);
-                    getDeviceLocation();
+                    mMapUtils.getDeviceLocation();
                 } else {
-                    View mapSearch = mView.findViewById(R.id.new_post_map_search_container);
-                    mapSearch.setVisibility(View.VISIBLE);
+                    mapSearchContainer.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -164,173 +116,104 @@ public class NewPostMainFragment extends Fragment implements View.OnClickListene
         datePicker.setOnClickListener(this);
         View timePicker = mView.findViewById(R.id.new_post_time_button);
         timePicker.setOnClickListener(this);
+        mDate = (TextView) mView.findViewById(R.id.new_post_date_txt);
+        mTime = (TextView) mView.findViewById(R.id.new_post_time_txt);
+        mAgeRangeMin = (EditText) mView.findViewById(R.id.age_range_min_years);
+        mAgeRangeMin.setTransformationMethod(null);
+        mAgeRangeMax = (EditText) mView.findViewById(R.id.age_range_max_years);
+        mAgeRangeMax.setTransformationMethod(null);
 
-        View smallAgeButton = mView.findViewById(R.id.new_post_small_age_button);
-        smallAgeButton.setOnClickListener(this);
-        View teenageAgeButton = mView.findViewById(R.id.new_post_teenage_age_button);
-        teenageAgeButton.setOnClickListener(this);
-        View adultAgeButton = mView.findViewById(R.id.new_post_adult_age_button);
-        adultAgeButton.setOnClickListener(this);
-        View oldAgeButton = mView.findViewById(R.id.new_post_old_age_button);
-        oldAgeButton.setOnClickListener(this);
+        Spinner genderSelectionSpinner = (Spinner) mView.findViewById(R.id.gender_selection_spinner);
 
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mActivity,
+                R.array.gender_preference_options, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        genderSelectionSpinner.setAdapter(adapter);
 
+        genderSelectionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mGenderPreference = (String) parent.getItemAtPosition(position);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                mGenderPreference = "";
+            }
+        });
+
+        UIUtils.hideKeyboard(getActivity());
+        View nextButton = mView.findViewById(R.id.next_button);
+        nextButton.setOnClickListener(this);
         return mView;
-
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        UIUTils.showToolbar(mView, (TextView) mView.findViewById(R.id.toolbar_title), getString(R.string.new_post), getString(R.string.please_fill), R.drawable.back_icon_white, true, R.id.toolbar_title);
-        UIUTils.animateStatusBarColorTransition(getActivity(), R.color.dropdown_blue, R.color.dropdown_blue);
+        UIUtils.showToolbar(mView, (TextView) mView.findViewById(R.id.toolbar_title), getString(R.string.new_post), getString(R.string.please_fill), R.drawable.back_icon_white, true, R.id.toolbar_title);
+        UIUtils.animateStatusBarColorTransition(mActivity, R.color.dropdown_blue, R.color.dropdown_blue);
     }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
         final Calendar c = Calendar.getInstance();
-        TextView ageGroupContent = (TextView) mView.findViewById(R.id.age_group_content);
         switch (id) {
             case R.id.new_post_date_button:
                 int year = c.get(Calendar.YEAR);
                 int month = c.get(Calendar.MONTH);
                 int day = c.get(Calendar.DAY_OF_MONTH);
-
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
-                        new DatePickerDialog.OnDateSetListener() {
-
-                            @Override
-                            public void onDateSet(DatePicker view, int year,
-                                                  int monthOfYear, int dayOfMonth) {
-
-                                TextView dateText = (TextView) mView.findViewById(R.id.new_post_date_txt);
-                                dateText.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-                            }
-                        }, year, month, day);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(mActivity, android.R.style.Theme_DeviceDefault_Light_Dialog,
+                        dateSetListener, year, month, day);
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                 datePickerDialog.show();
                 break;
 
             case R.id.new_post_time_button:
                 int hour = c.get(Calendar.HOUR_OF_DAY);
                 int minute = c.get(Calendar.MINUTE);
-
-                // Launch Time Picker Dialog
-                TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(),
+                TimePickerDialog timePickerDialog = new TimePickerDialog(mActivity, android.R.style.Theme_DeviceDefault_Light_Dialog,
                         new TimePickerDialog.OnTimeSetListener() {
 
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay,
                                                   int minute) {
-                                TextView timeText = (TextView) mView.findViewById(R.id.new_post_time_txt);
-                                timeText.setText(hourOfDay + ":" + minute);
+                                mTime.setText(DateUtils.timeFormatter(hourOfDay + ":" + minute));
                             }
                         }, hour, minute, false);
                 timePickerDialog.show();
                 break;
 
-            case R.id.new_post_small_age_button:
-                ageGroupContent.setText(getString(R.string.small_ag));
-                break;
-
-            case R.id.new_post_teenage_age_button:
-                ageGroupContent.setText(getString(R.string.teenage_ag));
-                break;
-
-            case R.id.new_post_adult_age_button:
-                ageGroupContent.setText(getString(R.string.adult_ag));
-                break;
-
-            case R.id.new_post_old_age_button:
-                ageGroupContent.setText(getString(R.string.old_ag));
+            case R.id.next_button:
+                EditText descriptionText = (EditText) mView.findViewById(R.id.new_post_description);
+                String verifyResultString = RequestOperations.verifyPostDetails(getActivity(), mSportName.getText().toString(), mDate.getText().toString(), mTime.getText().toString(),
+                        mAgeRangeMin.getText().toString(), mAgeRangeMax.getText().toString(), mGenderPreference, descriptionText.getText().toString(), mMapUtils.getUserLocation());
+                if(verifyResultString.equals(getString(R.string.success))){
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(KEY_NEW_POST, new Post(RequestOperations.getUserObject(getActivity()),
+                            Post.KEY_TYPE_SPORTS, mSportName.getText().toString(),
+                            mMapUtils.getUserLocation(),
+                            new AgeRange(Integer.parseInt(mAgeRangeMin.getText().toString()), Integer.parseInt(mAgeRangeMax.getText().toString())),
+                            mGenderPreference, descriptionText.getText().toString(), DateUtils.getDateRange(mDate.getText().toString()), mTime.getText().toString()));
+                    NewPostReviewFragment newPostReviewFragment = new NewPostReviewFragment();
+                    newPostReviewFragment.setArguments(bundle);
+                    getFragmentManager().beginTransaction().replace(R.id.new_post_container, newPostReviewFragment).addToBackStack(null).commit();
+                }else{
+                    UIUtils.showAlertDialog(getActivity(), "", verifyResultString);
+                }
                 break;
         }
     }
 
-    @Override
-    public void onConnected(Bundle connectionHint) {
-            // Build the map.
-            SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager()
-                    .findFragmentById(R.id.new_post_map);
-            mapFragment.getMapAsync(this);
-    }
-
-    /**
-     * Handles failure to connect to the Google Play services client.
-     */
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        // Refer to the reference doc for ConnectionResult to see what error codes might
-        // be returned in onConnectionFailed.
-        Log.d(TAG, "Play services connection failed: ConnectionResult.getErrorCode() = "
-                + connectionResult.getErrorCode());
-    }
-
-    /**
-     * Handles suspension of the connection to the Google Play services client.
-     */
-    @Override
-    public void onConnectionSuspended(int cause) {
-        Log.d(TAG, "Play services connection suspended");
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mGoogleMap = googleMap;
-
-        // Turn on the My Location layer and the related control on the map.
-        updateLocationUI();
-
-        // Get the current location of the device and set the position of the map.
-        getDeviceLocation();
-
-    }
-
-    /**
-     * Gets the current location of the device, and positions the map's camera.
-     */
-    private void getDeviceLocation() {
-        /*
-         * Request location permission, so that we can get the location of the
-         * device. The result of the permission request is handled by a callback,
-         * onRequestPermissionsResult.
-         */
-        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            mLocationPermissionGranted = true;
-        } else {
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[] { android.Manifest.permission.ACCESS_FINE_LOCATION },
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+    final DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year,
+                              int monthOfYear, int dayOfMonth) {
+            view.setMinDate(System.currentTimeMillis() - 1000);
+            mDate.setText(DateUtils.dateFormatter(monthOfYear, dayOfMonth, year));
         }
-        /*
-         * Get the best and most recent location of the device, which may be null in rare
-         * cases when a location is not available.
-         */
-        if (mLocationPermissionGranted) {
-            mLastKnownLocation = LocationServices.FusedLocationApi
-                    .getLastLocation(mGoogleApiClient);
-        }
-
-        // Set the map's camera position to the current location of the device.
-        if (mCameraPosition != null) {
-            mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition));
-        } else if (mLastKnownLocation != null) {
-            double lat = mLastKnownLocation.getLatitude();
-            double lng = mLastKnownLocation.getLongitude();
-            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                    new LatLng(lat, lng), DEFAULT_ZOOM));
-            displayMarker(lat, lng);
-        } else {
-            Log.d(TAG, "Current location is null. Using defaults.");
-            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
-            mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
-            displayMarker(mDefaultLocation.latitude, mDefaultLocation.longitude);
-        }
-    }
+    };
 
     /**
      * Handles the result of the request for location permissions.
@@ -339,67 +222,17 @@ public class NewPostMainFragment extends Fragment implements View.OnClickListene
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String permissions[],
                                            @NonNull int[] grantResults) {
-        mLocationPermissionGranted = false;
+        mMapUtils.mLocationPermissionGranted = false;
         switch (requestCode) {
             case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mLocationPermissionGranted = true;
+                    mMapUtils.mLocationPermissionGranted = true;
                 }
             }
         }
-        updateLocationUI();
-    }
-
-    /**
-     * Updates the map's UI settings based on whether the user has granted location permission.
-     */
-    private void updateLocationUI() {
-        if (mGoogleMap == null) {
-            return;
-        }
-
-        /*
-         * Request location permission, so that we can get the location of the
-         * device. The result of the permission request is handled by a callback,
-         * onRequestPermissionsResult.
-         */
-        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            mLocationPermissionGranted = true;
-        } else {
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[] { android.Manifest.permission.ACCESS_FINE_LOCATION },
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-        }
-
-        if (mLocationPermissionGranted) {
-            mGoogleMap.setMyLocationEnabled(true);
-            mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
-        } else {
-            mGoogleMap.setMyLocationEnabled(false);
-            mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
-            mLastKnownLocation = null;
-        }
-    }
-
-    public void gotoLocation(double lat, double lng, float zoom){
-        LatLng latLng = new LatLng(lat, lng);
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, zoom);
-        mGoogleMap.moveCamera(cameraUpdate);
-    }
-
-    private void displayMarker(double lat, double lng){
-        if(mMarker != null){
-            mMarker.remove();
-        }
-
-        MarkerOptions options = new MarkerOptions()
-                .position(new LatLng(lat, lng))
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-
-        mMarker = mGoogleMap.addMarker(options);
+        mMapUtils.updateLocationUI();
+        mMapUtils.getDeviceLocation();
     }
 }

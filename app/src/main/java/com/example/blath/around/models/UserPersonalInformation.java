@@ -12,6 +12,14 @@ public class UserPersonalInformation {
     private String mPhoneNumber;
     private String mPassword;
 
+    public UserPersonalInformation(String firstName, String lastName, String emailID, String DOB, String phoneNumber) {
+        mFirstName = firstName;
+        mLastName = lastName;
+        mEmailID = emailID;
+        mDOB = DOB;
+        mPhoneNumber = phoneNumber;
+    }
+
     public UserPersonalInformation(String firstName, String lastName, String emailID, String DOB, String phoneNumber, String password) {
         mFirstName = firstName;
         mLastName = lastName;

@@ -2,6 +2,8 @@ package com.example.blath.around.commons.Utils;
 
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +16,7 @@ import android.util.Log;
 import android.widget.EditText;
 
 import com.example.blath.around.R;
+import com.example.blath.around.models.AroundLocation;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Status;
@@ -32,6 +35,10 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by blath on 7/6/17.
@@ -58,12 +65,14 @@ public class MapUtils implements OnMapReadyCallback,
     // A default location (Sydney, Australia) and default zoom to use when location permission is
     // not granted.
     private static final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
-    private LatLng mUserLocation = null;
+    private AroundLocation mUserLocation = null;
+
+    private AroundLocation mUserLocationData = null;
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private static boolean mLocationPermissionGranted;
+    public static boolean mLocationPermissionGranted;
 
-    public LatLng getUserLocation() {
+    public AroundLocation getUserLocation() {
         return mUserLocation;
     }
 
@@ -104,8 +113,9 @@ public class MapUtils implements OnMapReadyCallback,
                 LatLng latLng = place.getLatLng();
                 double lat = latLng.latitude;
                 double lng = latLng.longitude;
-                mUserLocation = new LatLng(lat, lng);
-                gotoLocation(mUserLocation, DEFAULT_ZOOM);
+                String[] addressData = getAddress(lat, lng);
+                mUserLocation = new AroundLocation(lat, lng, addressData[0], addressData[1], addressData[2]);
+                gotoLocation(new LatLng(lat, lng), DEFAULT_ZOOM);
                 displayMarker(lat, lng);
             }
 
@@ -114,12 +124,6 @@ public class MapUtils implements OnMapReadyCallback,
 
             }
         });
-    }
-
-    public void destroyPlaceAutocompleteFragment(int mapSearchContainerResourceId){
-        PlaceAutocompleteFragment placeAutocompleteFragment = (PlaceAutocompleteFragment) mActivity.getFragmentManager().findFragmentById(mapSearchContainerResourceId);
-        if (placeAutocompleteFragment != null)
-            mActivity.getFragmentManager().beginTransaction().remove(placeAutocompleteFragment).commit();
     }
 
     public void gotoLocation(LatLng latLng, float zoom) {
@@ -138,7 +142,6 @@ public class MapUtils implements OnMapReadyCallback,
 
         mMarker = mGoogleMap.addMarker(options);
     }
-
 
     public void getDeviceLocation() {
         /*
@@ -170,9 +173,10 @@ public class MapUtils implements OnMapReadyCallback,
         } else if (mLastKnownLocation != null) {
             double lat = mLastKnownLocation.getLatitude();
             double lng = mLastKnownLocation.getLongitude();
-            mUserLocation = new LatLng(lat, lng);
+            String[] addressData = getAddress(lat, lng);
+            mUserLocation = new AroundLocation(lat, lng, addressData[0], addressData[1], addressData[2]);
             mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                    mUserLocation, DEFAULT_ZOOM));
+                    new LatLng(lat, lng), DEFAULT_ZOOM));
             displayMarker(lat, lng);
         } else {
             Log.d(mTAG, "Current location is null. Using defaults.");
@@ -239,5 +243,23 @@ public class MapUtils implements OnMapReadyCallback,
         updateLocationUI();
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
+    }
+
+    public String[] getAddress(double lat, double lng){
+        Geocoder geocoder = new Geocoder(mActivity, Locale.getDefault());
+        String[] addressData = new String[3];
+        try {
+            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+            Address address = addresses.get(0);
+            addressData[0] = (address.getAddressLine(0) != null ? address.getAddressLine(0) : "") + " " +
+                    (address.getAddressLine(1) != null ? address.getAddressLine(1) : "") + " " +
+                    (address.getAddressLine(2) != null ? address.getAddressLine(2) : "");
+            addressData[1] = address.getPostalCode();
+            addressData[2] = address.getCountryName();
+
+        }catch (IOException e){
+            //Exception Handling
+        }
+        return addressData;
     }
 }

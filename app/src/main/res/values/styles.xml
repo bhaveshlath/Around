@@ -36,4 +36,9 @@
     <style name="TallHeaderSubtitleTextStyle.Gray">
         <item name="android:textColor">@color/black_24</item>
     </style>
+
+    <style name="AppBarShortLight" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/color_primary</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+    </style>
 </resources>

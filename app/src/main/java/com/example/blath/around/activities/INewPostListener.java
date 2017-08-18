@@ -13,15 +13,11 @@ import java.util.Date;
 
 public interface INewPostListener {
 
-    @Nullable
-    String getSportName();
-
     DateRange getDateRange();
 
     AroundLocation getLocation();
 
-    void setSportName(String sportName);
     void setDateRange(Date startDate, Date endDate);
-    void setLocation(long latitude, long longitude, String city, String country);
+    void setLocation(long latitude, long longitude, String city, String postalCode, String country);
 
 }

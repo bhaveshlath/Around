@@ -18,7 +18,6 @@
                 android:src="@drawable/binoculars"
                 android:layout_width="70dp"
                 android:layout_height="70dp"/>
-
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -52,7 +51,6 @@
                     android:background="@drawable/button_white_rounded"
                     android:layout_marginRight="@dimen/margin_small"
                     android:id="@+id/login_button"/>
-
             <Button
                     android:text="@string/sign_up"
                     android:layout_marginTop="@dimen/margin_medium"
@@ -64,9 +62,6 @@
                     android:layout_marginLeft="@dimen/margin_small"
                     android:background="@drawable/button_white_rounded"
                     android:id="@+id/signup_button"/>
-
         </LinearLayout>
-
     </LinearLayout>
-
 </ScrollView>

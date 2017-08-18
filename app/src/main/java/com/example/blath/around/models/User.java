@@ -5,6 +5,20 @@ package com.example.blath.around.models;
  */
 
 public class User {
+
+    public static final String KEY_USER_FIRST_NAME = "first_name";
+    public static final String KEY_USER_LAST_NAME = "last_name";
+    public static final String KEY_USER_EMAIL = "emailID";
+    public static final String KEY_USER_PHONE_NUMBER = "phone_number";
+    public static final String KEY_USER_DOB = "dob";
+    public static final String KEY_USER_PASSWORD = "password";
+    public static final String KEY_USER_PROFILE_STATUS = "profile_status";
+    public static final String KEY_USER_LONGITUTDE = "latitude";
+    public static final String KEY_USER_LATITUDE = "longitude";
+    public static final String KEY_USER_LOCATION_ADDRESS = "location_address";
+    public static final String KEY_USER_LOCATION_POSTALCODE = "location_postal_code";
+    public static final String KEY_USER_LOCATION_COUNTRY = "location_country";
+
     private UserPersonalInformation mUserPersonalInformation;
     private AroundLocation mLastLocation;
     private String mProfileStatus;

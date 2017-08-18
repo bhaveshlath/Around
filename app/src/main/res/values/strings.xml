@@ -5,6 +5,10 @@
     <string name="around_next">Next</string>
     <string name="location">Location</string>
     <string name="update">Update</string>
+    <string name="success">Success</string>
+    <string name="error">Error</string>
+    <string name="ok">Ok</string>
+    <string name="submit">Submit</string>
 
     <!-- Strings for Login Activity -->
     <string name="login">Login</string>
@@ -29,24 +33,33 @@
         account and return to the application.
     </string>
     <string name="got_it">Got it!!</string>
+    <string name="invalid_email_message">Email Address entered is invalid. Please try again with valid Email Address.
+    </string>
+    <string name="invalid_phone_number_message">Phone Number entered is invalid. Please try again with valid Phone
+        Number.
+    </string>
+    <string name="invalid_dob_message">You should be at least 12 years old to use this application. Please try again
+        with valid Date of Birth.
+    </string>
 
     <!-- Strings for New Post -->
     <string name="sport_name">Sport Name:</string>
-    <string name="pick_sport">Please pick a sport</string>
+    <string name="pick_sport">Please select a Sport for your post</string>
+    <string name="pick_date">Please select a Date for your post</string>
+    <string name="pick_time">Please pick a Time for your post</string>
+    <string name="pick_min_age">Please pick a Minimum Age for your post</string>
+    <string name="pick_max_age">Please pick a Maximum Age for your post</string>
+    <string name="pick_gender_preference">Please select the gender preference for your post</string>
+    <string name="pick_description">Please write some description for your post</string>
     <string name="on">On</string>
     <string name="search">Search</string>
     <string name="date">Date:</string>
     <string name="time">Time:</string>
+    <string name="location_title">Location:</string>
     <string name="new_post">New Post</string>
     <string name="please_fill">Please fill all the details</string>
     <string name="use_current_location">Use Current Location</string>
-    <string name="age_group_title">Age Group:</string>
-    <string name="age_group_content">Please pick an age group</string>
-    <string name="small_ag">5 - 12 years</string>
-    <string name="teenage_ag">13 - 20 years</string>
-    <string name="adult_ag">20 - 40 years</string>
-    <string name="old_ag">40+ years</string>
-    <string name="age_group_chart">Age group chart</string>
+    <string name="age_range">Age Range:</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="no_preference">No Preference</string>
@@ -54,6 +67,20 @@
     <string name="enter_a_location">Enter a location</string>
     <string name="description">Description</string>
     <string name="enter_description">Enter some description</string>
+    <string name="years">years</string>
+    <string name="to">to</string>
+    <string name="age_range_failing_message">Please enter the proper age range. Minimum age should be less than maximum
+        age. Allowed age range is between 12 to 120 years.
+    </string>
+    <string name="review_submit">Review and Submit</string>
+    <string name="post_success_message">You have successfully posted your request.</string>
+    <string name="new_post_user_agreement_disclaimer">By clicking Submit, I authorize to post the request in accordance  with <![CDATA[<a href="%1$s">User Agreement</a>]]>.</string>
+
+    <array name="gender_preference_options">
+        <item>Male</item>
+        <item>Female</item>
+        <item>No Preference</item>
+    </array>
 
     <!-- String for User Profile -->
     <string name="user_profile">USER PROFILE</string>

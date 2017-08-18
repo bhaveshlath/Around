@@ -17,6 +17,8 @@ import com.google.gson.GsonBuilder;
 public class AroundApplication extends Application {
 
     public static final String TAG = AroundApplication.class.getSimpleName();
+    public static final String AROUND_SHARED_PREFERENCE = "around_shared_preference";
+
     private RequestQueue mRequestQueue;
 
     /**

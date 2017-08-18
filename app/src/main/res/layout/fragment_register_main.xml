@@ -95,11 +95,11 @@
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:weightSum="4">
+                android:weightSum="3">
 
             <View android:layout_width="0dp"
                   android:layout_height="@dimen/divider_normal"
-                  android:layout_weight="1.5"
+                  android:layout_weight="1"
                   android:background="@color/white_76"
                   android:layout_gravity="center_vertical"/>
             <TextView android:layout_width="0dp"
@@ -111,7 +111,7 @@
                       android:text="@string/location"/>
             <View android:layout_width="0dp"
                   android:layout_height="@dimen/divider_normal"
-                  android:layout_weight="1.5"
+                  android:layout_weight="1"
                   android:background="@color/white_76"
                   android:layout_gravity="center_vertical"/>
         </LinearLayout>
@@ -132,7 +132,7 @@
                           style="@style/MediumText.Light"
                           android:text="@string/use_current_location"/>
                 <Switch
-                        android:id="@+id/register_map_loc_button"
+                        android:id="@+id/register_map_switch"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:checked="true"
@@ -140,20 +140,14 @@
                         android:layout_height="match_parent"/>
             </LinearLayout>
             <FrameLayout
-                    android:id="@+id/map_search_bar_container"
+                    android:id="@+id/register_map_search_bar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/MediumText.White"
-                    android:textColorHint="@color/white_56"
-
                     android:visibility="gone">
                 <fragment
-                        android:id="@+id/register_map_search_container"
-                        android:visibility="gone"
+                        android:id="@+id/register_place_auto_complete"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/MediumText.White"
-                        android:textColorHint="@color/white_56"
                         android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"/>
             </FrameLayout>
             <fragment

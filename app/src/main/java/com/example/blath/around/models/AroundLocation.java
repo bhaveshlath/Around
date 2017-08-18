@@ -8,18 +8,20 @@ public class AroundLocation {
 
     private double mLatitude;
     private double mLongitude;
-    private String mCity;
+    private String mAddress;
+    private String mPostalCode;
     private String mCountry;
 
-    public AroundLocation(double latitude, double longitude){
+    public AroundLocation(double latitude, double longitude) {
         mLatitude = latitude;
         mLongitude = longitude;
     }
 
-    public AroundLocation(double latitude, double longitude, String city, String country) {
+    public AroundLocation(double latitude, double longitude, String address, String postalCode, String country) {
         mLatitude = latitude;
         mLongitude = longitude;
-        mCity = city;
+        mAddress = address;
+        mPostalCode = postalCode;
         mCountry = country;
     }
 
@@ -27,31 +29,39 @@ public class AroundLocation {
         return mLatitude;
     }
 
-    public void setLatitude(long mLatitude) {
-        this.mLatitude = mLatitude;
+    public void setLatitude(double latitude) {
+        mLatitude = latitude;
     }
 
     public double getLongitude() {
         return mLongitude;
     }
 
-    public void setLongitude(long mLongitude) {
-        this.mLongitude = mLongitude;
+    public void setLongitude(double longitude) {
+        mLongitude = longitude;
     }
 
-    public String getCity() {
-        return mCity;
+    public String getAddress() {
+        return mAddress;
     }
 
-    public void setCity(String mCity) {
-        this.mCity = mCity;
+    public void setAddress(String address) {
+        mAddress = address;
+    }
+
+    public String getPostalCode() {
+        return mPostalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        mPostalCode = postalCode;
     }
 
     public String getCountry() {
         return mCountry;
     }
 
-    public void setCountry(String mCountry) {
-        this.mCountry = mCountry;
+    public void setCountry(String country) {
+        mCountry = country;
     }
 }

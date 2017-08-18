@@ -17,15 +17,20 @@
                 android:name="com.google.android.geo.API_KEY"
                 android:value="@string/google_maps_key"/>
 
-        <activity android:name=".activities.LoginActivity">
+        <activity android:name=".activities.LoginActivity"
+                  android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
-        <activity android:name=".activities.HomeActivity">
+        <activity android:name=".activities.HomeActivity"
+                  android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
-        <activity android:name=".activities.NewPostActivity">
+        <activity android:name=".activities.NewPostActivity"
+                  android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
-        <activity android:name=".activities.RegisterActivity">
+        <activity android:name=".activities.RegisterActivity"
+                  android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
-        <activity android:name=".activities.ProfileActivity">
+        <activity android:name=".activities.ProfileActivity"
+                  android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
         <activity android:name=".activities.SplashActivity">
             <intent-filter>

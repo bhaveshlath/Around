@@ -8,7 +8,6 @@ import com.example.blath.around.R;
 import com.example.blath.around.fragments.NewPostMainFragment;
 import com.example.blath.around.models.AroundLocation;
 import com.example.blath.around.models.DateRange;
-import com.example.blath.around.models.Sport;
 
 import java.util.Date;
 
@@ -19,7 +18,6 @@ public class NewPostActivity extends FragmentActivity implements INewPostListene
     public static final String KEY_NEW_POST_LOCATION = "New_Post_Location";
     public static final int KEY_NEW_POST_LOCATION_PERMISSION = 01;
 
-    Sport mSport;
     DateRange mDateRange ;
     AroundLocation mLocation;
 
@@ -48,16 +46,6 @@ public class NewPostActivity extends FragmentActivity implements INewPostListene
         }
     }
 
-    @Nullable
-    @Override
-    public String getSportName() {
-        if(mSport == null){
-            return null;
-        }else{
-            return mSport.getName();
-        }
-    }
-
     @Override
     public DateRange getDateRange() {
         if(mDateRange == null){
@@ -73,17 +61,12 @@ public class NewPostActivity extends FragmentActivity implements INewPostListene
     }
 
     @Override
-    public void setSportName(String sportName) {
-        mSport = new Sport(sportName);
-    }
-
-    @Override
     public void setDateRange(Date startDate, Date endDate) {
         mDateRange = new DateRange(startDate, endDate);
     }
 
     @Override
-    public void setLocation(long latitude, long longitude, String city, String country) {
-        mLocation = new AroundLocation(latitude, longitude, city, country);
+    public void setLocation(long latitude, long longitude, String city, String postalCode, String country) {
+        mLocation = new AroundLocation(latitude, longitude, city, postalCode, country);
     }
 }

@@ -12,8 +12,10 @@ import android.widget.EditText;
 import com.example.blath.around.R;
 import com.example.blath.around.commons.Utils.Operations;
 import com.example.blath.around.commons.Utils.ResponseOperations;
-import com.example.blath.around.commons.Utils.UIUTils;
+import com.example.blath.around.commons.Utils.UIUtils;
+import com.example.blath.around.commons.Utils.app.AroundApplication;
 import com.example.blath.around.events.LoginUserEvent;
+import com.example.blath.around.models.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,7 +35,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         loginButton.setOnClickListener(this);
         Button signupButton = (Button) findViewById(R.id.signup_button);
         signupButton.setOnClickListener(this);
-
     }
 
 @Override
@@ -56,9 +57,9 @@ public void onClick(View v) {
 
     private boolean loginUser(String username, String password){
         if(username.equals("")){
-            UIUTils.showShortToast("Please enter username", this);
+            UIUtils.showShortToast("Please enter username", this);
         } else if(password.equals("")){
-            UIUTils.showShortToast("Please enter password", this);
+            UIUtils.showShortToast("Please enter password", this);
         }else{
             Operations.loginUserOperation(username, password);
         }
@@ -79,24 +80,29 @@ public void onClick(View v) {
 
     public void onEvent(LoginUserEvent result) {
         if (result.mIsError) {
-            UIUTils.showLongToast(ResponseOperations.getErrorMessage(result.mResponseObject), this);
+            UIUtils.showLongToast(ResponseOperations.getErrorMessage(result.mResponseObject), this);
         } else {
 
-            SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences sharedPref = getSharedPreferences(AroundApplication.AROUND_SHARED_PREFERENCE, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
             try{
                 JSONObject userObject = result.mResponseObject.getJSONObject("userDetails");
                 JSONObject personalInformationObject = userObject.getJSONObject("mUserPersonalInformation");
                 JSONObject locationObject = userObject.getJSONObject("mLocation");
 
-                editor.putString(getString(R.string.first_name), personalInformationObject.getString("mFirstName"));
-                editor.putString(getString(R.string.last_name), personalInformationObject.getString("mLastName"));
-                editor.putString(getString(R.string.email), personalInformationObject.getString("mEmailID"));
-                editor.putString(getString(R.string.phone_number), personalInformationObject.getString("mPhoneNumber"));
-                editor.putString(getString(R.string.date_of_birth), personalInformationObject.getString("mDOB"));
+                editor.putString(User.KEY_USER_PROFILE_STATUS, userObject.getString("mProfileStatus"));
 
-                editor.putLong(getString(R.string.latitude), locationObject.getLong("mLatitude"));
-                editor.putLong(getString(R.string.longitude), locationObject.getLong("mLongitude"));
+                editor.putString(User.KEY_USER_FIRST_NAME, personalInformationObject.getString("mFirstName"));
+                editor.putString(User.KEY_USER_LAST_NAME, personalInformationObject.getString("mLastName"));
+                editor.putString(User.KEY_USER_EMAIL, personalInformationObject.getString("mEmailID"));
+                editor.putString(User.KEY_USER_PHONE_NUMBER, personalInformationObject.getString("mPhoneNumber"));
+                editor.putString(User.KEY_USER_DOB, personalInformationObject.getString("mDOB"));
+
+                editor.putString(User.KEY_USER_LATITUDE, locationObject.getString("mLatitude"));
+                editor.putString(User.KEY_USER_LONGITUTDE, locationObject.getString("mLongitude"));
+                editor.putString(User.KEY_USER_LOCATION_ADDRESS, locationObject.getString("mAddress"));
+                editor.putString(User.KEY_USER_LOCATION_POSTALCODE, locationObject.getString("mPostalCode"));
+                editor.putString(User.KEY_USER_LOCATION_COUNTRY, locationObject.getString("mCountry"));
             } catch (JSONException e){
                 e.getStackTrace();
             }

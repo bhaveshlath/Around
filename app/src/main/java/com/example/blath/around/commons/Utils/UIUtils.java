@@ -4,6 +4,7 @@ import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Build;
 import android.support.annotation.*;
@@ -11,6 +12,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
@@ -26,7 +28,7 @@ import com.example.blath.around.R;
  * Created by blath on 4/15/17.
  */
 
-public class UIUTils{
+public class UIUtils {
 
     public static void showToolbar(@NonNull View view,
                                    @IdRes int toolBarTitleId,
@@ -159,4 +161,35 @@ public class UIUTils{
     public static void showLongToast(String toastText, Context context){
         Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
     }
+
+    public static void showAlertDialog(Context context, String dialogTitle, String dialogMessage){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                context);
+
+        // set title
+        alertDialogBuilder.setTitle("Your Title");
+
+        // set dialog message
+        alertDialogBuilder
+                .setMessage(dialogMessage)
+                .setCancelable(false)
+                .setPositiveButton(context.getString(R.string.ok),new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, just close
+                        // the dialog box and do nothing
+                        dialog.cancel();
+                    }
+                });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+        }
 }

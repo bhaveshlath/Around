@@ -35,22 +35,22 @@
                 android:id="@+id/post_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
-
-        <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:weightSum="2">
-            <TextView
-                    android:id="@+id/post_sport_name"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"/>
-            <TextView
-                    android:id="@+id/post_city"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"/>
-        </LinearLayout>
-
+        <TextView
+                android:id="@+id/post_subtype"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <TextView
+                android:id="@+id/post_age_range"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <TextView
+                android:id="@+id/post_gender_preference"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <TextView
+                android:id="@+id/post_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
         <TextView
                 android:id="@+id/post_description"
                 android:layout_width="match_parent"

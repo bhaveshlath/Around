@@ -1,6 +1,8 @@
 package com.example.blath.around.fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -14,7 +16,11 @@ import android.widget.TextView;
 
 import com.example.blath.around.R;
 import com.example.blath.around.activities.NewPostActivity;
+import com.example.blath.around.commons.Utils.Operations;
+import com.example.blath.around.commons.Utils.app.AroundApplication;
 import com.example.blath.around.models.Post;
+import com.example.blath.around.models.User;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,6 +61,10 @@ public class HomePostsFragment extends Fragment {
             }
         });
 
+        SharedPreferences userDetails = getActivity().getSharedPreferences(AroundApplication.AROUND_SHARED_PREFERENCE, Context.MODE_PRIVATE);
+//        Operations.getPosts(new LatLng(Double.parseDouble(userDetails.getString(User.KEY_USER_LATITUDE, "37.399345")),
+//                Double.parseDouble(userDetails.getString(User.KEY_USER_LONGITUTDE, "-121.919924"))));
+
         return view;
     }
 
@@ -66,8 +76,10 @@ public class HomePostsFragment extends Fragment {
             final TextView mPostMonthYear;
             final TextView mPostWeekDay;
             final TextView mPostUsername;
-            final TextView mPostSportName;
-            final TextView mPostCity;
+            final TextView mPostSubtype;
+            final TextView mAgeRange;
+            final TextView mGenderPreference;
+            final TextView mPostAddress;
             final TextView mPostDescription;
 
             DashboardPostsViewHolder(View v) {
@@ -77,8 +89,10 @@ public class HomePostsFragment extends Fragment {
                 mPostMonthYear = (TextView) v.findViewById(R.id.post_month_year);
                 mPostWeekDay = (TextView) v.findViewById(R.id.post_weekday);
                 mPostUsername = (TextView) v.findViewById(R.id.post_user_name);
-                mPostSportName = (TextView) v.findViewById(R.id.post_sport_name);
-                mPostCity = (TextView) v.findViewById(R.id.post_city);
+                mPostSubtype = (TextView) v.findViewById(R.id.post_subtype);
+                mPostAddress = (TextView) v.findViewById(R.id.post_address);
+                mAgeRange = (TextView) v.findViewById(R.id.post_age_range);
+                mGenderPreference = (TextView) v.findViewById(R.id.post_gender_preference);
                 mPostDescription= (TextView) v.findViewById(R.id.post_description);
             }
         }
@@ -103,8 +117,10 @@ public class HomePostsFragment extends Fragment {
             holder.mPostWeekDay.setText(calendar.get(Calendar.DAY_OF_WEEK));
             holder.mPostUsername.setText(post.getUser().getUserPersonalInformation().getFirstName() + " " +
                     post.getUser().getUserPersonalInformation().getLastName());
-            holder.mPostSportName.setText(post.getSport().getName());
-            holder.mPostCity.setText(post.getLocation().getCity());
+            holder.mPostSubtype.setText(post.getSubType());
+            holder.mAgeRange.setText(post.getAgeRange().getMinAge() + "-" + post.getAgeRange().getMaxAge());
+            holder.mGenderPreference.setText(post.getGenderPreference());
+            holder.mPostAddress.setText(post.getLocation().getAddress());
             holder.mPostDescription.setText(post.getDescription());
         }
 

@@ -19,16 +19,17 @@ import android.widget.Switch;
 
 import com.example.blath.around.R;
 import com.example.blath.around.activities.RegisterActivity;
+import com.example.blath.around.commons.Utils.DateUtils;
 import com.example.blath.around.commons.Utils.MapUtils;
 import com.example.blath.around.commons.Utils.Operations;
+import com.example.blath.around.commons.Utils.RequestOperations;
 import com.example.blath.around.commons.Utils.ResponseOperations;
-import com.example.blath.around.commons.Utils.UIUTils;
+import com.example.blath.around.commons.Utils.UIUtils;
 import com.example.blath.around.events.RegisterUserEvent;
 import com.example.blath.around.models.AroundLocation;
 import com.example.blath.around.models.User;
 import com.example.blath.around.models.UserPersonalInformation;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Calendar;
 
@@ -50,14 +51,13 @@ public class RegisterMainFragment extends Fragment implements
 
     // A default location (Sydney, Australia) and default zoom to use when location permission is
     // not granted.
-    private LatLng mUserLocation = null;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private boolean mLocationPermissionGranted;
 
     private View mView;
     private FragmentActivity mActivity;
 
     private MapUtils mMapUtils;
+    private static int mInvalidField;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,12 +72,12 @@ public class RegisterMainFragment extends Fragment implements
             mCameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
         }
 
-        mMapUtils = new MapUtils(getActivity(), this, TAG, mLastKnownLocation, mCameraPosition, R.id.register_map_search_container, R.id.register_map);
+        mMapUtils = new MapUtils(mActivity, this, TAG, mLastKnownLocation, mCameraPosition, R.id.register_place_auto_complete, R.id.register_map);
 
-        Switch toggle = (Switch) mView.findViewById(R.id.register_map_loc_button);
+        Switch toggle = (Switch) mView.findViewById(R.id.register_map_switch);
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                View mapSearchContainer = mView.findViewById(R.id.map_search_bar_container);
+                View mapSearchContainer = mView.findViewById(R.id.register_map_search_bar);
                 if (isChecked) {
                     mapSearchContainer.setVisibility(View.GONE);
                     mMapUtils.getDeviceLocation();
@@ -92,6 +92,7 @@ public class RegisterMainFragment extends Fragment implements
 
         Button registerButton = (Button) mView.findViewById(R.id.register_button);
         registerButton.setOnClickListener(this);
+        UIUtils.hideKeyboard(getActivity());
 
         return mView;
     }
@@ -108,21 +109,21 @@ public class RegisterMainFragment extends Fragment implements
         super.onPause();
     }
 
-    public void onEvent(RegisterUserEvent result) {
+    public void onEventMainThread(RegisterUserEvent result) {
         if (!result.mIsError) {
-            UIUTils.showLongToast("Successfully created!!", getActivity());
+            UIUtils.showLongToast("Successfully created!!", mActivity);
             RegisterVerificationFragment registerVerificationFragment = new RegisterVerificationFragment();
             this.getFragmentManager().beginTransaction()
                     .replace(R.id.register_container, registerVerificationFragment, TAG)
                     .addToBackStack(null)
                     .commit();
         } else {
-            UIUTils.showLongToast(ResponseOperations.getErrorMessage(result.mResponseObject), getActivity());
+            UIUtils.showLongToast(ResponseOperations.getErrorMessage(result.mResponseObject), mActivity);
         }
     }
 
     private void submitUserDetails(String firstName, String lastName, String emailID, String dateOfBirth, String phoneNumber,
-                                   String password, LatLng userLocation) {
+                                   String password, AroundLocation userLocation) {
 
         if (firstName.equals("")
                 || lastName.equals("")
@@ -130,13 +131,32 @@ public class RegisterMainFragment extends Fragment implements
                 || dateOfBirth.equals("")
                 || phoneNumber.equals("")
                 || password.equals("")) {
-            UIUTils.showLongToast(getString(R.string.all_details_alert), mActivity);
+            UIUtils.showLongToast(getString(R.string.all_details_alert), mActivity);
         } else if (userLocation == null) {
-            UIUTils.showLongToast(getString(R.string.location_alert), mActivity);
+            UIUtils.showLongToast(getString(R.string.location_alert), mActivity);
+        } else if (isRegisterDataValid(emailID, phoneNumber, dateOfBirth.substring(dateOfBirth.lastIndexOf(',') + 2)) != 0) {
+            switch (mInvalidField) {
+                case 1:
+                    UIUtils.showLongToast(getString(R.string.invalid_email_message), mActivity);
+                    break;
+
+                case 2:
+                    UIUtils.showLongToast(getString(R.string.invalid_dob_message), mActivity);
+                    break;
+
+                case 3:
+                    UIUtils.showLongToast(getString(R.string.invalid_phone_number_message), mActivity);
+                    break;
+            }
         } else {
-            User newUser = new User(new UserPersonalInformation(firstName, lastName, emailID, dateOfBirth, phoneNumber, password), new AroundLocation(userLocation.latitude, userLocation.longitude), "Pending-Verification");
+            User newUser = new User(new UserPersonalInformation(firstName, lastName, emailID, dateOfBirth, phoneNumber, password), userLocation, "Pending-Verification");
             Operations.registerUserOperation(newUser);
         }
+    }
+
+    private static int isRegisterDataValid(String emailID, String phoneNumber, String dateOfBirth) {
+        mInvalidField = RequestOperations.isRegisterDataValid(emailID, phoneNumber, dateOfBirth);
+        return mInvalidField;
     }
 
     @Override
@@ -152,13 +172,13 @@ public class RegisterMainFragment extends Fragment implements
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String permissions[],
                                            @NonNull int[] grantResults) {
-        mLocationPermissionGranted = false;
+        mMapUtils.mLocationPermissionGranted = false;
         switch (requestCode) {
             case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mLocationPermissionGranted = true;
+                    mMapUtils.mLocationPermissionGranted = true;
                 }
             }
         }
@@ -184,7 +204,11 @@ public class RegisterMainFragment extends Fragment implements
                         dateOfBirth.getText().toString(),
                         phoneNumber.getText().toString(),
                         password.getText().toString(),
-                        mMapUtils.getUserLocation());
+                        new AroundLocation(mMapUtils.getUserLocation().getLatitude(),
+                                mMapUtils.getUserLocation().getLongitude(),
+                                mMapUtils.getUserLocation().getAddress() == null ? "" : mMapUtils.getUserLocation().getAddress(),
+                                mMapUtils.getUserLocation().getPostalCode() == null ? "" : mMapUtils.getUserLocation().getPostalCode(),
+                                mMapUtils.getUserLocation().getCountry() == null ? "" : mMapUtils.getUserLocation().getCountry()));
                 break;
 
             case R.id.register_date_picker_button:
@@ -193,7 +217,7 @@ public class RegisterMainFragment extends Fragment implements
                 int month = c.get(Calendar.MONTH);
                 int day = c.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(mActivity,
+                DatePickerDialog datePickerDialog = new DatePickerDialog(mActivity, android.R.style.Theme_DeviceDefault_Light_Dialog,
                         new DatePickerDialog.OnDateSetListener() {
 
                             @Override
@@ -201,7 +225,7 @@ public class RegisterMainFragment extends Fragment implements
                                                   int monthOfYear, int dayOfMonth) {
 
                                 EditText dateText = (EditText) mView.findViewById(R.id.register_DOB);
-                                dateText.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                                dateText.setText(DateUtils.dateFormatter(monthOfYear, dayOfMonth, year));
                             }
                         }, year, month, day);
                 datePickerDialog.show();
