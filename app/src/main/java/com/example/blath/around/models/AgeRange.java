@@ -5,27 +5,27 @@ package com.example.blath.around.models;
  */
 
 public class AgeRange {
-    private int mMinAge;
-    private int mMaxAge;
+    private int minAge;
+    private int maxAge;
 
     public AgeRange(int minAge, int maxAge){
-        mMinAge = minAge;
-        mMaxAge = maxAge;
+        this.minAge = minAge;
+        this.maxAge = maxAge;
     }
 
     public int getMinAge() {
-        return mMinAge;
+        return minAge;
     }
 
     public void setMinAge(int minAge) {
-        mMinAge = minAge;
+        this.minAge = minAge;
     }
 
     public int getMaxAge() {
-        return mMaxAge;
+        return maxAge;
     }
 
     public void setMaxAge(int maxAge) {
-        mMaxAge = maxAge;
+        this.maxAge = maxAge;
     }
 }

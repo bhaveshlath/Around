@@ -12,10 +12,13 @@ import android.widget.TextView;
 import com.example.blath.around.R;
 import com.example.blath.around.commons.Utils.DateUtils;
 import com.example.blath.around.commons.Utils.Operations;
+import com.example.blath.around.commons.Utils.RequestOperations;
 import com.example.blath.around.commons.Utils.ResponseOperations;
 import com.example.blath.around.commons.Utils.UIUtils;
 import com.example.blath.around.events.SubmitPostEvent;
 import com.example.blath.around.models.Post;
+
+import java.util.Date;
 
 import de.greenrobot.event.EventBus;
 
@@ -36,7 +39,7 @@ public class NewPostReviewFragment extends Fragment implements View.OnClickListe
         TextView subtypeText = (TextView) mView.findViewById(R.id.post_subtype_content);
         subtypeText.setText(mPost.getSubType());
         TextView dateText = (TextView) mView.findViewById(R.id.post_date_content);
-        dateText.setText(mPost.getDates().getStartDate().toString());
+        dateText.setText(DateUtils.dateFormatterFromString(mPost.getDates().getStartDate().toString()));
         TextView timeText = (TextView) mView.findViewById(R.id.post_time_content);
         timeText.setText(DateUtils.timeFormatter(mPost.getTime()));
         TextView locationText = (TextView) mView.findViewById(R.id.post_location_content);
@@ -77,14 +80,14 @@ public class NewPostReviewFragment extends Fragment implements View.OnClickListe
 
     public void onEventMainThread(SubmitPostEvent result) {
         mView.findViewById(R.id.progress_overlay_container).setVisibility(View.GONE);
-        if (!result.mIsError) {
+        if (!ResponseOperations.isError(result.getResponseObject())) {
             NewPostSuccessFragment newPostSuccessFragment = new NewPostSuccessFragment();
             this.getFragmentManager().beginTransaction()
                     .replace(R.id.new_post_container, newPostSuccessFragment, TAG)
                     .addToBackStack(null)
                     .commit();
         } else {
-            UIUtils.showLongToast(ResponseOperations.getErrorMessage(result.mResponseObject), mActivity);
+            UIUtils.showLongToast(result.getResponseObject().getMessage(), mActivity);
         }
     }
 

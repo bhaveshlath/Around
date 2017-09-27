@@ -17,10 +17,10 @@ public class HomeActivity extends FragmentActivity{
 
     public static final int NUM_PAGES = 4;
     private int[] tabIcons = {
-            R.drawable.binoculars,
-            R.drawable.search,
-            R.drawable.mail,
-            R.drawable.user };
+            R.drawable.ic_home,
+            R.drawable.ic_search,
+            R.drawable.ic_mail,
+            R.drawable.ic_profile };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +40,13 @@ public class HomeActivity extends FragmentActivity{
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                int tabIconColor = ContextCompat.getColor(getApplication(), R.color.white);
+                int tabIconColor = ContextCompat.getColor(getApplication(), R.color.gradient_light_green);
                 tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                int tabIconColor = ContextCompat.getColor(getApplication(), R.color.black_24);
+                int tabIconColor = ContextCompat.getColor(getApplication(), R.color.white);
                 tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
             }
 

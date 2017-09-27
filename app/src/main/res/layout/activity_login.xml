@@ -63,5 +63,6 @@
                     android:background="@drawable/button_white_rounded"
                     android:id="@+id/signup_button"/>
         </LinearLayout>
+        <include layout="@layout/layout_progress"/>
     </LinearLayout>
 </ScrollView>

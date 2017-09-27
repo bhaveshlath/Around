@@ -80,6 +80,11 @@
         <item name="android:lineSpacingMultiplier">@dimen/line_spacing_multiplier_primary</item>
     </style>
 
+    <style name="HeaderText.Dark">
+        <item name="android:textColor">@color/black_80</item>
+        <item name="android:textColorLink">@color/black_80</item>
+    </style>
+
     <style name="HeaderText.Blue">
         <item name="android:textColor">@color/blue_dark</item>
         <item name="android:textColorLink">@color/white</item>
@@ -105,6 +110,7 @@
         <item name="android:textSize">@dimen/text_size_h3</item>
     </style>
 
+
     <style name="RowMarginMedium">
         <item name="android:layout_marginTop">@dimen/margin_medium</item>
         <item name="android:layout_marginBottom">@dimen/margin_medium</item>
@@ -113,5 +119,12 @@
     <style name="RowMarginSmall">
         <item name="android:layout_marginTop">@dimen/margin_small</item>
         <item name="android:layout_marginBottom">@dimen/margin_small</item>
+    </style>
+
+    <style name="TypeFragmentButton">
+        <item name="android:layout_margin">@dimen/margin_small</item>
+        <item name="android:padding">@dimen/padding_small</item>
+        <item name="android:background">@drawable/button_white_rounded</item>
+        <item name="android:textSize">@dimen/text_size_h3</item>
     </style>
 </resources>

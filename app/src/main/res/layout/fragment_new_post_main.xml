@@ -260,7 +260,7 @@
                                 android:layout_centerVertical="true"
                                 android:layout_gravity="center"
                                 android:layout_marginRight="@dimen/margin_xsmall"
-                                android:src="@drawable/ic_spinner" />
+                                android:src="@drawable/ic_dropdown" />
 
                     </RelativeLayout>
                 </LinearLayout>

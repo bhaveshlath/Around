@@ -1,61 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
-    <LinearLayout android:id="@+id/post_left_container"
-                  android:layout_width="64dp"
-                  android:layout_height="match_parent"
-                  android:orientation="vertical">
+              android:layout_height="wrap_content"
+              android:background="@drawable/post_shadow_background"
+              android:orientation="vertical"
+              android:layout_marginTop="@dimen/margin_small"
+              android:layout_marginBottom="@dimen/margin_small">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:padding="@dimen/padding_small">
         <ImageView
                 android:id="@+id/post_user_icon"
                 android:layout_width="@dimen/posts_user_icon"
-                android:layout_height="@dimen/posts_user_icon"
-                android:layout_margin="@dimen/margin_small"/>
-        <TextView
-                android:id="@+id/post_day"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        <TextView
-                android:id="@+id/post_month_year"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        <TextView
-                android:id="@+id/post_weekday"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-    <LinearLayout
-            android:orientation="vertical"
-            android:id="@+id/post_right_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                android:layout_height="@dimen/posts_user_icon"/>
 
         <TextView
                 android:id="@+id/post_user_name"
+                android:layout_toRightOf="@id/post_user_icon"
+                android:layout_gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        <TextView
-                android:id="@+id/post_subtype"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        <TextView
-                android:id="@+id/post_age_range"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        <TextView
-                android:id="@+id/post_gender_preference"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        <TextView
-                android:id="@+id/post_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        <TextView
-                android:id="@+id/post_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_small"/>
     </LinearLayout>
+    <LinearLayout android:id="@+id/post_content_area"
+                    android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:padding="@dimen/padding_small"
+                  android:background="@drawable/post_sport_background">
+        <LinearLayout android:id="@+id/post_left_container"
+                      android:layout_width="64dp"
+                      android:layout_height="match_parent"
+                      android:orientation="vertical">
 
+            <TextView
+                    android:id="@+id/post_day"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            <TextView
+                    android:id="@+id/post_month_year"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            <TextView
+                    android:id="@+id/post_weekday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/post_right_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <TextView
+                    android:id="@+id/post_subtype"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <TextView
+                    android:id="@+id/post_age_range"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <TextView
+                    android:id="@+id/post_gender_preference"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <TextView
+                    android:id="@+id/post_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <TextView
+                    android:id="@+id/post_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </LinearLayout>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_small">
+        <Button android:id="@+id/post_reply"
+                android:layout_width="@dimen/profile_icons"
+                android:layout_height="@dimen/profile_icons"
+                android:background="@drawable/ic_reply"/>
+        <Button android:id="@+id/post_comment"
+                android:layout_width="@dimen/profile_icons"
+                android:layout_height="@dimen/profile_icons"
+                android:layout_toRightOf="@id/post_reply"
+                android:background="@drawable/ic_comment"
+                android:layout_marginLeft="@dimen/margin_medium"/>
+        <TextView android:id="@+id/post_comment_count"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentEnd="true"
+                  android:layout_alignParentRight="true"/>
+    </RelativeLayout>
 </LinearLayout>

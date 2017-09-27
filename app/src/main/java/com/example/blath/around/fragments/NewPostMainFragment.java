@@ -34,6 +34,7 @@ import com.example.blath.around.models.AgeRange;
 import com.example.blath.around.models.Post;
 import com.google.android.gms.maps.model.CameraPosition;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 
@@ -81,10 +82,18 @@ public class NewPostMainFragment extends Fragment implements View.OnClickListene
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mView = inflater.inflate(R.layout.fragment_new_post_main, container, false);
+        if(mView == null){
+            mView = inflater.inflate(R.layout.fragment_new_post_main, container, false);
+        }
         mActivity = getActivity();
 
         if (savedInstanceState != null) {
@@ -97,7 +106,9 @@ public class NewPostMainFragment extends Fragment implements View.OnClickListene
         sportsGrid.setAdapter(new NewPostSportAdapter(mActivity, mSportNames, mSportIcons, mSportName));
         ViewCompat.setNestedScrollingEnabled(sportsGrid, true);
 
-        mMapUtils = new MapUtils(mActivity, this, TAG, mLastKnownLocation, mCameraPosition, R.id.new_post_place_auto_complete, R.id.new_post_map);
+        if(mMapUtils == null) {
+            mMapUtils = new MapUtils(mActivity, this, TAG, mLastKnownLocation, mCameraPosition, R.id.new_post_place_auto_complete, R.id.new_post_map);
+        }
 
         Switch toggle = (Switch) mView.findViewById(R.id.new_post_map_switch);
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -195,12 +206,12 @@ public class NewPostMainFragment extends Fragment implements View.OnClickListene
                             Post.KEY_TYPE_SPORTS, mSportName.getText().toString(),
                             mMapUtils.getUserLocation(),
                             new AgeRange(Integer.parseInt(mAgeRangeMin.getText().toString()), Integer.parseInt(mAgeRangeMax.getText().toString())),
-                            mGenderPreference, descriptionText.getText().toString(), DateUtils.getDateRange(mDate.getText().toString()), mTime.getText().toString()));
+                            mGenderPreference, descriptionText.getText().toString(), DateUtils.getDateRange(mDate.getText().toString()), mTime.getText().toString(), 0, new ArrayList<String>()));
                     NewPostReviewFragment newPostReviewFragment = new NewPostReviewFragment();
                     newPostReviewFragment.setArguments(bundle);
                     getFragmentManager().beginTransaction().replace(R.id.new_post_container, newPostReviewFragment).addToBackStack(null).commit();
                 }else{
-                    UIUtils.showAlertDialog(getActivity(), "", verifyResultString);
+                    UIUtils.showAlertDialogNeutral(getActivity(), getString(R.string.incomplete), verifyResultString);
                 }
                 break;
         }

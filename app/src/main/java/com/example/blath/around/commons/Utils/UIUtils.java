@@ -52,8 +52,8 @@ public class UIUtils {
      * @param toolbarTitle
      * @param subTitle Subtitle to display in the toolbar
      * @param navigationIconResId Resource ID of a drawable to set. Can be 0 to clear the icon.
-     * @param showHomeAsUpEnabled Set whether home should be displayed as an "up" affordance.
-     * Set this to true if selecting "home" returns up by a single level in your UI
+     * @param showHomeAsUpEnabled Set whether ic_home should be displayed as an "up" affordance.
+     * Set this to true if selecting "ic_home" returns up by a single level in your UI
      * rather than back to the top level or front page.
      */
     public static void showToolbar(final View view,
@@ -162,34 +162,22 @@ public class UIUtils {
         Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
     }
 
-    public static void showAlertDialog(Context context, String dialogTitle, String dialogMessage){
+    public static void showAlertDialogNeutral(Context context, String dialogTitle, String dialogMessage) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                context);
+                context, R.style.AlertDialogCustom);
 
-        // set title
-        alertDialogBuilder.setTitle("Your Title");
-
-        // set dialog message
         alertDialogBuilder
+                .setIcon(R.drawable.ic_error)
+                .setTitle(dialogTitle)
                 .setMessage(dialogMessage)
-                .setCancelable(false)
-                .setPositiveButton(context.getString(R.string.ok),new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
+                .setCancelable(true)
+                .setNeutralButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();
-                    }
-                })
-                .setNegativeButton("No",new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
-                        // if this button is clicked, just close
-                        // the dialog box and do nothing
-                        dialog.cancel();
                     }
                 });
 
-        // create alert dialog
         AlertDialog alertDialog = alertDialogBuilder.create();
-
-        // show it
         alertDialog.show();
-        }
+    }
 }

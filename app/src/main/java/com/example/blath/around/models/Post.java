@@ -1,6 +1,7 @@
 package com.example.blath.around.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by blath on 4/17/17.
@@ -10,97 +11,117 @@ public class Post implements Serializable {
 
     public static final String KEY_TYPE_SPORTS = "sports";
 
-    private User mUser;
-    private String mType;
-    private String mSubType;
-    private AroundLocation mLocation;
-    private AgeRange mAgeRange;
-    private String mGenderPreference;
-    private String mDescription;
-    private DateRange mDates;
-    private String mTime;
+    private User user;
+    private String type;
+    private String subType;
+    private AroundLocation location;
+    private AgeRange ageRange;
+    private String genderPreference;
+    private String description;
+    private DateRange dates;
+    private String time;
+    private int commentsCount;
+    private ArrayList<String> comments;
 
-    public Post(User user, String type, String subtype, AroundLocation location, AgeRange ageRange, String genderPreference, String description, DateRange dates, String time) {
-        mUser = user;
-        mType = type;
-        mSubType = subtype;
-        mLocation = location;
-        mAgeRange = ageRange;
-        mGenderPreference = genderPreference;
-        mDescription = description;
-        mDates = dates;
-        mTime = time;
-    }
-
-    public String getType() {
-        return mType;
-    }
-
-    public void setType(String type) {
-        mType = type;
-    }
-
-    public String getSubType() {
-        return mSubType;
-    }
-
-    public void setSubType(String subType) {
-        mSubType = subType;
-    }
-
-    public DateRange getDates() {
-        return mDates;
-    }
-
-    public void setDates(DateRange dates) {
-        mDates = dates;
-    }
-
-    public String getTime() {
-        return mTime;
-    }
-
-    public void setTime(String time) {
-        mTime = time;
-    }
-
-    public AroundLocation getLocation() {
-        return mLocation;
-    }
-
-    public void setLocation(AroundLocation location) {
-        mLocation = location;
-    }
-
-    public AgeRange getAgeRange() {
-        return mAgeRange;
-    }
-
-    public void setAgeRange(AgeRange ageRange) {
-        mAgeRange = ageRange;
-    }
-
-    public String getGenderPreference() {
-        return mGenderPreference;
-    }
-
-    public void setGenderPreference(String genderPreference) {
-        mGenderPreference = genderPreference;
+    public Post(User user, String type, String subType, AroundLocation location, AgeRange ageRange, String genderPreference, String description, DateRange dates, String time, int commentsCount, ArrayList<String> comments) {
+        this.user = user;
+        this.type = type;
+        this.subType = subType;
+        this.location = location;
+        this.ageRange = ageRange;
+        this.genderPreference = genderPreference;
+        this.description = description;
+        this.dates = dates;
+        this.time = time;
+        this.commentsCount = commentsCount;
+        this.comments = comments;
     }
 
     public User getUser() {
-        return mUser;
+        return user;
     }
 
     public void setUser(User user) {
-        mUser = user;
+        this.user = user;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getSubType() {
+        return subType;
+    }
+
+    public void setSubType(String subType) {
+        this.subType = subType;
+    }
+
+    public AroundLocation getLocation() {
+        return location;
+    }
+
+    public void setLocation(AroundLocation location) {
+        this.location = location;
+    }
+
+    public AgeRange getAgeRange() {
+        return ageRange;
+    }
+
+    public void setAgeRange(AgeRange ageRange) {
+        this.ageRange = ageRange;
+    }
+
+    public String getGenderPreference() {
+        return genderPreference;
+    }
+
+    public void setGenderPreference(String genderPreference) {
+        this.genderPreference = genderPreference;
     }
 
     public String getDescription() {
-        return mDescription;
+        return description;
     }
 
     public void setDescription(String description) {
-        mDescription = description;
+        this.description = description;
+    }
+
+    public DateRange getDates() {
+        return dates;
+    }
+
+    public void setDates(DateRange dates) {
+        this.dates = dates;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public int getCommentCount() {
+        return commentsCount;
+    }
+
+    public void setCommentCount(int commentsCount) {
+        this.commentsCount = commentsCount;
+    }
+
+    public ArrayList<String> getComments() {
+        return comments;
+    }
+
+    public void setComments(ArrayList<String> comments) {
+        this.comments = comments;
     }
 }

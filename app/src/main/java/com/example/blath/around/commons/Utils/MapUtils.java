@@ -1,5 +1,6 @@
 package com.example.blath.around.commons.Utils;
 
+import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -37,6 +38,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
 
@@ -46,12 +48,13 @@ import java.util.Locale;
 
 public class MapUtils implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener, Serializable{
 
     private String mTAG;
     private GoogleApiClient mGoogleApiClient;
     public GoogleMap mGoogleMap;
     public FragmentActivity mActivity;
+    Activity mActivity1;
     public Fragment mFragment;
     private int mMapResourceId;
 
@@ -105,6 +108,7 @@ public class MapUtils implements OnMapReadyCallback,
     }
 
     private void setPlaceAutocompleteFragmentListener(int mapSearchContainerResourceId) {
+
         PlaceAutocompleteFragment placeAutocompleteFragment = (PlaceAutocompleteFragment) mActivity.getFragmentManager().findFragmentById(mapSearchContainerResourceId);
         ((EditText)placeAutocompleteFragment.getView().findViewById(R.id.place_autocomplete_search_input)).setTextColor(Color.parseColor("#FFFFFF"));
         placeAutocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {

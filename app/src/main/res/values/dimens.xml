@@ -53,7 +53,7 @@
     <item name="line_spacing_multiplier_small" format="float" type="dimen">1.15</item>
 
     <dimen name="register_user_image">64dp</dimen>
-    <dimen name="posts_user_icon">48dp</dimen>
+    <dimen name="posts_user_icon">40dp</dimen>
     <dimen name="map_height">240dp</dimen>
     <dimen name="profile_icons">20dp</dimen>
 

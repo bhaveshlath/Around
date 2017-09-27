@@ -9,6 +9,11 @@
     <string name="error">Error</string>
     <string name="ok">Ok</string>
     <string name="submit">Submit</string>
+    <string name="sports">Sports</string>
+    <string name="concert">Concert</string>
+    <string name="study">Study</string>
+    <string name="travel">Travel</string>
+    <string name="other">Other</string>
 
     <!-- Strings for Login Activity -->
     <string name="login">Login</string>
@@ -44,13 +49,13 @@
 
     <!-- Strings for New Post -->
     <string name="sport_name">Sport Name:</string>
-    <string name="pick_sport">Please select a Sport for your post</string>
-    <string name="pick_date">Please select a Date for your post</string>
-    <string name="pick_time">Please pick a Time for your post</string>
-    <string name="pick_min_age">Please pick a Minimum Age for your post</string>
-    <string name="pick_max_age">Please pick a Maximum Age for your post</string>
-    <string name="pick_gender_preference">Please select the gender preference for your post</string>
-    <string name="pick_description">Please write some description for your post</string>
+    <string name="pick_sport">Please select a Sport for your post.</string>
+    <string name="pick_date">Please select a Date for your post.</string>
+    <string name="pick_time">Please pick a Time for your post.</string>
+    <string name="pick_min_age">Please pick a Minimum Age for your post.</string>
+    <string name="pick_max_age">Please pick a Maximum Age for your post.</string>
+    <string name="pick_gender_preference">Please select the gender preference for your post.</string>
+    <string name="pick_description">Please write some description for your post.</string>
     <string name="on">On</string>
     <string name="search">Search</string>
     <string name="date">Date:</string>
@@ -74,7 +79,10 @@
     </string>
     <string name="review_submit">Review and Submit</string>
     <string name="post_success_message">You have successfully posted your request.</string>
-    <string name="new_post_user_agreement_disclaimer">By clicking Submit, I authorize to post the request in accordance  with <![CDATA[<a href="%1$s">User Agreement</a>]]>.</string>
+    <string name="new_post_user_agreement_disclaimer">By clicking Submit, I authorize to post the request in accordance 
+        with <![CDATA[<a href="%1$s">User Agreement</a>]]>.
+    </string>
+    <string name="incomplete">Incomplete</string>
 
     <array name="gender_preference_options">
         <item>Male</item>

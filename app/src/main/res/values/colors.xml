@@ -6,6 +6,7 @@
 
     <color name="around_background_start_color">#FF0096D6</color>
     <color name="around_background_end_color">#002D64</color>
+    <color name="around_home_header_color">#004497</color>
 
     <color name="register_background_start_color">#f6f6f6</color>
     <color name="register_background_end_color">#d3d3d3</color>
@@ -160,10 +161,10 @@
     <!-- paypal credit payment status bottom container background -->
     <color name="paypal_credit_payment_status_bottom_container_baground">#26000000</color>
 
-    <!-- home screen collection tile -->
+    <!-- ic_home screen collection tile -->
     <color name="collection_tile_color">#C2CDD2</color>
 
-    <!-- home screen bubble tile -->
+    <!-- ic_home screen bubble tile -->
     <color name="order_ahead_bubble_color">#EF4B32</color>
     <color name="pay_in_store_bubble_color">#0079AD</color>
     <color name="loyalty_cards_bubble_color">#640487</color>
@@ -194,7 +195,7 @@
     <color name="launch_screen_background_start_color">#FF00266A</color>
     <color name="launch_screen_background_end_color">#FF0070BA</color>
 
-    <!-- home account -->
+    <!-- ic_home account -->
     <color name="home_account">#005fa4</color>
     <color name="home_send_money_divider">#27878E</color>
 
@@ -202,7 +203,7 @@
     <color name="menu_send_request_background_start_color">#008578</color>
     <color name="menu_send_request_background_end_color">#00739B</color>
 
-    <!-- home background with send_request color code -->
+    <!-- ic_home background with send_request color code -->
     <color name="menu_home_green_background_start_color">#FF00827F</color>
     <color name="menu_home_green_background_end_color">#FF00739B</color>
 
@@ -210,11 +211,11 @@
     <color name="home_pay_background_start_color">#e1e3e5</color>
     <color name="home_pay_background_end_color">#b2c1c8</color>
 
-    <!-- home - tap_pay background -->
-    <color name="menu_tap_pay_background_start_color">#00A491</color>
-    <color name="menu_tap_pay_background_end_color">#00849E</color>
+    <!-- ic_home - tap_pay background -->
+    <color name="post_sport_background_start_color">#00A491</color>
+    <color name="post_sport_background_end_color">#00849E</color>
 
-    <!-- home - donate background -->
+    <!-- ic_home - donate background -->
     <color name="menu_donate_background_start_color">#F00040</color>
     <color name="menu_donate_background_end_color">#880078</color>
 
@@ -316,10 +317,6 @@
 
     <!-- Color for activity divider backgroud -->
     <color name="activity_title_card_background_color">#FEFEFD</color>
-
-    <!-- moneybox_background_gradient -->
-    <color name="moneybox_background_start_color">#006F9E</color>
-    <color name="moneybox_background_end_color">#003087</color>
 
     <!-- moneybox_progress_bar_gradient-->
     <color name="moneybox_progress_bar_start_color">#009CDE</color>

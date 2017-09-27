@@ -5,76 +5,76 @@ package com.example.blath.around.models;
  */
 
 public class UserPersonalInformation {
-    private String mFirstName;
-    private String mLastName;
-    private String mEmailID;
-    private String mDOB;
-    private String mPhoneNumber;
-    private String mPassword;
+    private String firstName;
+    private String lastName;
+    private String emailID;
+    private String dob;
+    private String phoneNumber;
+    private String password;
 
-    public UserPersonalInformation(String firstName, String lastName, String emailID, String DOB, String phoneNumber) {
-        mFirstName = firstName;
-        mLastName = lastName;
-        mEmailID = emailID;
-        mDOB = DOB;
-        mPhoneNumber = phoneNumber;
+    public UserPersonalInformation(String firstName, String lastName, String emailID, String dob, String phoneNumber) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.emailID = emailID;
+        this.dob = dob;
+        this.phoneNumber = phoneNumber;
     }
 
-    public UserPersonalInformation(String firstName, String lastName, String emailID, String DOB, String phoneNumber, String password) {
-        mFirstName = firstName;
-        mLastName = lastName;
-        mEmailID = emailID;
-        mDOB = DOB;
-        mPhoneNumber = phoneNumber;
-        mPassword = password;
+    public UserPersonalInformation(String firstName, String lastName, String emailID, String dob, String phoneNumber, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.emailID = emailID;
+        this.dob = dob;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
     }
 
     public String getFirstName() {
-        return mFirstName;
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
-        mFirstName = firstName;
+        this.firstName = firstName;
     }
 
     public String getLastName() {
-        return mLastName;
+        return lastName;
     }
 
     public void setLastName(String lastName) {
-        mLastName = lastName;
+        this.lastName = lastName;
     }
 
     public String getEmailID() {
-        return mEmailID;
+        return emailID;
     }
 
     public void setEmailID(String emailID) {
-        mEmailID = emailID;
+        this.emailID = emailID;
     }
 
     public String getDOB() {
-        return mDOB;
+        return dob;
     }
 
-    public void setDOB(String DOB) {
-        mDOB = DOB;
+    public void setDOB(String dob) {
+        this.dob = dob;
     }
 
     public String getPhoneNumber() {
-        return mPhoneNumber;
+        return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        mPhoneNumber = phoneNumber;
+        this.phoneNumber = phoneNumber;
     }
 
     public String getPassword() {
-        return mPassword;
+        return password;
     }
 
     public void setPassword(String password) {
-        mPassword = password;
+        this.password = password;
     }
 
 }

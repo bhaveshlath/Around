@@ -1,12 +1,14 @@
 package com.example.blath.around.commons.Utils;
 
+import android.support.annotation.Nullable;
+
+import com.example.blath.around.commons.Utils.app.AroundApplication;
+import com.example.blath.around.models.Post;
+import com.example.blath.around.models.ResponseObject;
 import com.example.blath.around.models.User;
+import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by blath on 7/16/17.
@@ -14,45 +16,32 @@ import java.util.Set;
 
 public class ResponseOperations {
 
-    //returns the response object from the response JSON
-    private static JSONObject getResponseObject(JSONObject jsonObject) {
-        try{
-            JSONObject responseObject = jsonObject.getJSONObject("ASResponse");
-            return responseObject;
-        }catch(JSONException e){
-            e.getStackTrace();
-        }
-        return null;
-    }
-
     //returns whether request has been successful or not
-
-    public static boolean isError(JSONObject response){
-        try{
-            if(getResponseObject(response).get("status").equals("error")){
-                return true;
-            }
-        }catch(JSONException e){
-            e.getStackTrace();
+    public static boolean isError(ResponseObject responseObject) {
+        if (responseObject.getStatus().equals("error")) {
             return true;
         }
 
         return false;
     }
 
-    //returns the string message attached in case of error in response.
-
-    public static String getErrorMessage(JSONObject response){
-
-        try{
-            JSONObject responseObject = getResponseObject(response);
-            if(getResponseObject(response).get("status").equals("error")){
-                return responseObject.getString("message");
+    public static ResponseObject getResponseObject(String responseString, @Nullable String responseBodyType) {
+        ResponseObject responseObject = null;
+        if (responseBodyType != null) {
+            switch (responseBodyType) {
+                case Operations.KEY_USER:
+                    responseObject = AroundApplication.getGsonInstance().fromJson(responseString, new TypeToken<ResponseObject<User>>() {
+                    }.getType());
+                    break;
+                case Operations.KEY_POSTS:
+                    responseObject = AroundApplication.getGsonInstance().fromJson(responseString, new TypeToken<ResponseObject<List<Post>>>() {
+                    }.getType());
+                    break;
             }
-        }catch(JSONException e){
-            e.getStackTrace();
+        } else {
+            responseObject = AroundApplication.getGsonInstance().fromJson(responseString, new TypeToken<ResponseObject>() {
+            }.getType());
         }
-
-        return null;
+        return responseObject;
     }
 }

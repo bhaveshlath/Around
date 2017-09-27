@@ -1,17 +1,21 @@
 package com.example.blath.around.events;
 
-import org.json.JSONObject;
+import com.example.blath.around.models.ResponseObject;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 /**
  * Created by blath on 8/7/17.
  */
 
 public class GetPostsEvent {
-    public boolean mIsError;
-    public JSONObject mResponseObject;
+    private ResponseObject mResponseObject;
 
-    public GetPostsEvent(boolean isError, JSONObject jsonObject) {
-        mIsError = isError;
-        mResponseObject = jsonObject;
+    public GetPostsEvent(ResponseObject responseObject) {
+        mResponseObject = responseObject;
+    }
+
+    public ResponseObject getResponseObject() {
+        return mResponseObject;
     }
 }

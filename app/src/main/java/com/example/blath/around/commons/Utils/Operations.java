@@ -1,6 +1,6 @@
 package com.example.blath.around.commons.Utils;
 
-import android.location.Location;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -14,7 +14,6 @@ import com.example.blath.around.events.GetPostsEvent;
 import com.example.blath.around.events.LoginUserEvent;
 import com.example.blath.around.events.RegisterUserEvent;
 import com.example.blath.around.events.SubmitPostEvent;
-import com.example.blath.around.models.AroundLocation;
 import com.example.blath.around.models.Post;
 import com.example.blath.around.models.User;
 import com.google.android.gms.maps.model.LatLng;
@@ -22,7 +21,9 @@ import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import de.greenrobot.event.EventBus;
@@ -34,6 +35,12 @@ import de.greenrobot.event.EventBus;
 public class Operations {
 
     private static final String BASE_URL = "http://ec2-13-59-88-123.us-east-2.compute.amazonaws.com/";
+    private static final String KEY_POSTS_SUBMIT = "posts/submitPost";
+    private static final String KEY_POSTS_GET = "posts/getPosts";
+    private static final String KEY_REGISTER_USER = "register/registerUser";
+    private static final String KEY_REGISTER_LOGIN_USER = "register/loginUser";
+    public static final String KEY_POSTS = "Posts";
+    public static final String KEY_USER = "User";
 
     public static JSONObject getJsonMapperObject(String jsonString) {
         JSONObject jsonObject = null;
@@ -56,15 +63,11 @@ public class Operations {
             e.printStackTrace();
         }
 
-        JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST, BASE_URL + "register/loginUser", loginJsonObject,
+        JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST, BASE_URL + KEY_REGISTER_LOGIN_USER, loginJsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        if (ResponseOperations.isError(response)) {
-                            EventBus.getDefault().post(new LoginUserEvent(true, response));
-                        } else {
-                            EventBus.getDefault().post(new LoginUserEvent(false, response));
-                        }
+                        EventBus.getDefault().post(new LoginUserEvent(ResponseOperations.getResponseObject(response.toString(), KEY_USER)));
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -92,15 +95,11 @@ public class Operations {
 
         JSONObject jsonObject = getJsonMapperObject(AroundApplication.getGsonInstance().toJson(userDetail));
 
-        JsonObjectRequest registerRequest = new JsonObjectRequest(Request.Method.POST, BASE_URL + "register/registerUser", jsonObject,
+        JsonObjectRequest registerRequest = new JsonObjectRequest(Request.Method.POST, BASE_URL + KEY_REGISTER_USER, jsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        if (ResponseOperations.isError(response)) {
-                            EventBus.getDefault().post(new RegisterUserEvent(true, response));
-                        } else {
-                            EventBus.getDefault().post(new RegisterUserEvent(false, response));
-                        }
+                        EventBus.getDefault().post(new RegisterUserEvent(ResponseOperations.getResponseObject(response.toString(), null)));
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -128,15 +127,11 @@ public class Operations {
 
         JSONObject jsonObject = getJsonMapperObject(AroundApplication.getGsonInstance().toJson(post));
 
-        JsonObjectRequest submitPostRequest = new JsonObjectRequest(Request.Method.POST, BASE_URL + "posts/submitPost", jsonObject,
+        JsonObjectRequest submitPostRequest = new JsonObjectRequest(Request.Method.POST, BASE_URL + KEY_POSTS_SUBMIT, jsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        if (ResponseOperations.isError(response)) {
-                            EventBus.getDefault().post(new SubmitPostEvent(true, response));
-                        } else {
-                            EventBus.getDefault().post(new SubmitPostEvent(false, response));
-                        }
+                        EventBus.getDefault().post(new SubmitPostEvent(ResponseOperations.getResponseObject(response.toString(), null)));
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -165,15 +160,11 @@ public class Operations {
 
         JSONObject jsonObject = getJsonMapperObject(AroundApplication.getGsonInstance().toJson(latLng));
 
-        JsonObjectRequest getPosts = new JsonObjectRequest(Request.Method.GET, BASE_URL + "getPosts", jsonObject,
+        JsonObjectRequest getPosts = new JsonObjectRequest(Request.Method.GET, BASE_URL + KEY_POSTS_GET, jsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        if (ResponseOperations.isError(response)) {
-                            EventBus.getDefault().post(new GetPostsEvent(true, response));
-                        } else {
-                            EventBus.getDefault().post(new GetPostsEvent(false, response));
-                        }
+                        EventBus.getDefault().post(new GetPostsEvent(ResponseOperations.getResponseObject(response.toString(), KEY_POSTS)));
                     }
                 }, new Response.ErrorListener() {
             @Override

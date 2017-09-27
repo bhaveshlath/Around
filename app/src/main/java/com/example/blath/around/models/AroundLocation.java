@@ -6,62 +6,62 @@ package com.example.blath.around.models;
 
 public class AroundLocation {
 
-    private double mLatitude;
-    private double mLongitude;
-    private String mAddress;
-    private String mPostalCode;
-    private String mCountry;
+    private double latitude;
+    private double longitude;
+    private String address;
+    private String postalCode;
+    private String country;
 
     public AroundLocation(double latitude, double longitude) {
-        mLatitude = latitude;
-        mLongitude = longitude;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public AroundLocation(double latitude, double longitude, String address, String postalCode, String country) {
-        mLatitude = latitude;
-        mLongitude = longitude;
-        mAddress = address;
-        mPostalCode = postalCode;
-        mCountry = country;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.address = address;
+        this.postalCode = postalCode;
+        this.country = country;
     }
 
     public double getLatitude() {
-        return mLatitude;
+        return latitude;
     }
 
     public void setLatitude(double latitude) {
-        mLatitude = latitude;
+        this.latitude = latitude;
     }
 
     public double getLongitude() {
-        return mLongitude;
+        return longitude;
     }
 
     public void setLongitude(double longitude) {
-        mLongitude = longitude;
+        this.longitude = longitude;
     }
 
     public String getAddress() {
-        return mAddress;
+        return address;
     }
 
     public void setAddress(String address) {
-        mAddress = address;
+        this.address = address;
     }
 
     public String getPostalCode() {
-        return mPostalCode;
+        return postalCode;
     }
 
     public void setPostalCode(String postalCode) {
-        mPostalCode = postalCode;
+        this.postalCode = postalCode;
     }
 
     public String getCountry() {
-        return mCountry;
+        return country;
     }
 
     public void setCountry(String country) {
-        mCountry = country;
+        this.country = country;
     }
 }

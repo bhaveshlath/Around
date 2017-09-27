@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,14 +16,17 @@ import com.example.blath.around.commons.Utils.ResponseOperations;
 import com.example.blath.around.commons.Utils.UIUtils;
 import com.example.blath.around.commons.Utils.app.AroundApplication;
 import com.example.blath.around.events.LoginUserEvent;
+import com.example.blath.around.models.AroundLocation;
 import com.example.blath.around.models.User;
+import com.example.blath.around.models.UserPersonalInformation;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import de.greenrobot.event.EventBus;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = RegisterActivity.class.getSimpleName();
 
@@ -37,30 +41,32 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         signupButton.setOnClickListener(this);
     }
 
-@Override
-public void onClick(View v) {
-    switch(v.getId()){
-        case R.id.login_button:
-            EditText username = (EditText) findViewById(R.id.username);
-            EditText password = (EditText) findViewById(R.id.password);
-            String usernameText = username.getText().toString();
-            String passwordText = password.getText().toString();
-            loginUser(usernameText, passwordText);
-            break;
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.login_button:
+                EditText username = (EditText) findViewById(R.id.username);
+                EditText password = (EditText) findViewById(R.id.password);
+                String usernameText = username.getText().toString();
+                String passwordText = password.getText().toString();
+                verifyLoginCredentials(usernameText, passwordText);
+                UIUtils.hideKeyboard(this);
+                break;
 
-        case R.id.signup_button:
-            Intent intent = new Intent(this, RegisterActivity.class);
-            startActivity(intent);
-            break;
+            case R.id.signup_button:
+                Intent intent = new Intent(this, RegisterActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
-}
 
-    private boolean loginUser(String username, String password){
-        if(username.equals("")){
+    private boolean verifyLoginCredentials(String username, String password) {
+        if (username.equals("")) {
             UIUtils.showShortToast("Please enter username", this);
-        } else if(password.equals("")){
+        } else if (password.equals("")) {
             UIUtils.showShortToast("Please enter password", this);
-        }else{
+        } else {
+            findViewById(R.id.progress_overlay_container).setVisibility(View.VISIBLE);
             Operations.loginUserOperation(username, password);
         }
         return false;
@@ -79,35 +85,33 @@ public void onClick(View v) {
     }
 
     public void onEvent(LoginUserEvent result) {
-        if (result.mIsError) {
-            UIUtils.showLongToast(ResponseOperations.getErrorMessage(result.mResponseObject), this);
+        if (ResponseOperations.isError(result.getResponseObject())) {
+            findViewById(R.id.progress_overlay_container).setVisibility(View.GONE);
+            UIUtils.showLongToast(result.getResponseObject().getMessage(), this);
         } else {
-
             SharedPreferences sharedPref = getSharedPreferences(AroundApplication.AROUND_SHARED_PREFERENCE, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
-            try{
-                JSONObject userObject = result.mResponseObject.getJSONObject("userDetails");
-                JSONObject personalInformationObject = userObject.getJSONObject("mUserPersonalInformation");
-                JSONObject locationObject = userObject.getJSONObject("mLocation");
 
-                editor.putString(User.KEY_USER_PROFILE_STATUS, userObject.getString("mProfileStatus"));
+            User userObject = (User)result.getResponseObject().getBody();
+            UserPersonalInformation personalInformationObject = userObject.getUserPersonalInformation();
+            AroundLocation locationObject = userObject.getLastLocation();
 
-                editor.putString(User.KEY_USER_FIRST_NAME, personalInformationObject.getString("mFirstName"));
-                editor.putString(User.KEY_USER_LAST_NAME, personalInformationObject.getString("mLastName"));
-                editor.putString(User.KEY_USER_EMAIL, personalInformationObject.getString("mEmailID"));
-                editor.putString(User.KEY_USER_PHONE_NUMBER, personalInformationObject.getString("mPhoneNumber"));
-                editor.putString(User.KEY_USER_DOB, personalInformationObject.getString("mDOB"));
+            editor.putString(User.KEY_USER_PROFILE_STATUS, userObject.getProfileStatus());
 
-                editor.putString(User.KEY_USER_LATITUDE, locationObject.getString("mLatitude"));
-                editor.putString(User.KEY_USER_LONGITUTDE, locationObject.getString("mLongitude"));
-                editor.putString(User.KEY_USER_LOCATION_ADDRESS, locationObject.getString("mAddress"));
-                editor.putString(User.KEY_USER_LOCATION_POSTALCODE, locationObject.getString("mPostalCode"));
-                editor.putString(User.KEY_USER_LOCATION_COUNTRY, locationObject.getString("mCountry"));
-            } catch (JSONException e){
-                e.getStackTrace();
-            }
+            editor.putString(User.KEY_USER_FIRST_NAME, personalInformationObject.getFirstName());
+            editor.putString(User.KEY_USER_LAST_NAME, personalInformationObject.getLastName());
+            editor.putString(User.KEY_USER_EMAIL, personalInformationObject.getEmailID());
+            editor.putString(User.KEY_USER_PHONE_NUMBER, personalInformationObject.getPhoneNumber());
+            editor.putString(User.KEY_USER_DOB, personalInformationObject.getDOB());
+
+            editor.putString(User.KEY_USER_LATITUDE, Double.toString(locationObject.getLatitude()));
+            editor.putString(User.KEY_USER_LONGITUTDE, Double.toString(locationObject.getLongitude()));
+            editor.putString(User.KEY_USER_LOCATION_ADDRESS, locationObject.getAddress());
+            editor.putString(User.KEY_USER_LOCATION_POSTALCODE, locationObject.getPostalCode());
+            editor.putString(User.KEY_USER_LOCATION_COUNTRY, locationObject.getCountry());
 
             editor.commit();
+            findViewById(R.id.progress_overlay_container).setVisibility(View.GONE);
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
         }

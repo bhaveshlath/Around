@@ -110,7 +110,7 @@ public class RegisterMainFragment extends Fragment implements
     }
 
     public void onEventMainThread(RegisterUserEvent result) {
-        if (!result.mIsError) {
+        if (!ResponseOperations.isError(result.getResponseObject())) {
             UIUtils.showLongToast("Successfully created!!", mActivity);
             RegisterVerificationFragment registerVerificationFragment = new RegisterVerificationFragment();
             this.getFragmentManager().beginTransaction()
@@ -118,7 +118,7 @@ public class RegisterMainFragment extends Fragment implements
                     .addToBackStack(null)
                     .commit();
         } else {
-            UIUtils.showLongToast(ResponseOperations.getErrorMessage(result.mResponseObject), mActivity);
+            UIUtils.showLongToast(result.getResponseObject().getMessage(), mActivity);
         }
     }
 
@@ -198,13 +198,14 @@ public class RegisterMainFragment extends Fragment implements
                 EditText password = (EditText) mView.findViewById(R.id.register_password);
                 EditText dateOfBirth = (EditText) mView.findViewById(R.id.register_DOB);
 
+
                 submitUserDetails(firstName.getText().toString(),
                         lastName.getText().toString(),
                         emailID.getText().toString(),
                         dateOfBirth.getText().toString(),
                         phoneNumber.getText().toString(),
                         password.getText().toString(),
-                        new AroundLocation(mMapUtils.getUserLocation().getLatitude(),
+                        mMapUtils.getUserLocation() == null ? null: new AroundLocation(mMapUtils.getUserLocation().getLatitude(),
                                 mMapUtils.getUserLocation().getLongitude(),
                                 mMapUtils.getUserLocation().getAddress() == null ? "" : mMapUtils.getUserLocation().getAddress(),
                                 mMapUtils.getUserLocation().getPostalCode() == null ? "" : mMapUtils.getUserLocation().getPostalCode(),

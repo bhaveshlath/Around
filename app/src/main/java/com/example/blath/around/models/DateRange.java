@@ -7,27 +7,27 @@ import java.util.Date;
  */
 
 public class DateRange {
-    private Date mStartDate;
-    private Date mEndDate;
+    private Date startDate;
+    private Date endDate;
 
-    public DateRange(Date mStartDate, Date mEndDate) {
-        this.mStartDate = mStartDate;
-        this.mEndDate = mEndDate;
+    public DateRange(Date startDate, Date endDate) {
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     public Date getStartDate() {
-        return mStartDate;
+        return startDate;
     }
 
-    public void setStartDate(Date mStartDate) {
-        this.mStartDate = mStartDate;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     public Date getEndDate() {
-        return mEndDate;
+        return endDate;
     }
 
-    public void setEndDate(Date mEndDate) {
-        this.mEndDate = mEndDate;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 }

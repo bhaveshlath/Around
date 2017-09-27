@@ -31,6 +31,11 @@ public class DateUtils {
         return dateRange;
     }
 
+    public static String dateFormatterFromString(String dateString){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMMM, yyyy");
+        return simpleDateFormat.format(new Date(dateString));
+    }
+
     public static String dateFormatter(int monthOfYear, int dayOfMonth, int year){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMMM, yyyy");
         return simpleDateFormat.format(new Date((monthOfYear + 1) + "/" + dayOfMonth + "/" + year));

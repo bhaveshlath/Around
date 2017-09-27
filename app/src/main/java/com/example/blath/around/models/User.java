@@ -6,6 +6,7 @@ package com.example.blath.around.models;
 
 public class User {
 
+    public static final String KEY_USER_ID = "_id";
     public static final String KEY_USER_FIRST_NAME = "first_name";
     public static final String KEY_USER_LAST_NAME = "last_name";
     public static final String KEY_USER_EMAIL = "emailID";
@@ -19,39 +20,55 @@ public class User {
     public static final String KEY_USER_LOCATION_POSTALCODE = "location_postal_code";
     public static final String KEY_USER_LOCATION_COUNTRY = "location_country";
 
-    private UserPersonalInformation mUserPersonalInformation;
-    private AroundLocation mLastLocation;
-    private String mProfileStatus;
+    private String _id;
+    private UserPersonalInformation userPersonalInformation;
+    private AroundLocation lastLocation;
+    private String profileStatus;
 
     public User(){}
 
     public User(UserPersonalInformation userPersonalInformation, AroundLocation lastLocation, String profileStatus) {
-        mUserPersonalInformation = userPersonalInformation;
-        mLastLocation = lastLocation;
-        mProfileStatus = profileStatus;
+        this.userPersonalInformation = userPersonalInformation;
+        this.lastLocation = lastLocation;
+        this.profileStatus = profileStatus;
+    }
+
+    public User(String userId, UserPersonalInformation userPersonalInformation, AroundLocation lastLocation, String profileStatus) {
+        this._id = userId;
+        this.userPersonalInformation = userPersonalInformation;
+        this.lastLocation = lastLocation;
+        this.profileStatus = profileStatus;
     }
 
     public AroundLocation getLastLocation() {
-        return mLastLocation;
+        return lastLocation;
+    }
+
+    public void setUserId(String userId) {
+        this._id = userId;
+    }
+
+    public String getKeyUserId() {
+        return _id;
     }
 
     public void setLastLocation(AroundLocation lastLocation) {
-        mLastLocation = lastLocation;
+        this.lastLocation = lastLocation;
     }
 
     public String getProfileStatus() {
-        return mProfileStatus;
+        return profileStatus;
     }
 
     public void setProfileStatus(String profileStatus) {
-        mProfileStatus = profileStatus;
+        this.profileStatus = profileStatus;
     }
 
     public UserPersonalInformation getUserPersonalInformation() {
-        return mUserPersonalInformation;
+        return userPersonalInformation;
     }
 
     public void setUserPersonalInformation(UserPersonalInformation userPersonalInformation) {
-        mUserPersonalInformation = userPersonalInformation;
+        this.userPersonalInformation = userPersonalInformation;
     }
 }
