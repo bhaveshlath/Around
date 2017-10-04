@@ -35,6 +35,11 @@
         <item name="android:textColorLink">@color/white_56</item>
     </style>
 
+    <style name="SmallText.gray">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textColorLink">@color/gray</item>
+    </style>
+
     <style name="SecondaryText">
         <item name="android:textSize">@dimen/text_size_secondary</item>
         <item name="android:lineSpacingMultiplier">@dimen/line_spacing_multiplier_secondary</item>
@@ -97,28 +102,38 @@
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
     <style name="AppBarTextLight">
-        <item name="android:textColor">@color/black_80</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:textSize">@dimen/text_size_h3</item>
+        <item name="android:textSize">@dimen/text_size_h2</item>
     </style>
 
     <style name="AppBarTextDark">
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/around_background_end_color</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:textSize">@dimen/text_size_h3</item>
+        <item name="android:textSize">@dimen/text_size_h2</item>
     </style>
 
 
-    <style name="RowMarginMedium">
+    <style name="RowMarginVerticalMedium">
         <item name="android:layout_marginTop">@dimen/margin_medium</item>
         <item name="android:layout_marginBottom">@dimen/margin_medium</item>
     </style>
 
-    <style name="RowMarginSmall">
+    <style name="RowMarginVerticalSmall">
         <item name="android:layout_marginTop">@dimen/margin_small</item>
         <item name="android:layout_marginBottom">@dimen/margin_small</item>
+    </style>
+
+    <style name="RowMarginHorizontalMedium">
+        <item name="android:layout_marginLeft">@dimen/margin_medium</item>
+        <item name="android:layout_marginRight">@dimen/margin_medium</item>
+    </style>
+
+    <style name="RowMarginHorizontalSmall">
+        <item name="android:layout_marginLeft">@dimen/margin_small</item>
+        <item name="android:layout_marginRight">@dimen/margin_small</item>
     </style>
 
     <style name="TypeFragmentButton">

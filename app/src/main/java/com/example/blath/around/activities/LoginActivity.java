@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,10 +18,6 @@ import com.example.blath.around.events.LoginUserEvent;
 import com.example.blath.around.models.AroundLocation;
 import com.example.blath.around.models.User;
 import com.example.blath.around.models.UserPersonalInformation;
-import com.google.gson.reflect.TypeToken;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import de.greenrobot.event.EventBus;
 
@@ -76,6 +71,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
+        UIUtils.animateStatusBarColorTransition(this, R.color.around_background_start_color, R.color.around_background_start_color);
     }
 
     @Override

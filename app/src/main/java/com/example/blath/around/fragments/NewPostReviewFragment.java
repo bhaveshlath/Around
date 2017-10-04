@@ -12,13 +12,10 @@ import android.widget.TextView;
 import com.example.blath.around.R;
 import com.example.blath.around.commons.Utils.DateUtils;
 import com.example.blath.around.commons.Utils.Operations;
-import com.example.blath.around.commons.Utils.RequestOperations;
 import com.example.blath.around.commons.Utils.ResponseOperations;
 import com.example.blath.around.commons.Utils.UIUtils;
 import com.example.blath.around.events.SubmitPostEvent;
 import com.example.blath.around.models.Post;
-
-import java.util.Date;
 
 import de.greenrobot.event.EventBus;
 
@@ -74,7 +71,12 @@ public class NewPostReviewFragment extends Fragment implements View.OnClickListe
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        UIUtils.showToolbar(mView, (TextView) mView.findViewById(R.id.toolbar_title), getString(R.string.review_submit), "", R.drawable.back_icon_black, true, R.id.toolbar_title);
+        UIUtils.showToolbar(mView, (TextView) mView.findViewById(R.id.toolbar_title), getString(R.string.review_submit), "", R.drawable.back_icon_black, true, new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                mActivity.onBackPressed();
+            }
+        },  R.id.toolbar_title);
         UIUtils.animateStatusBarColorTransition(mActivity, R.color.dropdown_blue, R.color.dropdown_blue);
     }
 

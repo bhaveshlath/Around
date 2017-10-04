@@ -3,6 +3,8 @@ package com.example.blath.around.fragments;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,6 +21,7 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -30,12 +33,21 @@ import com.example.blath.around.commons.Utils.DateUtils;
 import com.example.blath.around.commons.Utils.MapUtils;
 import com.example.blath.around.commons.Utils.RequestOperations;
 import com.example.blath.around.commons.Utils.UIUtils;
+import com.example.blath.around.commons.Utils.app.AroundUtils;
 import com.example.blath.around.models.AgeRange;
+import com.example.blath.around.models.AroundLocation;
 import com.example.blath.around.models.Post;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import static com.example.blath.around.R.id.sports_grid;
 
 
 public class NewPostMainFragment extends Fragment implements View.OnClickListener {
@@ -68,10 +80,10 @@ public class NewPostMainFragment extends Fragment implements View.OnClickListene
 
     private MapUtils mMapUtils;
 
-    private TextView mSportName, mDate, mTime;
+    private TextView mDate, mTime;
     private EditText mAgeRangeMin, mAgeRangeMax;
     private String mGenderPreference;
-
+    private AroundUtils.AroundPostRequestType mAroundPostRequestType;
     @Override
     public void onSaveInstanceState(Bundle outState) {
         if (mMapUtils.mGoogleMap != null) {
@@ -84,16 +96,16 @@ public class NewPostMainFragment extends Fragment implements View.OnClickListene
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mAroundPostRequestType = AroundUtils.getAroundPostRequestType();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        if(mView == null){
+        if(mView == null) {
             mView = inflater.inflate(R.layout.fragment_new_post_main, container, false);
         }
+
         mActivity = getActivity();
 
         if (savedInstanceState != null) {
@@ -101,11 +113,7 @@ public class NewPostMainFragment extends Fragment implements View.OnClickListene
             mCameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
         }
 
-        mSportName = (TextView) mView.findViewById(R.id.sport_name_content);
-        GridView sportsGrid = (GridView) mView.findViewById(R.id.sports_grid);
-        sportsGrid.setAdapter(new NewPostSportAdapter(mActivity, mSportNames, mSportIcons, mSportName));
-        ViewCompat.setNestedScrollingEnabled(sportsGrid, true);
-
+        //To handle already created GoogleApiClient in case user comes back from review screen
         if(mMapUtils == null) {
             mMapUtils = new MapUtils(mActivity, this, TAG, mLastKnownLocation, mCameraPosition, R.id.new_post_place_auto_complete, R.id.new_post_map);
         }
@@ -123,6 +131,9 @@ public class NewPostMainFragment extends Fragment implements View.OnClickListene
             }
         });
 
+        updateTitle();
+        setPlaceAutocompleteFragmentListener();
+
         View datePicker = mView.findViewById(R.id.new_post_date_button);
         datePicker.setOnClickListener(this);
         View timePicker = mView.findViewById(R.id.new_post_time_button);
@@ -135,17 +146,16 @@ public class NewPostMainFragment extends Fragment implements View.OnClickListene
         mAgeRangeMax.setTransformationMethod(null);
 
         Spinner genderSelectionSpinner = (Spinner) mView.findViewById(R.id.gender_selection_spinner);
-
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mActivity,
                 R.array.gender_preference_options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         genderSelectionSpinner.setAdapter(adapter);
-
         genderSelectionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mGenderPreference = (String) parent.getItemAtPosition(position);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 mGenderPreference = "";
@@ -162,8 +172,13 @@ public class NewPostMainFragment extends Fragment implements View.OnClickListene
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        UIUtils.showToolbar(mView, (TextView) mView.findViewById(R.id.toolbar_title), getString(R.string.new_post), getString(R.string.please_fill), R.drawable.back_icon_white, true, R.id.toolbar_title);
-        UIUtils.animateStatusBarColorTransition(mActivity, R.color.dropdown_blue, R.color.dropdown_blue);
+        UIUtils.showToolbar(mView, (TextView) mView.findViewById(R.id.toolbar_title), getString(R.string.new_post), null, R.drawable.back_icon_white, true, new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                mActivity.onBackPressed();
+            }
+        }, R.id.toolbar_title);
+        UIUtils.animateStatusBarColorTransition(mActivity, R.color.around_background_end_color, R.color.around_background_end_color);
     }
 
     @Override
@@ -198,19 +213,19 @@ public class NewPostMainFragment extends Fragment implements View.OnClickListene
 
             case R.id.next_button:
                 EditText descriptionText = (EditText) mView.findViewById(R.id.new_post_description);
-                String verifyResultString = RequestOperations.verifyPostDetails(getActivity(), mSportName.getText().toString(), mDate.getText().toString(), mTime.getText().toString(),
-                        mAgeRangeMin.getText().toString(), mAgeRangeMax.getText().toString(), mGenderPreference, descriptionText.getText().toString(), mMapUtils.getUserLocation());
-                if(verifyResultString.equals(getString(R.string.success))){
+                String verifyResultString = RequestOperations.verifyPostDetails(getActivity(), getTitleContent(), mDate.getText().toString(), mTime.getText().toString(),
+                        mAgeRangeMin.getText().toString(), mAgeRangeMax.getText().toString(), mGenderPreference, descriptionText.getText().toString(), mMapUtils.getUserLocation(), mAroundPostRequestType);
+                if (verifyResultString.equals(getString(R.string.success))) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(KEY_NEW_POST, new Post(RequestOperations.getUserObject(getActivity()),
-                            Post.KEY_TYPE_SPORTS, mSportName.getText().toString(),
+                            Post.KEY_TYPE_SPORTS, getTitleContent(),
                             mMapUtils.getUserLocation(),
                             new AgeRange(Integer.parseInt(mAgeRangeMin.getText().toString()), Integer.parseInt(mAgeRangeMax.getText().toString())),
                             mGenderPreference, descriptionText.getText().toString(), DateUtils.getDateRange(mDate.getText().toString()), mTime.getText().toString(), 0, new ArrayList<String>()));
                     NewPostReviewFragment newPostReviewFragment = new NewPostReviewFragment();
                     newPostReviewFragment.setArguments(bundle);
                     getFragmentManager().beginTransaction().replace(R.id.new_post_container, newPostReviewFragment).addToBackStack(null).commit();
-                }else{
+                } else {
                     UIUtils.showAlertDialogNeutral(getActivity(), getString(R.string.incomplete), verifyResultString);
                 }
                 break;
@@ -245,5 +260,102 @@ public class NewPostMainFragment extends Fragment implements View.OnClickListene
         }
         mMapUtils.updateLocationUI();
         mMapUtils.getDeviceLocation();
+    }
+
+    private void updateTitle() {
+        TextView postTitle = (TextView) mView.findViewById(R.id.post_title);
+        LinearLayout postSubtitleContainer = (LinearLayout) mView.findViewById(R.id.post_subtitle_container);
+        TextView postSubtitle = (TextView) mView.findViewById(R.id.post_subtitle);
+        Resources resources = getResources();
+
+        switch (mAroundPostRequestType) {
+            case SPORTS:
+                postTitle.setText(resources.getString(R.string.sport_name));
+                TextView postTitleContent = (TextView) mView.findViewById(R.id.post_title_content);
+                postTitleContent.setVisibility(View.VISIBLE);
+                GridView sportsGrid = (GridView) mView.findViewById(sports_grid);
+                sportsGrid.setAdapter(new NewPostSportAdapter(mActivity, mSportNames, mSportIcons, postTitleContent));
+                ViewCompat.setNestedScrollingEnabled(sportsGrid, true);
+                sportsGrid.setVisibility(View.VISIBLE);
+                EditText postTitleEditText = (EditText) mView.findViewById(R.id.post_title_edit);
+                postTitleEditText.setVisibility(View.GONE);
+                break;
+            case STUDY:
+                postTitle.setText(resources.getString(R.string.study_subject));
+                postSubtitleContainer.setVisibility(View.VISIBLE);
+                postSubtitle.setText(resources.getString(R.string.study_topic));
+                break;
+            case CONCERT:
+                postTitle.setText(resources.getString(R.string.concert_band));
+                break;
+            case TRAVEL:
+                postTitle.setText(resources.getString(R.string.travel_from));
+                postSubtitleContainer.setVisibility(View.VISIBLE);
+                postSubtitle.setText(resources.getString(R.string.travel_to));
+                break;
+            case OTHER:
+                postTitle.setText(resources.getString(R.string.other_post_for));
+                break;
+        }
+    }
+
+    private String getTitleContent() {
+        String title = "";
+        EditText postTitleContent = (EditText) mView.findViewById(R.id.post_title_edit);
+        EditText postSubtitleContent = (EditText) mView.findViewById(R.id.post_subtitle_edit);
+
+        switch (mAroundPostRequestType) {
+            case SPORTS:
+                TextView postTitle = (TextView) mView.findViewById(R.id.post_title_content);
+                title = postTitle.getText().toString();
+                break;
+            case OTHER:
+                title = postTitleContent.getText().toString();
+                break;
+            case CONCERT:
+                title = postTitleContent.getText().toString();
+                break;
+            case STUDY:
+                String subtitle = postSubtitleContent.getText().toString().equals("") ? "" : " (" + postSubtitleContent.getText().toString() + ")";
+                title = postTitleContent.getText().toString() + subtitle;
+                break;
+            case TRAVEL:
+                title = (postTitleContent.getText().toString().equals("") || postSubtitleContent.getText().toString().equals("")) ? "" : getResources().getString(R.string.from) + postTitleContent.getText().toString() +
+                        getResources().getString(R.string.to) + postSubtitleContent.getText().toString();
+                break;
+        }
+        return title;
+    }
+
+    private void setPlaceAutocompleteFragmentListener() {
+        PlaceAutocompleteFragment supportPlaceAutocompleteFragment = (PlaceAutocompleteFragment) mActivity.getFragmentManager().findFragmentById(R.id.new_post_place_auto_complete);
+        ((EditText) supportPlaceAutocompleteFragment.getView().findViewById(R.id.place_autocomplete_search_input)).setTextColor(Color.parseColor("#FFFFFF"));
+        supportPlaceAutocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                LatLng latLng = place.getLatLng();
+                double lat = latLng.latitude;
+                double lng = latLng.longitude;
+                String[] addressData = mMapUtils.getAddress(lat, lng);
+                mMapUtils.mUserLocation = new AroundLocation(lat, lng, addressData[0], addressData[1], addressData[2]);
+                mMapUtils.gotoLocation(new LatLng(lat, lng), mMapUtils.DEFAULT_ZOOM);
+                mMapUtils.displayMarker(lat, lng);
+            }
+
+            @Override
+            public void onError(Status status) {
+            }
+        });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        PlaceAutocompleteFragment f = (PlaceAutocompleteFragment) mActivity.getFragmentManager()
+                .findFragmentById(R.id.new_post_place_auto_complete);
+        if (f != null) {
+            mActivity.getFragmentManager().beginTransaction().remove(f).commit();
+        }
+        mMapUtils.stopDestroyGoogleClient();
     }
 }

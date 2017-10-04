@@ -2,5 +2,5 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
        android:shape="rectangle">
 <corners android:radius="4dp"/> <!-- increasing the value, increases the rounding. Make the radius half of your button height -->
-<solid android:color="@color/blue_dark"/> <!-- the button color -->
+<solid android:color="@color/around_background_end_color"/> <!-- the button color -->
 </shape>

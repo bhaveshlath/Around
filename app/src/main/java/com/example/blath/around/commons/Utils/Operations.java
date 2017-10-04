@@ -1,7 +1,5 @@
 package com.example.blath.around.commons.Utils;
 
-import android.util.Log;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -21,9 +19,7 @@ import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import de.greenrobot.event.EventBus;
@@ -63,7 +59,7 @@ public class Operations {
             e.printStackTrace();
         }
 
-        JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST, BASE_URL + KEY_REGISTER_LOGIN_USER, loginJsonObject,
+        JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST, BASE_URL + KEY_REGISTER_LOGIN_USER  , loginJsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

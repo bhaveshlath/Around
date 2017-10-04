@@ -14,6 +14,9 @@
     <string name="study">Study</string>
     <string name="travel">Travel</string>
     <string name="other">Other</string>
+    <string name="from"> From </string>
+    <string name="to"> To </string>
+    <string name="back">Back</string>
 
     <!-- Strings for Login Activity -->
     <string name="login">Login</string>
@@ -49,7 +52,20 @@
 
     <!-- Strings for New Post -->
     <string name="sport_name">Sport Name:</string>
-    <string name="pick_sport">Please select a Sport for your post.</string>
+    <string name="study_subject">Study Subject: </string>
+    <string name="study_topic">Study Topic: </string>
+    <string name="travel_from">Travel from:</string>
+    <string name="travel_to">Travel to:</string>
+    <string name="concert_band">Band Name:</string>
+    <string name="other_post_for">Post for:</string>
+    <string name="request_type">Request Type</string>
+    <string name="select_post_type">Please select the type of your request.</string>
+    <string name="select_sport">Please select a Sport</string>
+    <string name="pick_sport_dialog_message">Please select a Sport for your Sport request.</string>
+    <string name="pick_study_dialog_message">Please enter a Study topic for your Study request.</string>
+    <string name="pick_concert_dialog_message">Please enter a Band Name for your Concert request.</string>
+    <string name="pick_travel_dialog_message">Please enter Source and Destination for your Travel request.</string>
+    <string name="pick_other_dialog_message">Please enter a Title for your request.</string>
     <string name="pick_date">Please select a Date for your post.</string>
     <string name="pick_time">Please pick a Time for your post.</string>
     <string name="pick_min_age">Please pick a Minimum Age for your post.</string>
@@ -73,7 +89,6 @@
     <string name="description">Description</string>
     <string name="enter_description">Enter some description</string>
     <string name="years">years</string>
-    <string name="to">to</string>
     <string name="age_range_failing_message">Please enter the proper age range. Minimum age should be less than maximum
         age. Allowed age range is between 12 to 120 years.
     </string>

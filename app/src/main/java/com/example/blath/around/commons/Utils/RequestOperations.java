@@ -5,17 +5,12 @@ import android.content.SharedPreferences;
 
 import com.example.blath.around.R;
 import com.example.blath.around.commons.Utils.app.AroundApplication;
-import com.example.blath.around.models.AgeRange;
+import com.example.blath.around.commons.Utils.app.AroundUtils;
 import com.example.blath.around.models.AroundLocation;
-import com.example.blath.around.models.DateRange;
-import com.example.blath.around.models.Post;
 import com.example.blath.around.models.User;
 import com.example.blath.around.models.UserPersonalInformation;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,37 +28,36 @@ public class RequestOperations {
 
 
     public static boolean validateEmail(String emailString) {
-        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(emailString);
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailString);
         return matcher.find();
     }
 
     public static boolean validatePhoneNumber(String phoneNumberString) {
-        Matcher matcher = VALID_PHONE_NUMBER_REGEX .matcher(phoneNumberString);
+        Matcher matcher = VALID_PHONE_NUMBER_REGEX.matcher(phoneNumberString);
         return matcher.find();
     }
 
     public static boolean validateDateOfBirth(int year) {
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-        if(year >= currentYear || (currentYear - year) < 12 || (currentYear - year) > 115){
+        if (year >= currentYear || (currentYear - year) < 12 || (currentYear - year) > 115) {
             return false;
         }
         return true;
     }
 
     public static int isRegisterDataValid(String emailID, String phoneNumber, String dateOfBirth) {
-        if(!validateEmail(emailID)){
+        if (!validateEmail(emailID)) {
             return 1;
-        }else if(!validateDateOfBirth(Integer.parseInt(dateOfBirth))){
+        } else if (!validateDateOfBirth(Integer.parseInt(dateOfBirth))) {
             return 2;
-        }else if(!validatePhoneNumber(phoneNumber)){
+        } else if (!validatePhoneNumber(phoneNumber)) {
             return 3;
         }
         return 0;
     }
 
 
-
-    public static User getUserObject(Context context){
+    public static User getUserObject(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(AroundApplication.AROUND_SHARED_PREFERENCE, Context.MODE_PRIVATE);
         return new User(new UserPersonalInformation(sharedPreferences.getString(User.KEY_USER_FIRST_NAME, "Doe"),
                 sharedPreferences.getString(User.KEY_USER_LAST_NAME, "Doe"),
@@ -96,25 +90,37 @@ public class RequestOperations {
         return true;
     }
 
-    public static String verifyPostDetails(Context context, String sportName, String date, String time, String ageRangeMin, String ageRangeMax, String genderPreference, String description,
-                             AroundLocation userLocation) {
+    public static String verifyPostDetails(Context context, String postTitleContent, String date, String time, String ageRangeMin, String ageRangeMax, String genderPreference, String description,
+                                           AroundLocation userLocation, AroundUtils.AroundPostRequestType aroundPostRequestType) {
 
-        if (sportName.equals(context.getString(R.string.pick_sport))){
-            return context.getString(R.string.pick_sport);
-        }else if(date.equals("")){
+        if (postTitleContent.equals("") || postTitleContent.equals(context.getString(R.string.select_sport))) {
+            switch (aroundPostRequestType) {
+                case SPORTS:
+                    return context.getString(R.string.pick_sport_dialog_message);
+                case STUDY:
+                    return context.getString(R.string.pick_study_dialog_message);
+                case CONCERT:
+                    return context.getString(R.string.pick_concert_dialog_message);
+                case TRAVEL:
+                    return context.getString(R.string.pick_travel_dialog_message);
+                case OTHER:
+                    return context.getString(R.string.pick_other_dialog_message);
+            }
+            return context.getString(R.string.select_sport);
+        } else if (date.equals("")) {
             return context.getString(R.string.pick_date);
-        }else if(time.equals("")){
+        } else if (time.equals("")) {
             return context.getString(R.string.pick_time);
-        }else if(ageRangeMin.equals("")){
+        } else if (ageRangeMin.equals("")) {
             return context.getString(R.string.pick_min_age);
-        }else if(ageRangeMax.equals("")){
+        } else if (ageRangeMax.equals("")) {
             return context.getString(R.string.pick_max_age);
-        }else if(genderPreference.equals("")) {
+        } else if (genderPreference.equals("")) {
             return context.getString(R.string.pick_gender_preference);
-        }else if(description.equals("")) {
+        } else if (description.equals("")) {
             return context.getString(R.string.pick_description);
-        }else if (!verifyMinMaxAgeRange(ageRangeMin, ageRangeMax)) {
-           return context.getString(R.string.age_range_failing_message);
+        } else if (!verifyMinMaxAgeRange(ageRangeMin, ageRangeMax)) {
+            return context.getString(R.string.age_range_failing_message);
         } else if (userLocation == null) {
             return context.getString(R.string.location_alert);
         } else {

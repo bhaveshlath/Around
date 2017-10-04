@@ -7,7 +7,6 @@ import com.example.blath.around.R;
 import com.example.blath.around.fragments.RegisterMainFragment;
 
 public class RegisterActivity extends AppCompatActivity {
-
     private static final String TAG = RegisterActivity.class.getSimpleName();
 
     @Override
@@ -22,12 +21,11 @@ public class RegisterActivity extends AppCompatActivity {
 
             RegisterMainFragment registerMainFragment = new RegisterMainFragment();
             getSupportFragmentManager().beginTransaction().add(R.id.register_container, registerMainFragment).commit();
-
         }
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         this.finish();
     }
 }

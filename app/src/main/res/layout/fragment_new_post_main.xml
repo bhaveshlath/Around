@@ -1,296 +1,315 @@
 <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/around_background"
+        android:background="@color/around_background_end_color"
         android:fitsSystemWindows="true">
 
-    <android.support.design.widget.CoordinatorLayout
+    <include layout="@layout/app_bar_short"/>
+    <ScrollView
+            android:id="@+id/screen_content_container"
+            android:layout_below="@id/toolbar"
+            android:layout_above="@+id/next_button"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/next_button">
+            android:layout_height="match_parent">
 
-        <include layout="@layout/app_bar_tall_light"/>
-        <android.support.v4.widget.NestedScrollView
+        <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:padding="@dimen/padding_medium">
-                <View
-                        android:layout_margin="@dimen/margin_medium"
-                        android:layout_width="match_parent"
-                        android:layout_height="4px"
-                        android:background="@drawable/new_post_divider"></View>
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_medium">
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="vertical">
                 <LinearLayout android:layout_width="match_parent"
                               android:layout_height="wrap_content"
-                              android:orientation="vertical"
-                              android:background="@android:color/transparent">
-                    <LinearLayout android:layout_width="match_parent"
-                                  android:layout_height="wrap_content"
-                                  android:layout_marginBottom="@dimen/margin_medium">
-                        <TextView
-                                android:id="@+id/sport_name_title"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="@dimen/margin_xsmall"
-                                android:text="@string/sport_name"
-                                style="@style/MediumText.White"/>
-                        <TextView
-                                android:id="@+id/sport_name_content"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/margin_small"
-                                android:text="@string/pick_sport"
-                                style="@style/MediumText.White"/>
-                    </LinearLayout>
-                    <GridView
-                            android:id="@+id/sports_grid"
-                            android:numColumns="4"
-                            android:gravity="center"
-                            android:stretchMode="columnWidth"
-                            android:layout_width="match_parent"
-                            android:horizontalSpacing="10dp"
-                            android:verticalSpacing="10dp"
-                            android:layout_height="200dp">
-                    </GridView>
-                </LinearLayout>
-
-                <View
-                        android:layout_margin="@dimen/margin_medium"
-                        android:layout_width="match_parent"
-                        android:layout_height="4px"
-                        android:background="@drawable/new_post_divider"></View>
-                <LinearLayout android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
-                              android:orientation="vertical"
-                              android:background="@android:color/transparent">
-                    <LinearLayout android:layout_width="match_parent"
-                                  android:layout_height="wrap_content"
-                                  android:weightSum="5"
-                                  android:layout_marginBottom="@dimen/margin_medium">
-                        <TextView android:id="@+id/new_post_map_curr_loc_button"
-                                  android:layout_width="0dp"
-                                  android:layout_weight="4"
-                                  android:layout_gravity="center_vertical"
-                                  android:layout_height="match_parent"
-                                  style="@style/MediumText.White"
-                                  android:text="@string/use_current_location"/>
-                        <Switch
-                                android:id="@+id/new_post_map_switch"
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:checked="true"
-                                android:layout_gravity="center_vertical"
-                                android:layout_height="match_parent"/>
-                    </LinearLayout>
-                    <FrameLayout
-                            android:id="@+id/new_post_map_search_bar"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone">
-                        <fragment
-                                android:id="@+id/new_post_place_auto_complete"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"/>
-                    </FrameLayout>
-                    <fragment
-                            android:id="@+id/new_post_map"
-                            android:name="com.google.android.gms.maps.SupportMapFragment"
-                            android:layout_width="match_parent"
-                            android:layout_height="200dp"/>
-                </LinearLayout>
-
-                <View
-                        android:layout_margin="@dimen/margin_medium"
-                        android:layout_width="match_parent"
-                        android:layout_height="4px"
-                        android:background="@drawable/new_post_divider"></View>
-                <LinearLayout android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
-                              android:orientation="vertical"
-                              android:background="@android:color/transparent">
-                    <LinearLayout android:layout_width="match_parent"
-                                  android:layout_height="wrap_content"
-                                  android:weightSum="5">
-                        <TextView android:layout_width="0dp"
-                                  android:layout_height="match_parent"
-                                  android:text="@string/date"
-                                  android:layout_weight="1"
-                                  android:gravity="center_vertical"
-                                  style="@style/MediumText.White"/>
-                        <TextView android:id="@+id/new_post_date_txt"
-                                  android:layout_width="0dp"
-                                  android:layout_height="match_parent"
-                                  android:layout_weight="3"
-                                  android:layout_marginLeft="@dimen/margin_small"
-                                  android:gravity="center_vertical"
-                                  style="@style/MediumText.White"/>
-                        <ImageButton
-                                android:id="@+id/new_post_date_button"
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:src="@drawable/calendar"
-                                android:padding="@dimen/padding_xsmall"
-                                android:background="@drawable/button_white_rounded"
-                                android:layout_height="wrap_content"/>
-                    </LinearLayout>
-                    <LinearLayout android:layout_marginTop="@dimen/padding_xsmall"
-                                  android:layout_width="match_parent"
-                                  android:layout_height="wrap_content"
-                                  android:weightSum="5">
-                        <TextView android:layout_width="0dp"
-                                  android:layout_height="match_parent"
-                                  android:text="@string/time"
-                                  android:layout_weight="1"
-                                  android:gravity="center_vertical"
-                                  style="@style/MediumText.White"/>
-                        <TextView android:id="@+id/new_post_time_txt"
-                                  android:layout_width="0dp"
-                                  android:layout_height="match_parent"
-                                  android:layout_weight="3"
-                                  android:layout_marginLeft="@dimen/margin_small"
-                                  android:gravity="center_vertical"
-                                  style="@style/MediumText.White"/>
-                        <ImageButton
-                                android:id="@+id/new_post_time_button"
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:src="@drawable/ic_clock"
-                                android:padding="@dimen/padding_xsmall"
-                                android:background="@drawable/button_white_rounded"
-                                android:layout_height="wrap_content"/>
-                    </LinearLayout>
-                </LinearLayout>
-                <View
-                        android:layout_margin="@dimen/margin_medium"
-                        android:layout_width="match_parent"
-                        android:layout_height="4px"
-                        android:background="@drawable/new_post_divider"></View>
-                <LinearLayout android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
-                              android:weightSum="8"
-                              android:background="@android:color/transparent">
+                              android:layout_marginBottom="@dimen/margin_small">
                     <TextView
-                            android:id="@+id/age_range_title"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:id="@+id/post_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginBottom="@dimen/margin_xsmall"
-                            android:layout_weight="2.5"
-                            android:text="@string/age_range"
+                            android:gravity="center_vertical"
+                            style="@style/SmallText.gray"/>
+                    <TextView
+                            android:id="@+id/post_title_content"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_small"
+                            android:layout_marginStart="@dimen/margin_small"
+                            android:text="@string/select_sport"
+                            android:visibility="gone"
+                            android:gravity="center_vertical"
                             style="@style/MediumText.White"/>
                     <EditText
-                            android:id="@+id/age_range_min_years"
-                            android:layout_weight="1"
-                            android:layout_width="0dp"
+                            android:id="@+id/post_title_edit"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:maxLength="3"
-                            android:inputType="numberPassword"
+                            android:inputType="text"
+                            android:gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/margin_small"
+                            android:layout_marginStart="@dimen/margin_small"
                             style="@style/MediumText.White"/>
-                    <TextView
-                            android:layout_weight="1"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
-                            android:text="@string/to"
-                            style="@style/SmallText.White"/>
-                    <EditText
-                            android:id="@+id/age_range_max_years"
-                            android:layout_weight="1"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:maxLength="3"
-                            android:inputType="numberPassword"
-                            style="@style/MediumText.White"/>
-                    <TextView
-                            android:layout_weight="2.5"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            style="@style/MediumText.White"
-                            android:gravity="center_horizontal"
-                            android:text="@string/years"/>
                 </LinearLayout>
-
-                <View android:layout_margin="@dimen/margin_medium"
-                      android:layout_width="match_parent"
-                      android:layout_height="4px"
-                      android:background="@drawable/new_post_divider"></View>
-
-                <LinearLayout android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
-                              android:background="@android:color/transparent">
+                <LinearLayout
+                        android:id="@+id/post_subtitle_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_small"
+                        android:visibility="gone">
                     <TextView
-                            android:id="@+id/gender_selection_title"
+                            android:id="@+id/post_subtitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/margin_xsmall"
-                            android:layout_gravity="center_vertical"
-                            android:text="@string/gender_preference"
-                            style="@style/MediumText.White"/>
-
-                    <RelativeLayout
+                            style="@style/SmallText.gray"/>
+                    <EditText
+                            android:id="@+id/post_subtitle_edit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="@dimen/padding_xsmall"
-                            android:layout_margin="@dimen/margin_small"
-                            android:background="@drawable/spinner_background"
-                            android:orientation="horizontal">
-
-                        <Spinner
-                                android:id="@+id/gender_selection_spinner"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_gravity="center"
-                                android:background="@android:color/transparent"
-                                android:gravity="center"
-                                android:layout_marginLeft="@dimen/margin_xsmall"
-                                android:spinnerMode="dropdown" />
-
-                        <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:layout_gravity="center"
-                                android:layout_marginRight="@dimen/margin_xsmall"
-                                android:src="@drawable/ic_dropdown" />
-
-                    </RelativeLayout>
+                            android:inputType="text"
+                            android:layout_marginLeft="@dimen/margin_small"
+                            android:layout_marginStart="@dimen/margin_small"
+                            style="@style/MediumText.White"/>
                 </LinearLayout>
-                <View android:layout_margin="@dimen/margin_medium"
-                      android:layout_width="match_parent"
-                      android:layout_height="@dimen/divider_broad"
-                      android:background="@drawable/new_post_divider"></View>
+                <GridView
+                        android:id="@+id/sports_grid"
+                        android:numColumns="4"
+                        android:gravity="center"
+                        android:stretchMode="columnWidth"
+                        android:layout_width="match_parent"
+                        android:horizontalSpacing="10dp"
+                        android:verticalSpacing="10dp"
+                        android:layout_height="200dp"
+                        android:visibility="gone">
+                </GridView>
+            </LinearLayout>
+            <View
+                    style="@style/RowMarginVerticalSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_broad"
+                    android:background="@drawable/new_post_divider"></View>
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="vertical"
+                          android:background="@android:color/transparent">
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:weightSum="5"
+                              android:layout_marginBottom="@dimen/margin_small">
+                    <TextView android:id="@+id/new_post_map_curr_loc_button"
+                              android:layout_width="0dp"
+                              android:layout_weight="4"
+                              android:layout_gravity="center_vertical"
+                              android:layout_height="match_parent"
+                              style="@style/SmallText.gray"
+                              android:text="@string/use_current_location"/>
+                    <Switch
+                            android:id="@+id/new_post_map_switch"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:checked="true"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="match_parent"/>
+                </LinearLayout>
+                <FrameLayout
+                        android:id="@+id/new_post_map_search_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
+                    <fragment
+                            android:id="@+id/new_post_place_auto_complete"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"/>
+                </FrameLayout>
+                <fragment
+                        android:id="@+id/new_post_map"
+                        android:name="com.google.android.gms.maps.SupportMapFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"/>
+            </LinearLayout>
+            <View
+                    style="@style/RowMarginVerticalSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_broad"
+                    android:background="@drawable/new_post_divider"></View>
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="vertical"
+                          android:background="@android:color/transparent">
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:weightSum="5">
+                    <TextView android:layout_width="0dp"
+                              android:layout_height="match_parent"
+                              android:text="@string/date"
+                              android:layout_weight="1"
+                              android:gravity="center_vertical"
+                              style="@style/SmallText.gray"/>
+                    <TextView android:id="@+id/new_post_date_txt"
+                              android:layout_width="0dp"
+                              android:layout_height="match_parent"
+                              android:layout_weight="3"
+                              android:layout_marginStart="@dimen/margin_small"
+                              android:layout_marginLeft="@dimen/margin_small"
+                              android:gravity="center_vertical"
+                              style="@style/MediumText.White"/>
+                    <ImageButton
+                            android:id="@+id/new_post_date_button"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:src="@drawable/calendar"
+                            android:padding="@dimen/padding_xsmall"
+                            android:background="@drawable/button_white_rounded"
+                            android:layout_height="wrap_content"/>
+                </LinearLayout>
+                <LinearLayout android:layout_marginTop="@dimen/padding_xsmall"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:weightSum="5">
+                    <TextView android:layout_width="0dp"
+                              android:layout_height="match_parent"
+                              android:text="@string/time"
+                              android:layout_weight="1"
+                              android:gravity="center_vertical"
+                              style="@style/SmallText.gray"/>
+                    <TextView android:id="@+id/new_post_time_txt"
+                              android:layout_width="0dp"
+                              android:layout_height="match_parent"
+                              android:layout_weight="3"
+                              android:layout_marginLeft="@dimen/margin_small"
+                              android:layout_marginStart="@dimen/margin_small"
+                              android:gravity="center_vertical"
+                              style="@style/MediumText.White"/>
+                    <ImageButton
+                            android:id="@+id/new_post_time_button"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:src="@drawable/ic_clock"
+                            android:padding="@dimen/padding_xsmall"
+                            android:background="@drawable/button_white_rounded"
+                            android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </LinearLayout>
+            <View
+                    style="@style/RowMarginVerticalSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_broad"
+                    android:background="@drawable/new_post_divider"></View>
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:weightSum="9"
+                          android:background="@android:color/transparent">
                 <TextView
-                        android:layout_width="match_parent"
+                        android:id="@+id/age_range_title"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/description"
-                        style="@style/MediumText.White"/>
-
+                        android:layout_marginBottom="@dimen/margin_xsmall"
+                        android:layout_weight="2.5"
+                        android:text="@string/age_range"
+                        style="@style/SmallText.gray"/>
                 <EditText
-                        android:id="@+id/new_post_description"
-                        android:layout_width="match_parent"
+                        android:id="@+id/age_range_min_years"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:hint="@string/enter_description"
-                        style="@style/MediumText.White"
-                        android:textColorHint="@color/white_56"
-                        android:inputType="textCapSentences|textMultiLine"
-                        android:maxLength="2000"
-                        android:maxLines="5"/>
-
+                        android:maxLength="3"
+                        android:inputType="numberPassword"
+                        style="@style/MediumText.White"/>
+                <TextView
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="@string/to"
+                        style="@style/SmallText.gray"/>
+                <EditText
+                        android:id="@+id/age_range_max_years"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:maxLength="3"
+                        android:inputType="numberPassword"
+                        style="@style/MediumText.White"/>
+                <TextView
+                        android:layout_weight="1.5"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:text="@string/years"
+                        style="@style/SmallText.gray"/>
             </LinearLayout>
 
+            <View style="@style/RowMarginVerticalSmall"
+                  android:layout_width="match_parent"
+                  android:layout_height="@dimen/divider_broad"
+                  android:background="@drawable/new_post_divider"></View>
 
-        </android.support.v4.widget.NestedScrollView>
-    </android.support.design.widget.CoordinatorLayout>
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:background="@android:color/transparent">
+                <TextView
+                        android:id="@+id/gender_selection_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/margin_xsmall"
+                        android:text="@string/gender_preference"
+                        android:gravity="center_vertical"
+                        style="@style/SmallText.gray"/>
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/padding_xsmall"
+                        android:layout_margin="@dimen/margin_small"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/spinner_background"
+                        android:orientation="horizontal">
+                    <Spinner
+                            android:id="@+id/gender_selection_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:background="@android:color/transparent"
+                            android:gravity="center"
+                            android:layout_marginLeft="@dimen/margin_xsmall"
+                            android:layout_marginStart="@dimen/margin_xsmall"
+                            android:spinnerMode="dropdown"/>
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="@dimen/margin_xsmall"
+                            android:layout_marginEnd="@dimen/margin_xsmall"
+                            android:src="@drawable/ic_dropdown"/>
+                </RelativeLayout>
+            </LinearLayout>
+            <View style="@style/RowMarginVerticalSmall"
+                  android:layout_width="match_parent"
+                  android:layout_height="@dimen/divider_broad"
+                  android:background="@drawable/new_post_divider"></View>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/description"
+                    style="@style/SmallText.gray"/>
 
+            <EditText
+                    android:id="@+id/new_post_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enter_description"
+                    style="@style/MediumText.White"
+                    android:textColorHint="@color/white_56"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:maxLength="2000"
+                    android:maxLines="5"/>
+        </LinearLayout>
+    </ScrollView>
     <Button
             android:id="@+id/next_button"
             android:text="@string/around_next"

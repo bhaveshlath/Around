@@ -1,17 +1,16 @@
 package com.example.blath.around.activities;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 
 import com.example.blath.around.R;
-import com.example.blath.around.fragments.NewPostMainFragment;
+import com.example.blath.around.fragments.NewPostTypeFragment;
 import com.example.blath.around.models.AroundLocation;
 import com.example.blath.around.models.DateRange;
 
 import java.util.Date;
 
-public class NewPostActivity extends FragmentActivity implements INewPostListener{
+public class NewPostActivity extends AppCompatActivity implements INewPostListener{
 
     public static final String KEY_NEW_POST_SPORT_NAME = "New_Post_Sport_Name";
     public static final String KEY_NEW_POST_DATE = "New_Post_Date";
@@ -31,18 +30,9 @@ public class NewPostActivity extends FragmentActivity implements INewPostListene
                 return;
             }
 
-            NewPostMainFragment newPostMainFragment = new NewPostMainFragment();
-            getSupportFragmentManager().beginTransaction().add(R.id.new_post_container, newPostMainFragment).commit();
+            NewPostTypeFragment newPostTypeFragment = new NewPostTypeFragment();
+            getSupportFragmentManager().beginTransaction().add(R.id.new_post_container, newPostTypeFragment).commit();
 
-        }
-    }
-
-    @Override
-    public void onBackPressed(){
-        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-            getSupportFragmentManager().popBackStack();
-        } else {
-            finish();
         }
     }
 

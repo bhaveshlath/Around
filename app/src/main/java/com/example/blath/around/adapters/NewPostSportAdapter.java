@@ -20,7 +20,7 @@ public class NewPostSportAdapter extends BaseAdapter {
     int[] mSportNames;
     int[] mSportIcons;
     INewPostListener mINewPostListener;
-    TextView mView;
+    TextView mTextView;
 
     private static LayoutInflater inflater = null;
 
@@ -31,7 +31,7 @@ public class NewPostSportAdapter extends BaseAdapter {
         inflater = (LayoutInflater) context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mINewPostListener = (INewPostListener) mContext;
-        mView = view;
+        mTextView = view;
     }
 
     @Override
@@ -66,7 +66,7 @@ public class NewPostSportAdapter extends BaseAdapter {
 
             @Override
             public void onClick(View v) {
-                mView.setText(mSportNames[position]);
+                mTextView.setText(mSportNames[position]);
             }
         });
 

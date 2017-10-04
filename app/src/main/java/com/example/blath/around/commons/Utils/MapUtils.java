@@ -1,8 +1,6 @@
 package com.example.blath.around.commons.Utils;
 
-import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -14,18 +12,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.widget.EditText;
 
-import com.example.blath.around.R;
 import com.example.blath.around.models.AroundLocation;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.Places;
-import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
-import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -54,7 +46,6 @@ public class MapUtils implements OnMapReadyCallback,
     private GoogleApiClient mGoogleApiClient;
     public GoogleMap mGoogleMap;
     public FragmentActivity mActivity;
-    Activity mActivity1;
     public Fragment mFragment;
     private int mMapResourceId;
 
@@ -68,10 +59,10 @@ public class MapUtils implements OnMapReadyCallback,
     // A default location (Sydney, Australia) and default zoom to use when location permission is
     // not granted.
     private static final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
-    private AroundLocation mUserLocation = null;
+    public AroundLocation mUserLocation = null;
 
     private AroundLocation mUserLocationData = null;
-    private static final int DEFAULT_ZOOM = 15;
+    public static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     public static boolean mLocationPermissionGranted;
 
@@ -90,7 +81,6 @@ public class MapUtils implements OnMapReadyCallback,
         mLastKnownLocation = lastKnownLocation;
         mCameraPosition = cameraPosition;
         mMapResourceId = mapResourceId;
-        setPlaceAutocompleteFragmentListener(mapSearchContainerResourceId);
     }
 
     public GoogleApiClient getGoogleApiClient(FragmentActivity activity) {
@@ -105,29 +95,6 @@ public class MapUtils implements OnMapReadyCallback,
         googleApiClient.connect();
 
         return googleApiClient;
-    }
-
-    private void setPlaceAutocompleteFragmentListener(int mapSearchContainerResourceId) {
-
-        PlaceAutocompleteFragment placeAutocompleteFragment = (PlaceAutocompleteFragment) mActivity.getFragmentManager().findFragmentById(mapSearchContainerResourceId);
-        ((EditText)placeAutocompleteFragment.getView().findViewById(R.id.place_autocomplete_search_input)).setTextColor(Color.parseColor("#FFFFFF"));
-        placeAutocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
-                LatLng latLng = place.getLatLng();
-                double lat = latLng.latitude;
-                double lng = latLng.longitude;
-                String[] addressData = getAddress(lat, lng);
-                mUserLocation = new AroundLocation(lat, lng, addressData[0], addressData[1], addressData[2]);
-                gotoLocation(new LatLng(lat, lng), DEFAULT_ZOOM);
-                displayMarker(lat, lng);
-            }
-
-            @Override
-            public void onError(Status status) {
-
-            }
-        });
     }
 
     public void gotoLocation(LatLng latLng, float zoom) {
@@ -265,5 +232,10 @@ public class MapUtils implements OnMapReadyCallback,
             //Exception Handling
         }
         return addressData;
+    }
+
+    public void stopDestroyGoogleClient(){
+        mGoogleApiClient.stopAutoManage(mActivity);
+        mGoogleApiClient.disconnect();
     }
 }

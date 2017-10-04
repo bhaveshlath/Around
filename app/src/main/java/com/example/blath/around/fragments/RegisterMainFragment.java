@@ -2,6 +2,7 @@ package com.example.blath.around.fragments;
 
 import android.app.DatePickerDialog;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,7 +30,12 @@ import com.example.blath.around.events.RegisterUserEvent;
 import com.example.blath.around.models.AroundLocation;
 import com.example.blath.around.models.User;
 import com.example.blath.around.models.UserPersonalInformation;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Calendar;
 
@@ -74,6 +80,7 @@ public class RegisterMainFragment extends Fragment implements
 
         mMapUtils = new MapUtils(mActivity, this, TAG, mLastKnownLocation, mCameraPosition, R.id.register_place_auto_complete, R.id.register_map);
 
+        setPlaceAutocompleteFragmentListener();
         Switch toggle = (Switch) mView.findViewById(R.id.register_map_switch);
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -205,7 +212,7 @@ public class RegisterMainFragment extends Fragment implements
                         dateOfBirth.getText().toString(),
                         phoneNumber.getText().toString(),
                         password.getText().toString(),
-                        mMapUtils.getUserLocation() == null ? null: new AroundLocation(mMapUtils.getUserLocation().getLatitude(),
+                        mMapUtils.getUserLocation() == null ? null : new AroundLocation(mMapUtils.getUserLocation().getLatitude(),
                                 mMapUtils.getUserLocation().getLongitude(),
                                 mMapUtils.getUserLocation().getAddress() == null ? "" : mMapUtils.getUserLocation().getAddress(),
                                 mMapUtils.getUserLocation().getPostalCode() == null ? "" : mMapUtils.getUserLocation().getPostalCode(),
@@ -232,5 +239,37 @@ public class RegisterMainFragment extends Fragment implements
                 datePickerDialog.show();
                 break;
         }
+    }
+
+    private void setPlaceAutocompleteFragmentListener() {
+        SupportPlaceAutocompleteFragment supportPlaceAutocompleteFragment = (SupportPlaceAutocompleteFragment) getChildFragmentManager().findFragmentById(R.id.register_place_auto_complete);
+        ((EditText) supportPlaceAutocompleteFragment.getView().findViewById(R.id.place_autocomplete_search_input)).setTextColor(Color.parseColor("#FFFFFF"));
+        supportPlaceAutocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                LatLng latLng = place.getLatLng();
+                double lat = latLng.latitude;
+                double lng = latLng.longitude;
+                String[] addressData = mMapUtils.getAddress(lat, lng);
+                mMapUtils.mUserLocation = new AroundLocation(lat, lng, addressData[0], addressData[1], addressData[2]);
+                mMapUtils.gotoLocation(new LatLng(lat, lng), mMapUtils.DEFAULT_ZOOM);
+                mMapUtils.displayMarker(lat, lng);
+            }
+
+            @Override
+            public void onError(Status status) {
+            }
+        });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        SupportPlaceAutocompleteFragment f = (SupportPlaceAutocompleteFragment) getFragmentManager()
+                .findFragmentById(R.id.register_place_auto_complete);
+        if (f != null) {
+            getFragmentManager().beginTransaction().remove(f).commit();
+        }
+        mMapUtils.stopDestroyGoogleClient();
     }
 }

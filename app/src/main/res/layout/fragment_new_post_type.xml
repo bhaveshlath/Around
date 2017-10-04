@@ -1,52 +1,77 @@
-<ScrollView
+<RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/post_sport_background">
-    <LinearLayout
+        android:background="@drawable/around_background"
+        android:fitsSystemWindows="true">
+
+    <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/padding_medium"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:layout_above="@+id/next_button">
+
+        <include layout="@layout/app_bar_tall_light"/>
+
+        <android.support.v4.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:windowSoftInputMode="adjustResize"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:weightSum="2">
-            <Button android:layout_width="0dp"
+                android:padding="@dimen/padding_medium"
+                android:orientation="vertical">
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2">
+                <Button android:id="@+id/sports_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="110dp"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/ic_sport"
+                        android:text="@string/sports"
+                        style="@style/TypeFragmentButton"/>
+                <Button android:id="@+id/concert_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="110dp"
+                        android:layout_weight="1"
+                        android:text="@string/concert"
+                        android:drawableTop="@drawable/ic_concert"
+                        style="@style/TypeFragmentButton"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2">
+                <Button android:id="@+id/travel_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="110dp"
+                        android:layout_weight="1"
+                        android:text="@string/travel"
+                        android:drawableTop="@drawable/ic_travel"
+                        style="@style/TypeFragmentButton"/>
+                <Button
+                        android:id="@+id/study_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="110dp"
+                        android:layout_weight="1"
+                        android:text="@string/study"
+                        android:drawableTop="@drawable/ic_study"
+                        style="@style/TypeFragmentButton"/>
+            </LinearLayout>
+            <Button android:id="@+id/other_btn"
+                    android:layout_width="match_parent"
                     android:layout_height="110dp"
-                    android:layout_weight="1"
-                    android:drawableTop="@drawable/ic_sport"
-                    android:text="@string/sports"
-                    style="@style/TypeFragmentButton"/>
-            <Button android:layout_width="0dp"
-                    android:layout_height="110dp"
-                    android:layout_weight="1"
-                    android:text="@string/concert"
-                    android:drawableTop="@drawable/ic_concert"
+                    android:text="@string/other"
+                    android:drawableTop="@drawable/ic_other"
                     style="@style/TypeFragmentButton"/>
         </LinearLayout>
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:weightSum="2">
-            <Button android:layout_width="0dp"
-                    android:layout_height="110dp"
-                    android:layout_weight="1"
-                    android:text="@string/travel"
-                    android:drawableTop="@drawable/ic_travel"
-                    style="@style/TypeFragmentButton"/>
-            <Button android:layout_width="0dp"
-                    android:layout_height="110dp"
-                    android:layout_weight="1"
-                    android:text="@string/study"
-                    android:drawableTop="@drawable/ic_study"
-                    style="@style/TypeFragmentButton"/>
-        </LinearLayout>
-        <Button android:layout_width="match_parent"
-                android:layout_height="110dp"
-                android:text="@string/other"
-                android:drawableTop="@drawable/ic_other"
-                style="@style/TypeFragmentButton"/>
-    </LinearLayout>
-</ScrollView>
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.design.widget.CoordinatorLayout>
+
+    <include layout="@layout/layout_progress"/>
+</RelativeLayout>
 

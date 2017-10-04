@@ -7,9 +7,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Build;
-import android.support.annotation.*;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.design.widget.AppBarLayout;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -36,12 +39,13 @@ public class UIUtils {
                                    @StringRes int subTitleTextId,
                                    @DrawableRes int navigationIconResId,
                                    boolean showHomeAsUpEnabled,
+                                   View.OnClickListener clickListener,
                                    int toolbarTitleContentId) {
         TextView tv = (TextView) view.findViewById(toolBarTitleId);
         Resources r = tv.getResources();
         String titleText = 0 == titleTextId ? null : r.getString(titleTextId);
         String subTitleText = 0 == subTitleTextId ? null : r.getString(subTitleTextId);
-        showToolbar(view, tv, titleText, subTitleText, navigationIconResId, showHomeAsUpEnabled, toolbarTitleContentId);
+        showToolbar(view, tv, titleText, subTitleText, navigationIconResId, showHomeAsUpEnabled, clickListener, toolbarTitleContentId);
     }
 
     /**
@@ -62,6 +66,7 @@ public class UIUtils {
                                    String subTitle,
                                    int navigationIconResId,
                                    boolean showHomeAsUpEnabled,
+                                   View.OnClickListener clickListener,
                                    int toolbarTitleContentId) {
         if (view == null) {
             return;
@@ -102,7 +107,9 @@ public class UIUtils {
                 ActionBar bar = activity.getSupportActionBar();
                 if (bar != null) {
                     bar.setDisplayHomeAsUpEnabled(showHomeAsUpEnabled);
-                    bar.setDisplayShowTitleEnabled(true);
+                    bar.setHomeActionContentDescription(R.string.back);
+                    bar.setDisplayShowTitleEnabled(false);
+                    toolbar.setNavigationOnClickListener(clickListener);
                 }
             }
 
@@ -110,13 +117,6 @@ public class UIUtils {
             if (appBarLayout != null) {
                 ToolbarOffsetListener offsetListener = new ToolbarOffsetListener(view, toolbarTitleContentId);
                 appBarLayout.addOnOffsetChangedListener(offsetListener);
-                toolbar.setNavigationOnClickListener(new View.OnClickListener(){
-                    @Override
-                    public void onClick(View v) {
-                        FragmentActivity activity = (FragmentActivity) view.getContext();
-                        activity.onBackPressed();
-                    }
-                });
             }
         }
     }

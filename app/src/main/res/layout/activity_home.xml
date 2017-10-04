@@ -9,7 +9,7 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/around_home_header_color"
+        android:background="@color/around_background_end_color"
         app:tabMode="fixed"
         app:tabGravity="fill"/>
 

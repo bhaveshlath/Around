@@ -24,7 +24,7 @@
                   android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
         <activity android:name=".activities.NewPostActivity"
-                  android:windowSoftInputMode="stateAlwaysHidden">
+                  android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
         </activity>
         <activity android:name=".activities.RegisterActivity"
                   android:windowSoftInputMode="stateAlwaysHidden">

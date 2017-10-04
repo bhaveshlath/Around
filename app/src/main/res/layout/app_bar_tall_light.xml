@@ -6,7 +6,7 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/around_background"
+        android:background="@android:color/transparent"
         app:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <android.support.design.widget.CollapsingToolbarLayout
@@ -31,6 +31,7 @@
                     android:id="@+id/title"
                     style="@style/TallHeaderTitleTextStyle.White"
                     android:layout_width="match_parent"
+                    android:gravity="center_horizontal"
                     android:layout_height="wrap_content"
                     tools:text="Title" />
 
@@ -40,7 +41,8 @@
                     android:lineSpacingMultiplier="1.0"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="SubTitle" />
+                    android:gravity="center_horizontal"
+                    tools:text="SubTitle" />
         </LinearLayout>
 
         <android.support.v7.widget.Toolbar
@@ -54,7 +56,7 @@
                     android:id="@+id/toolbar_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="My Toolbar"
+                    tools:text="My Toolbar"
                     android:visibility="invisible"
                     android:gravity="center_vertical"
                     style="@style/AppBarTextDark">

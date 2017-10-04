@@ -148,7 +148,7 @@
                         android:id="@+id/register_place_auto_complete"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"/>
+                        android:name="com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment"/>
             </FrameLayout>
             <fragment
                     android:id="@+id/register_map"
