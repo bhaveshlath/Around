@@ -83,7 +83,9 @@ public class NewPostMainFragment extends Fragment implements View.OnClickListene
     private TextView mDate, mTime;
     private EditText mAgeRangeMin, mAgeRangeMax;
     private String mGenderPreference;
+    private String mPostType;
     private AroundUtils.AroundPostRequestType mAroundPostRequestType;
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         if (mMapUtils.mGoogleMap != null) {
@@ -102,7 +104,7 @@ public class NewPostMainFragment extends Fragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if(mView == null) {
+        if (mView == null) {
             mView = inflater.inflate(R.layout.fragment_new_post_main, container, false);
         }
 
@@ -114,7 +116,7 @@ public class NewPostMainFragment extends Fragment implements View.OnClickListene
         }
 
         //To handle already created GoogleApiClient in case user comes back from review screen
-        if(mMapUtils == null) {
+        if (mMapUtils == null) {
             mMapUtils = new MapUtils(mActivity, this, TAG, mLastKnownLocation, mCameraPosition, R.id.new_post_place_auto_complete, R.id.new_post_map);
         }
 
@@ -172,7 +174,7 @@ public class NewPostMainFragment extends Fragment implements View.OnClickListene
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        UIUtils.showToolbar(mView, (TextView) mView.findViewById(R.id.toolbar_title), getString(R.string.new_post), null, R.drawable.back_icon_white, true, new View.OnClickListener(){
+        UIUtils.showToolbar(mView, (TextView) mView.findViewById(R.id.toolbar_title), getString(R.string.new_post), null, R.drawable.back_icon_white, true, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mActivity.onBackPressed();
@@ -218,7 +220,7 @@ public class NewPostMainFragment extends Fragment implements View.OnClickListene
                 if (verifyResultString.equals(getString(R.string.success))) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(KEY_NEW_POST, new Post(RequestOperations.getUserObject(getActivity()),
-                            Post.KEY_TYPE_SPORTS, getTitleContent(),
+                            mPostType, getTitleContent(),
                             mMapUtils.getUserLocation(),
                             new AgeRange(Integer.parseInt(mAgeRangeMin.getText().toString()), Integer.parseInt(mAgeRangeMax.getText().toString())),
                             mGenderPreference, descriptionText.getText().toString(), DateUtils.getDateRange(mDate.getText().toString()), mTime.getText().toString(), 0, new ArrayList<String>()));
@@ -279,22 +281,27 @@ public class NewPostMainFragment extends Fragment implements View.OnClickListene
                 sportsGrid.setVisibility(View.VISIBLE);
                 EditText postTitleEditText = (EditText) mView.findViewById(R.id.post_title_edit);
                 postTitleEditText.setVisibility(View.GONE);
+                mPostType = Post.KEY_TYPE_SPORTS;
                 break;
             case STUDY:
                 postTitle.setText(resources.getString(R.string.study_subject));
                 postSubtitleContainer.setVisibility(View.VISIBLE);
                 postSubtitle.setText(resources.getString(R.string.study_topic));
+                mPostType = Post.KEY_TYPE_STUDY;
                 break;
             case CONCERT:
                 postTitle.setText(resources.getString(R.string.concert_band));
+                mPostType = Post.KEY_TYPE_CONCERT;
                 break;
             case TRAVEL:
                 postTitle.setText(resources.getString(R.string.travel_from));
                 postSubtitleContainer.setVisibility(View.VISIBLE);
                 postSubtitle.setText(resources.getString(R.string.travel_to));
+                mPostType = Post.KEY_TYPE_TRAVEL;
                 break;
             case OTHER:
                 postTitle.setText(resources.getString(R.string.other_post_for));
+                mPostType = Post.KEY_TYPE_OTHER;
                 break;
         }
     }
@@ -309,19 +316,19 @@ public class NewPostMainFragment extends Fragment implements View.OnClickListene
                 TextView postTitle = (TextView) mView.findViewById(R.id.post_title_content);
                 title = postTitle.getText().toString();
                 break;
-            case OTHER:
-                title = postTitleContent.getText().toString();
-                break;
-            case CONCERT:
-                title = postTitleContent.getText().toString();
-                break;
             case STUDY:
                 String subtitle = postSubtitleContent.getText().toString().equals("") ? "" : " (" + postSubtitleContent.getText().toString() + ")";
                 title = postTitleContent.getText().toString() + subtitle;
                 break;
+            case CONCERT:
+                title = postTitleContent.getText().toString();
+                break;
             case TRAVEL:
-                title = (postTitleContent.getText().toString().equals("") || postSubtitleContent.getText().toString().equals("")) ? "" : getResources().getString(R.string.from) + postTitleContent.getText().toString() +
-                        getResources().getString(R.string.to) + postSubtitleContent.getText().toString();
+                title = (postTitleContent.getText().toString().equals("") || postSubtitleContent.getText().toString().equals("")) ? "" : getResources().getString(R.string.from) + " " + postTitleContent.getText().toString() +
+                        " " + getResources().getString(R.string.to) + " " + postSubtitleContent.getText().toString();
+                break;
+            case OTHER:
+                title = postTitleContent.getText().toString();
                 break;
         }
         return title;

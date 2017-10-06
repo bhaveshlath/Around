@@ -136,10 +136,45 @@
         <item name="android:layout_marginRight">@dimen/margin_small</item>
     </style>
 
+    <style name="RowPaddingVerticalLarge">
+        <item name="android:paddingTop">@dimen/padding_large</item>
+        <item name="android:paddingBottom">@dimen/padding_large</item>
+    </style>
+
+    <style name="RowPaddingVerticalMedium">
+        <item name="android:paddingTop">@dimen/padding_medium</item>
+        <item name="android:paddingBottom">@dimen/padding_medium</item>
+    </style>
+
+    <style name="RowPaddingVerticalSmall">
+        <item name="android:paddingTop">@dimen/padding_small</item>
+        <item name="android:paddingBottom">@dimen/padding_small</item>
+    </style>
+
+    <style name="RowPaddingHorizontalMedium">
+        <item name="android:paddingLeft">@dimen/padding_medium</item>
+        <item name="android:paddingRight">@dimen/padding_medium</item>
+    </style>
+
+    <style name="RowPaddingHorizontalSmall">
+        <item name="android:paddingLeft">@dimen/padding_small</item>
+        <item name="android:paddingRight">@dimen/padding_small</item>
+    </style>
+
     <style name="TypeFragmentButton">
         <item name="android:layout_margin">@dimen/margin_small</item>
         <item name="android:padding">@dimen/padding_small</item>
         <item name="android:background">@drawable/button_white_rounded</item>
+        <item name="android:textSize">@dimen/text_size_h3</item>
+    </style>
+
+    <style name="PostDateText">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_size_h3</item>
+    </style>
+
+    <style name="PostDataText">
+        <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/text_size_h3</item>
     </style>
 </resources>

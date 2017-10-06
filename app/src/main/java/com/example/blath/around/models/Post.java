@@ -10,6 +10,10 @@ import java.util.ArrayList;
 public class Post implements Serializable {
 
     public static final String KEY_TYPE_SPORTS = "sports";
+    public static final String KEY_TYPE_STUDY = "study";
+    public static final String KEY_TYPE_TRAVEL = "travel";
+    public static final String KEY_TYPE_CONCERT = "concert";
+    public static final String KEY_TYPE_OTHER = "other";
 
     private User user;
     private String type;

@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.blath.around.R;
 import com.example.blath.around.activities.NewPostActivity;
+import com.example.blath.around.commons.Utils.DateUtils;
 import com.example.blath.around.commons.Utils.Operations;
 import com.example.blath.around.commons.Utils.ResponseOperations;
 import com.example.blath.around.commons.Utils.UIUtils;
@@ -114,7 +115,6 @@ public class HomePostsFragment extends Fragment {
             final TextView mAgeRange;
             final TextView mGenderPreference;
             final TextView mPostAddress;
-            final TextView mPostDescription;
 
             DashboardPostsViewHolder(View v) {
                 super(v);
@@ -128,7 +128,6 @@ public class HomePostsFragment extends Fragment {
                 mPostAddress = (TextView) v.findViewById(R.id.post_address);
                 mAgeRange = (TextView) v.findViewById(R.id.post_age_range);
                 mGenderPreference = (TextView) v.findViewById(R.id.post_gender_preference);
-                mPostDescription = (TextView) v.findViewById(R.id.post_description);
             }
         }
 
@@ -149,19 +148,15 @@ public class HomePostsFragment extends Fragment {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(post.getDates().getStartDate());
             holder.mPostUserIcon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.baseball));
-//            holder.mPostDay.setText(calendar.get(Calendar.DAY_OF_MONTH));
-//            holder.mPostMonthYear.setText(calendar.get(Calendar.MONTH) + calendar.get(Calendar.YEAR));
-//            holder.mPostWeekDay.setText(calendar.get(Calendar.DAY_OF_WEEK));
-            holder.mPostDay.setText("16");
-            holder.mPostMonthYear.setText("Jul, 90");
-            holder.mPostWeekDay.setText("WED");
+            holder.mPostDay.setText(DateUtils.twoDigitDayOfMonth(calendar));
+            holder.mPostMonthYear.setText(DateUtils.monthName(calendar) + ", " + DateUtils.lastTwoDigitYear(calendar));
+            holder.mPostWeekDay.setText(DateUtils.weekDayName(calendar));
             holder.mPostUsername.setText(post.getUser().getUserPersonalInformation().getFirstName() + " " +
                     post.getUser().getUserPersonalInformation().getLastName());
             holder.mPostSubtype.setText(post.getSubType());
             holder.mAgeRange.setText(post.getAgeRange().getMinAge() + "-" + post.getAgeRange().getMaxAge());
             holder.mGenderPreference.setText(post.getGenderPreference());
             holder.mPostAddress.setText(post.getLocation().getAddress());
-            holder.mPostDescription.setText(post.getDescription());
         }
 
         @Override
@@ -175,9 +170,22 @@ public class HomePostsFragment extends Fragment {
             notifyDataSetChanged();
         }
 
-        private void setContentAreaBackground(String type, LinearLayout contentArea){
-            switch(type){
-                case "Sports": contentArea.setBackgroundResource(R.drawable.post_sport_background);
+        private void setContentAreaBackground(String type, LinearLayout contentArea) {
+            switch (type) {
+                case Post.KEY_TYPE_SPORTS:
+                    contentArea.setBackgroundResource(R.drawable.post_sport_background);
+                    break;
+                case Post.KEY_TYPE_STUDY:
+                    contentArea.setBackgroundResource(R.drawable.post_study_background);
+                    break;
+                case Post.KEY_TYPE_TRAVEL:
+                    contentArea.setBackgroundResource(R.drawable.post_travel_background);
+                    break;
+                case Post.KEY_TYPE_CONCERT:
+                    contentArea.setBackgroundResource(R.drawable.post_concert_background);
+                    break;
+                case Post.KEY_TYPE_OTHER:
+                    contentArea.setBackgroundResource(R.drawable.post_other_background);
                     break;
                 default:
                     break;

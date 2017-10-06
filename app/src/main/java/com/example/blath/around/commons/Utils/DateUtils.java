@@ -1,8 +1,5 @@
 package com.example.blath.around.commons.Utils;
 
-import android.app.DatePickerDialog;
-import android.widget.DatePicker;
-
 import com.example.blath.around.models.DateRange;
 
 import java.text.ParseException;
@@ -50,5 +47,25 @@ public class DateUtils {
             e.printStackTrace();
             return "";
         }
+    }
+
+    public static String twoDigitDayOfMonth(Calendar calendar){
+        SimpleDateFormat month_date = new SimpleDateFormat("dd");
+        return month_date.format(calendar.getTime());
+    }
+
+    public static String monthName(Calendar calendar){
+        SimpleDateFormat month_date = new SimpleDateFormat("MMM");
+        return month_date.format(calendar.getTime());
+    }
+
+    public static String weekDayName(Calendar calendar){
+        SimpleDateFormat month_date = new SimpleDateFormat("EE");
+        return month_date.format(calendar.getTime());
+    }
+
+    public static String lastTwoDigitYear(Calendar calendar){
+        SimpleDateFormat month_date = new SimpleDateFormat("yy");
+        return month_date.format(calendar.getTime());
     }
 }

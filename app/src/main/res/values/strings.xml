@@ -14,8 +14,8 @@
     <string name="study">Study</string>
     <string name="travel">Travel</string>
     <string name="other">Other</string>
-    <string name="from"> From </string>
-    <string name="to"> To </string>
+    <string name="from">From</string>
+    <string name="to">To</string>
     <string name="back">Back</string>
 
     <!-- Strings for Login Activity -->
