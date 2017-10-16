@@ -2,6 +2,8 @@ package com.example.blath.around.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by blath on 4/17/17.
@@ -17,7 +19,8 @@ public class Post implements Serializable {
 
     private User user;
     private String type;
-    private String subType;
+    private String title;
+    private String subtitle;
     private AroundLocation location;
     private AgeRange ageRange;
     private String genderPreference;
@@ -26,11 +29,13 @@ public class Post implements Serializable {
     private String time;
     private int commentsCount;
     private ArrayList<String> comments;
+    private Date postedDate;
 
-    public Post(User user, String type, String subType, AroundLocation location, AgeRange ageRange, String genderPreference, String description, DateRange dates, String time, int commentsCount, ArrayList<String> comments) {
+    public Post(User user, String type, String title, String subtitle, AroundLocation location, AgeRange ageRange, String genderPreference, String description, DateRange dates, String time, int commentsCount, ArrayList<String> comments) {
         this.user = user;
         this.type = type;
-        this.subType = subType;
+        this.title = title;
+        this.subtitle = subtitle;
         this.location = location;
         this.ageRange = ageRange;
         this.genderPreference = genderPreference;
@@ -39,6 +44,8 @@ public class Post implements Serializable {
         this.time = time;
         this.commentsCount = commentsCount;
         this.comments = comments;
+        Calendar calendar = Calendar.getInstance();
+        this.postedDate = calendar.getTime();
     }
 
     public User getUser() {
@@ -57,12 +64,20 @@ public class Post implements Serializable {
         this.type = type;
     }
 
-    public String getSubType() {
-        return subType;
+    public String getTitle() {
+        return title;
     }
 
-    public void setSubType(String subType) {
-        this.subType = subType;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getSubtitle() {
+        return subtitle;
+    }
+
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
     }
 
     public AroundLocation getLocation() {
@@ -127,5 +142,21 @@ public class Post implements Serializable {
 
     public void setComments(ArrayList<String> comments) {
         this.comments = comments;
+    }
+
+    public int getCommentsCount() {
+        return commentsCount;
+    }
+
+    public void setCommentsCount(int commentsCount) {
+        this.commentsCount = commentsCount;
+    }
+
+    public Date getPostedDate() {
+        return postedDate;
+    }
+
+    public void setPostedDate(Date postedDate) {
+        this.postedDate = postedDate;
     }
 }

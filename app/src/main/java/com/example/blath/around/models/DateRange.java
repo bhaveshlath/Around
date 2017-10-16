@@ -1,12 +1,13 @@
 package com.example.blath.around.models;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by blath on 4/17/17.
  */
 
-public class DateRange {
+public class DateRange implements Serializable{
     private Date startDate;
     private Date endDate;
 

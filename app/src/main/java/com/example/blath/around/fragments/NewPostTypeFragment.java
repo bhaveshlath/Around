@@ -84,6 +84,5 @@ public class NewPostTypeFragment extends Fragment implements View.OnClickListene
             }
         },  R.id.toolbar_title);
         toolbarTitle.setTextColor(ContextCompat.getColor(getActivity(), R.color.white));
-        UIUtils.animateStatusBarColorTransition(getActivity(), R.color.around_background_start_color, R.color.around_background_start_color);
     }
 }

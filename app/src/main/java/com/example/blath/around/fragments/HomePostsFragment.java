@@ -3,6 +3,7 @@ package com.example.blath.around.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -12,12 +13,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.blath.around.R;
 import com.example.blath.around.activities.NewPostActivity;
+import com.example.blath.around.activities.PostActivity;
 import com.example.blath.around.commons.Utils.DateUtils;
 import com.example.blath.around.commons.Utils.Operations;
 import com.example.blath.around.commons.Utils.ResponseOperations;
@@ -35,6 +38,12 @@ import java.util.List;
 import de.greenrobot.event.EventBus;
 
 public class HomePostsFragment extends Fragment {
+
+    public static final String KEY_POST = "key_post";
+    public static final String KEY_POST_ACTION = "key_post_action";
+    public static final String KEY_POST_DETAIL = "key_post_detail";
+    public static final String KEY_POST_COMMENTS = "key_post_comments";
+    public static final String KEY_POST_REPLY = "key_post_reply";
 
     RecyclerView mRecyclerView;
     List<Post> mDataSet;
@@ -104,30 +113,48 @@ public class HomePostsFragment extends Fragment {
 
     class DashboardPostsAdapter extends RecyclerView.Adapter<DashboardPostsAdapter.DashboardPostsViewHolder> {
 
-        class DashboardPostsViewHolder extends RecyclerView.ViewHolder {
+        class DashboardPostsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             final LinearLayout mContentArea;
-            final ImageView mPostUserIcon;
-            final TextView mPostDay;
-            final TextView mPostMonthYear;
-            final TextView mPostWeekDay;
-            final TextView mPostUsername;
-            final TextView mPostSubtype;
-            final TextView mAgeRange;
-            final TextView mGenderPreference;
-            final TextView mPostAddress;
+            final ImageView postUserIcon;
+            final TextView postedDate;
+            final TextView postDay;
+            final TextView postMonthYear;
+            final TextView postWeekDay;
+            final TextView postUsername;
+            final TextView postTitleSubtitle;
+            final TextView ageRange;
+            final TextView genderPreference;
+            final TextView postAddress;
+            final Button postReply;
+            final Button postComments;
 
             DashboardPostsViewHolder(View v) {
                 super(v);
                 mContentArea = (LinearLayout) v.findViewById(R.id.post_content_area);
-                mPostUserIcon = (ImageView) v.findViewById(R.id.post_user_icon);
-                mPostDay = (TextView) v.findViewById(R.id.post_day);
-                mPostMonthYear = (TextView) v.findViewById(R.id.post_month_year);
-                mPostWeekDay = (TextView) v.findViewById(R.id.post_weekday);
-                mPostUsername = (TextView) v.findViewById(R.id.post_user_name);
-                mPostSubtype = (TextView) v.findViewById(R.id.post_subtype);
-                mPostAddress = (TextView) v.findViewById(R.id.post_address);
-                mAgeRange = (TextView) v.findViewById(R.id.post_age_range);
-                mGenderPreference = (TextView) v.findViewById(R.id.post_gender_preference);
+                postUserIcon = (ImageView) v.findViewById(R.id.post_user_icon);
+                postUsername = (TextView) v.findViewById(R.id.post_user_name);
+                postedDate = (TextView) v.findViewById(R.id.posted_date);
+                postDay = (TextView) v.findViewById(R.id.post_day);
+                postMonthYear = (TextView) v.findViewById(R.id.post_month_year);
+                postWeekDay = (TextView) v.findViewById(R.id.post_weekday);
+                postTitleSubtitle = (TextView) v.findViewById(R.id.post_subtype);
+                postAddress = (TextView) v.findViewById(R.id.post_address);
+                ageRange = (TextView) v.findViewById(R.id.post_age_range);
+                genderPreference = (TextView) v.findViewById(R.id.post_gender_preference);
+                postReply = (Button) v.findViewById(R.id.post_reply);
+                postComments = (Button) v.findViewById(R.id.post_comments);
+                v.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View v) {
+                int itemPosition = mRecyclerView.getChildLayoutPosition(v);
+                Intent intent = new Intent(getActivity(), PostActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString(KEY_POST_ACTION, KEY_POST_DETAIL);
+                bundle.putSerializable(KEY_POST, mDataSet.get(itemPosition));
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         }
 
@@ -137,26 +164,42 @@ public class HomePostsFragment extends Fragment {
 
         @Override
         public DashboardPostsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.posts_row_item, parent, false);
-            return new DashboardPostsViewHolder(v);
+            final Context context = parent.getContext();
+            View view = LayoutInflater.from(context).inflate(R.layout.posts_row_item, parent, false);
+            return new DashboardPostsViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(DashboardPostsViewHolder holder, int position) {
-            Post post = mDataSet.get(position);
+            Resources resources = getResources();
+            final Post post = mDataSet.get(position);
             setContentAreaBackground(post.getType(), holder.mContentArea);
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(post.getDates().getStartDate());
-            holder.mPostUserIcon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.baseball));
-            holder.mPostDay.setText(DateUtils.twoDigitDayOfMonth(calendar));
-            holder.mPostMonthYear.setText(DateUtils.monthName(calendar) + ", " + DateUtils.lastTwoDigitYear(calendar));
-            holder.mPostWeekDay.setText(DateUtils.weekDayName(calendar));
-            holder.mPostUsername.setText(post.getUser().getUserPersonalInformation().getFirstName() + " " +
+            holder.postUserIcon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.baseball));
+            holder.postedDate.setText(DateUtils.dateFormatterFromString(post.getPostedDate().toString()));
+            holder.postDay.setText(DateUtils.twoDigitDayOfMonth(calendar));
+            holder.postMonthYear.setText(DateUtils.monthName(calendar) + ", " + DateUtils.lastTwoDigitYear(calendar));
+            holder.postWeekDay.setText(DateUtils.weekDayName(calendar));
+            holder.postUsername.setText(post.getUser().getUserPersonalInformation().getFirstName() + " " +
                     post.getUser().getUserPersonalInformation().getLastName());
-            holder.mPostSubtype.setText(post.getSubType());
-            holder.mAgeRange.setText(post.getAgeRange().getMinAge() + "-" + post.getAgeRange().getMaxAge());
-            holder.mGenderPreference.setText(post.getGenderPreference());
-            holder.mPostAddress.setText(post.getLocation().getAddress());
+            holder.postTitleSubtitle.setText(getPostTitle(post));
+            holder.ageRange.setText(resources.getString(R.string.age_range_post_text, post.getAgeRange().getMinAge(), post.getAgeRange().getMaxAge()));
+            holder.genderPreference.setText(resources.getString(R.string.gender_preference_post_text, post.getGenderPreference()));
+            holder.postAddress.setText(post.getLocation().getAddress());
+            holder.postReply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    UIUtils.showLongToast("This Is me " + post.getTitle(), getActivity());
+                }
+            });
+
+            holder.postComments.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    UIUtils.showLongToast("This Is me2 " + post.getTitle(), getActivity());
+                }
+            });
         }
 
         @Override
@@ -190,6 +233,32 @@ public class HomePostsFragment extends Fragment {
                 default:
                     break;
             }
+        }
+
+        private String getPostTitle(Post post) {
+            Resources resources = getResources();
+            String title = "";
+            String titleContent = "";
+            switch (post.getType()) {
+                case Post.KEY_TYPE_SPORTS:
+                    title = resources.getString(R.string.buddy_for, resources.getString(R.string.playing, post.getTitle()));
+                    break;
+                case Post.KEY_TYPE_STUDY:
+                    titleContent = post.getSubtitle().equals("") ? post.getTitle() : post.getTitle() + " (" + post.getSubtitle() + ")";
+                    title = resources.getString(R.string.buddy_for, resources.getString(R.string.studying, titleContent));
+                    break;
+                case Post.KEY_TYPE_TRAVEL:
+                    title = resources.getString(R.string.buddy_for, resources.getString(R.string.from_source_to_destination_post_text, post.getTitle(), post.getSubtitle()));
+                    break;
+                case Post.KEY_TYPE_CONCERT:
+                    title = resources.getString(R.string.buddy_for, resources.getString(R.string.name_concert, post.getTitle()));
+                    break;
+                case Post.KEY_TYPE_OTHER:
+                    titleContent = post.getSubtitle().equals("") ? post.getTitle() : post.getTitle() + " (" + post.getSubtitle() + ")";
+                    title = resources.getString(R.string.buddy_for, titleContent);
+                    break;
+            }
+            return title;
         }
     }
 }

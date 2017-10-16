@@ -1,10 +1,12 @@
 package com.example.blath.around.models;
 
+import java.io.Serializable;
+
 /**
  * Created by blath on 5/10/17.
  */
 
-public class User {
+public class User implements Serializable{
 
     public static final String KEY_USER_ID = "_id";
     public static final String KEY_USER_FIRST_NAME = "first_name";

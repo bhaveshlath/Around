@@ -90,24 +90,40 @@ public class RequestOperations {
         return true;
     }
 
-    public static String verifyPostDetails(Context context, String postTitleContent, String date, String time, String ageRangeMin, String ageRangeMax, String genderPreference, String description,
+    public static String verifyPostDetails(Context context, String postTitleContent, String postSubTitleContent, String date, String time, String ageRangeMin, String ageRangeMax, String genderPreference, String description,
                                            AroundLocation userLocation, AroundUtils.AroundPostRequestType aroundPostRequestType) {
 
-        if (postTitleContent.equals("") || postTitleContent.equals(context.getString(R.string.select_sport))) {
-            switch (aroundPostRequestType) {
-                case SPORTS:
+        switch (aroundPostRequestType) {
+            case SPORTS:
+                if (postTitleContent.isEmpty()) {
                     return context.getString(R.string.pick_sport_dialog_message);
-                case STUDY:
+                }
+                break;
+            case STUDY:
+                if (postTitleContent.isEmpty()) {
                     return context.getString(R.string.pick_study_dialog_message);
-                case CONCERT:
+                }
+                break;
+            case CONCERT:
+                if (postTitleContent.isEmpty()) {
                     return context.getString(R.string.pick_concert_dialog_message);
-                case TRAVEL:
-                    return context.getString(R.string.pick_travel_dialog_message);
-                case OTHER:
+                }
+                break;
+            case TRAVEL:
+                if (postTitleContent.isEmpty()) {
+                    return context.getString(R.string.pick_travel_source_dialog_message);
+                } else if (postSubTitleContent.isEmpty()) {
+                    return context.getString(R.string.pick_travel_destination_dialog_message);
+                }
+                break;
+            case OTHER:
+                if (postTitleContent.isEmpty()) {
                     return context.getString(R.string.pick_other_dialog_message);
-            }
-            return context.getString(R.string.select_sport);
-        } else if (date.equals("")) {
+                }
+                break;
+        }
+
+        if (date.equals("")) {
             return context.getString(R.string.pick_date);
         } else if (time.equals("")) {
             return context.getString(R.string.pick_time);
@@ -119,7 +135,8 @@ public class RequestOperations {
             return context.getString(R.string.pick_gender_preference);
         } else if (description.equals("")) {
             return context.getString(R.string.pick_description);
-        } else if (!verifyMinMaxAgeRange(ageRangeMin, ageRangeMax)) {
+        } else if (!
+                verifyMinMaxAgeRange(ageRangeMin, ageRangeMax)) {
             return context.getString(R.string.age_range_failing_message);
         } else if (userLocation == null) {
             return context.getString(R.string.location_alert);

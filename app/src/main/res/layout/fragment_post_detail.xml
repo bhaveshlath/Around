@@ -1,24 +1,59 @@
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="vertical">
-    <include layout="@layout/app_bar_short_transparent"/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/gradient_blue_15"
+              android:orientation="vertical"
+              tools:context="com.example.blath.around.fragments.PostDetailFragment">
+    <include layout="@layout/app_bar_short"/>
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:padding="@dimen/padding_medium"
             android:fillViewport="true">
-        <RelativeLayout
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/padding_medium">
+                android:orientation="vertical"
+                android:padding="@dimen/padding_medium"
+                android:background="@drawable/button_white_rounded">
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <ImageView
+                        android:id="@+id/profile_user_image"
+                        android:layout_width="@dimen/register_user_image"
+                        android:layout_height="@dimen/register_user_image"
+                        android:layout_alignParentLeft="true"
+                        tools:src="@drawable/baseball"/>
+                <TextView
+                        android:id="@+id/profile_user_name"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_toRightOf="@id/profile_user_image"
+                        style="@style/RowMarginHorizontalMedium"
+                        tools:text="Hello"/>
+                <TextView
+                        android:id="@+id/profile_user_info"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_alignLeft="@id/profile_user_name"
+                        android:layout_below="@id/profile_user_name"
+                        tools:text="Hello"/>
+            </RelativeLayout>
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_medium"
+                    android:background="@drawable/new_post_divider"
+                    style="@style/RowMarginVerticalMedium"></View>
             <LinearLayout
-                    android:id="@+id/post_title_row"
+                    android:id="@+id/post_subtype_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:weightSum="5"
-                    style="@style/RowMarginVerticalSmall">
+                    android:layout_marginTop="@dimen/margin_small">
                 <TextView
                         android:id="@+id/post_title"
                         android:layout_weight="1.5"
@@ -38,8 +73,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:weightSum="5"
-                    android:layout_below="@id/post_title_row"
-                    style="@style/RowMarginVerticalSmall">
+                    android:layout_below="@id/post_subtype_row"
+                    android:layout_marginTop="@dimen/margin_small">
                 <TextView
                         android:id="@+id/post_date_title"
                         android:layout_weight="1.5"
@@ -60,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:weightSum="5"
                     android:layout_below="@id/post_date_row"
-                    style="@style/RowMarginVerticalSmall">
+                    android:layout_marginTop="@dimen/margin_small">
                 <TextView
                         android:id="@+id/post_time_title"
                         android:layout_weight="1.5"
@@ -81,7 +116,7 @@
                     android:layout_height="wrap_content"
                     android:weightSum="5"
                     android:layout_below="@id/post_time_row"
-                    style="@style/RowMarginVerticalSmall">
+                    android:layout_marginTop="@dimen/margin_small">
                 <TextView
                         android:id="@+id/post_location_title"
                         android:layout_weight="1.5"
@@ -103,7 +138,7 @@
                     android:layout_height="wrap_content"
                     android:weightSum="5"
                     android:layout_below="@id/post_location_row"
-                    style="@style/RowMarginVerticalSmall">
+                    android:layout_marginTop="@dimen/margin_small">
                 <TextView
                         android:id="@+id/post_age_range_title"
                         android:layout_weight="1.5"
@@ -124,13 +159,13 @@
                     android:layout_height="wrap_content"
                     android:weightSum="5"
                     android:layout_below="@id/post_age_range_row"
-                    style="@style/RowMarginVerticalSmall">
+                    android:layout_marginTop="@dimen/margin_small">
                 <TextView
                         android:id="@+id/post_gender_preference_title"
                         android:layout_weight="1.5"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/gender_preference"
+                        android:text="@string/gender"
                         style="@style/HeaderText.Blue"/>
                 <TextView
                         android:id="@+id/post_gender_preference_content"
@@ -146,10 +181,10 @@
                     android:layout_height="wrap_content"
                     android:weightSum="5"
                     android:layout_below="@id/post_gender_preference_row"
-                    style="@style/RowMarginVerticalSmall">
+                    android:layout_marginTop="@dimen/margin_small">
                 <TextView
                         android:id="@+id/post_description_title"
-                        android:layout_weight="1.5"
+                        android:layout_weight="1.8"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:text="@string/description"
@@ -163,25 +198,25 @@
                         android:maxLines="10"/>
             </LinearLayout>
 
-            <TextView
-                    android:id="@+id/user_agreement"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:layout_above="@+id/submit_button"
-                    android:text="@string/new_post_user_agreement_disclaimer"
-                    style="@style/RowMarginVerticalMedium"/>
-
-            <Button
-                    android:id="@+id/submit_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/button_blue_rounded"
-                    android:layout_alignParentBottom="true"
-                    android:text="@string/submit"
-                    style="@style/MediumText.White"/>
-
             <include layout="@layout/layout_progress"/>
-        </RelativeLayout>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_medium"
+                    android:background="@drawable/new_post_divider"
+                    style="@style/RowMarginVerticalMedium">
+            </View>
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:weightSum="2">
+                <ImageView android:layout_weight="1"
+                           android:layout_width="0dp"
+                           android:src="@drawable/ic_comment"
+                           android:layout_height="@dimen/posts_user_icon"/>
+                <ImageView android:layout_weight="1"
+                           android:layout_width="0dp"
+                           android:src="@drawable/ic_reply"
+                           android:layout_height="@dimen/posts_user_icon"/>
+            </LinearLayout>
+        </LinearLayout>
     </ScrollView>
 </LinearLayout>

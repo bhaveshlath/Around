@@ -17,6 +17,15 @@
     <string name="from">From</string>
     <string name="to">To</string>
     <string name="back">Back</string>
+    <string name="buddy_for_title">Buddy for:</string>
+    <string name="buddy_for">Buddy for: %s</string>
+    <string name="playing">Playing %s</string>
+    <string name="studying">Studying %s</string>
+    <string name="name_concert">%s Concert</string>
+    <string name="from_source_to_destination_post_text">Travelling from %1$s to %2$s</string>
+    <string name="age_range_post_text">Age Range: %1$d - %2$d years</string>
+    <string name="gender_preference_post_text">Gender: %1$s</string>
+    <string name="post_detail">Post Detail</string>
 
     <!-- Strings for Login Activity -->
     <string name="login">Login</string>
@@ -52,8 +61,8 @@
 
     <!-- Strings for New Post -->
     <string name="sport_name">Sport Name:</string>
-    <string name="study_subject">Study Subject: </string>
-    <string name="study_topic">Study Topic: </string>
+    <string name="study_subject">Study Subject:</string>
+    <string name="study_topic">Study Topic:</string>
     <string name="travel_from">Travel from:</string>
     <string name="travel_to">Travel to:</string>
     <string name="concert_band">Band Name:</string>
@@ -64,7 +73,8 @@
     <string name="pick_sport_dialog_message">Please select a Sport for your Sport request.</string>
     <string name="pick_study_dialog_message">Please enter a Study topic for your Study request.</string>
     <string name="pick_concert_dialog_message">Please enter a Band Name for your Concert request.</string>
-    <string name="pick_travel_dialog_message">Please enter Source and Destination for your Travel request.</string>
+    <string name="pick_travel_source_dialog_message">Please enter Source for your Travel request.</string>
+    <string name="pick_travel_destination_dialog_message">Please enter Destination for your Travel request.</string>
     <string name="pick_other_dialog_message">Please enter a Title for your request.</string>
     <string name="pick_date">Please select a Date for your post.</string>
     <string name="pick_time">Please pick a Time for your post.</string>
@@ -84,9 +94,10 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="no_preference">No Preference</string>
+    <string name="gender">Gender:</string>
     <string name="gender_preference">Gender Preference:</string>
     <string name="enter_a_location">Enter a location</string>
-    <string name="description">Description</string>
+    <string name="description">Description:</string>
     <string name="enter_description">Enter some description</string>
     <string name="years">years</string>
     <string name="age_range_failing_message">Please enter the proper age range. Minimum age should be less than maximum

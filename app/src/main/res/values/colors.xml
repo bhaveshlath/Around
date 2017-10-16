@@ -57,8 +57,8 @@
     <color name="color_primary_dark">@android:color/transparent</color>
 
     <!-- First Time Use / Welcome Screen -->
-    <color name="post_other_background_start_color">#0070BA</color>
-    <color name="post_other_background_end_color">#640487</color>
+    <color name="post_other_background_start_color">#990000</color>
+    <color name="post_other_background_end_color">#990000</color>
     <color name="post_sports_background_start_color">#069c77</color>
     <color name="post_sports_background_end_color">#015D84</color>
     <color name="post_concert_background_start_color">#640087</color>

@@ -1,10 +1,12 @@
 package com.example.blath.around.models;
 
+import java.io.Serializable;
+
 /**
  * Created by blath on 4/17/17.
  */
 
-public class AroundLocation {
+public class AroundLocation implements Serializable{
 
     private double latitude;
     private double longitude;

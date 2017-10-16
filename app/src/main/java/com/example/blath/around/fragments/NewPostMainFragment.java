@@ -47,6 +47,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import static com.example.blath.around.R.id.post_subtitle_edit;
 import static com.example.blath.around.R.id.sports_grid;
 
 
@@ -215,12 +216,14 @@ public class NewPostMainFragment extends Fragment implements View.OnClickListene
 
             case R.id.next_button:
                 EditText descriptionText = (EditText) mView.findViewById(R.id.new_post_description);
-                String verifyResultString = RequestOperations.verifyPostDetails(getActivity(), getTitleContent(), mDate.getText().toString(), mTime.getText().toString(),
+                String verifyResultString = RequestOperations.verifyPostDetails(getActivity(), getTitleContent(), getSubTitleContent(), mDate.getText().toString(), mTime.getText().toString(),
                         mAgeRangeMin.getText().toString(), mAgeRangeMax.getText().toString(), mGenderPreference, descriptionText.getText().toString(), mMapUtils.getUserLocation(), mAroundPostRequestType);
                 if (verifyResultString.equals(getString(R.string.success))) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(KEY_NEW_POST, new Post(RequestOperations.getUserObject(getActivity()),
-                            mPostType, getTitleContent(),
+                            mPostType,
+                            getTitleContent(),
+                            getSubTitleContent(),
                             mMapUtils.getUserLocation(),
                             new AgeRange(Integer.parseInt(mAgeRangeMin.getText().toString()), Integer.parseInt(mAgeRangeMax.getText().toString())),
                             mGenderPreference, descriptionText.getText().toString(), DateUtils.getDateRange(mDate.getText().toString()), mTime.getText().toString(), 0, new ArrayList<String>()));
@@ -308,30 +311,26 @@ public class NewPostMainFragment extends Fragment implements View.OnClickListene
 
     private String getTitleContent() {
         String title = "";
-        EditText postTitleContent = (EditText) mView.findViewById(R.id.post_title_edit);
-        EditText postSubtitleContent = (EditText) mView.findViewById(R.id.post_subtitle_edit);
-
-        switch (mAroundPostRequestType) {
-            case SPORTS:
-                TextView postTitle = (TextView) mView.findViewById(R.id.post_title_content);
-                title = postTitle.getText().toString();
-                break;
-            case STUDY:
-                String subtitle = postSubtitleContent.getText().toString().equals("") ? "" : " (" + postSubtitleContent.getText().toString() + ")";
-                title = postTitleContent.getText().toString() + subtitle;
-                break;
-            case CONCERT:
-                title = postTitleContent.getText().toString();
-                break;
-            case TRAVEL:
-                title = (postTitleContent.getText().toString().equals("") || postSubtitleContent.getText().toString().equals("")) ? "" : getResources().getString(R.string.from) + " " + postTitleContent.getText().toString() +
-                        " " + getResources().getString(R.string.to) + " " + postSubtitleContent.getText().toString();
-                break;
-            case OTHER:
-                title = postTitleContent.getText().toString();
-                break;
+        if (AroundUtils.AroundPostRequestType.SPORTS.equals(mAroundPostRequestType)) {
+            TextView postTitle = (TextView) mView.findViewById(R.id.post_title_content);
+            title = postTitle.getText().toString();
+        } else {
+            EditText postTitleContent = (EditText) mView.findViewById(R.id.post_title_edit);
+            title = postTitleContent.getText().toString();
         }
         return title;
+    }
+
+    private String getSubTitleContent() {
+        String subtitle = "";
+        if (AroundUtils.AroundPostRequestType.SPORTS.equals(mAroundPostRequestType)) {
+            TextView postTitle = (TextView) mView.findViewById(R.id.post_title_content);
+            subtitle = postTitle.getText().toString();
+        } else {
+            EditText postSubtitleContent = (EditText) mView.findViewById(post_subtitle_edit);
+            subtitle = postSubtitleContent.getText().toString();
+        }
+        return subtitle;
     }
 
     private void setPlaceAutocompleteFragmentListener() {

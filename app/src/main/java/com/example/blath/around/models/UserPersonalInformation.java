@@ -1,10 +1,12 @@
 package com.example.blath.around.models;
 
+import java.io.Serializable;
+
 /**
  * Created by blath on 6/15/17.
  */
 
-public class UserPersonalInformation {
+public class UserPersonalInformation implements Serializable{
     private String firstName;
     private String lastName;
     private String emailID;

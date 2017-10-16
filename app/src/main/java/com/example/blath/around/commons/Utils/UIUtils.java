@@ -121,7 +121,6 @@ public class UIUtils {
         }
     }
 
-
     public static void animateStatusBarColorTransition(Context context, @ColorRes int startColor, @ColorRes int endColor) {
         int statusBarColorStart = ContextCompat.getColor(context, startColor);
         int statusBarColorEnd = ContextCompat.getColor(context, endColor);

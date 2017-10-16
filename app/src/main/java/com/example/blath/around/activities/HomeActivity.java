@@ -3,15 +3,15 @@ package com.example.blath.around.activities;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 
 import com.example.blath.around.R;
 import com.example.blath.around.commons.Utils.UIUtils;
 
-public class HomeActivity extends FragmentActivity{
+public class HomeActivity extends AppCompatActivity{
 
     private TabLayout mTabLayout;
 
@@ -27,7 +27,7 @@ public class HomeActivity extends FragmentActivity{
         super.onCreate(savedInstanceState);
         setContentView(com.example.blath.around.R.layout.activity_home);
 
-        UIUtils.animateStatusBarColorTransition(this, R.color.around_home_header_color, R.color.around_home_header_color);
+        UIUtils.animateStatusBarColorTransition(this, R.color.around_background_end_color, R.color.around_background_end_color);
 
         ViewPager pager = (ViewPager) findViewById(R.id.around_fragment_container);
         PagerAdapter pagerAdapter = new com.example.blath.around.adapters.DashboardPagerAdapter(getSupportFragmentManager());

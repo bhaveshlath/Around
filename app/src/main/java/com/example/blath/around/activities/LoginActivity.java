@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,7 +21,7 @@ import com.example.blath.around.models.UserPersonalInformation;
 
 import de.greenrobot.event.EventBus;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends FragmentActivity implements View.OnClickListener {
 
     private static final String TAG = RegisterActivity.class.getSimpleName();
 

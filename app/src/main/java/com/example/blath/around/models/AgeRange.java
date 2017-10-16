@@ -1,10 +1,12 @@
 package com.example.blath.around.models;
 
+import java.io.Serializable;
+
 /**
  * Created by blath on 8/7/17.
  */
 
-public class AgeRange {
+public class AgeRange implements Serializable{
     private int minAge;
     private int maxAge;
 

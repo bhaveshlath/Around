@@ -1,6 +1,7 @@
 package com.example.blath.around.fragments;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -33,8 +34,8 @@ public class NewPostReviewFragment extends Fragment implements View.OnClickListe
         mView = inflater.inflate(R.layout.fragment_new_post_review, container, false);
         mActivity = getActivity();
         mPost = (Post) getArguments().getSerializable(NewPostMainFragment.KEY_NEW_POST);
-        TextView subtypeText = (TextView) mView.findViewById(R.id.post_subtype_content);
-        subtypeText.setText(mPost.getSubType());
+        TextView titleContent = (TextView) mView.findViewById(R.id.post_title_content);
+        titleContent.setText(getPostTitle(mPost));
         TextView dateText = (TextView) mView.findViewById(R.id.post_date_content);
         dateText.setText(DateUtils.dateFormatterFromString(mPost.getDates().getStartDate().toString()));
         TextView timeText = (TextView) mView.findViewById(R.id.post_time_content);
@@ -100,5 +101,30 @@ public class NewPostReviewFragment extends Fragment implements View.OnClickListe
                 mView.findViewById(R.id.progress_overlay_container).setVisibility(View.VISIBLE);
                 Operations.submitPost(mPost);
         }
+    }
+
+    private String getPostTitle(Post post) {
+        Resources resources = getResources();
+        String title = "";
+        switch (post.getType()) {
+            case Post.KEY_TYPE_SPORTS:
+                title = resources.getString(R.string.playing, post.getTitle());
+                break;
+            case Post.KEY_TYPE_STUDY:
+                String titleContent = "";
+                titleContent = post.getSubtitle().isEmpty() ? post.getTitle() : post.getTitle() + " (" + post.getSubtitle() + ")";
+                title = resources.getString(R.string.studying, titleContent);
+                break;
+            case Post.KEY_TYPE_TRAVEL:
+                title = resources.getString(R.string.from_source_to_destination_post_text, post.getTitle(), post.getSubtitle());
+                break;
+            case Post.KEY_TYPE_CONCERT:
+                title = resources.getString(R.string.name_concert, post.getTitle());
+                break;
+            case Post.KEY_TYPE_OTHER:
+                title = post.getSubtitle().isEmpty() ? post.getTitle() : post.getTitle() + " (" + post.getSubtitle() + ")";
+                break;
+        }
+        return title;
     }
 }
