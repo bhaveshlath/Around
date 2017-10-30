@@ -63,6 +63,7 @@ public class RequestOperations {
                 sharedPreferences.getString(User.KEY_USER_LAST_NAME, "Doe"),
                 sharedPreferences.getString(User.KEY_USER_EMAIL, "abc@xyz.com"),
                 sharedPreferences.getString(User.KEY_USER_DOB, "01 Jan, 2017"),
+                sharedPreferences.getString(User.KEY_USER_GENDER, "male"),
                 sharedPreferences.getString(User.KEY_USER_PHONE_NUMBER, "0000000000")),
 
                 new AroundLocation(Double.parseDouble(sharedPreferences.getString(User.KEY_USER_LATITUDE, "72.12121")),

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary">@android:color/transparent</color>
     <color name="colorPrimaryDark">#002D64</color>
-    <color name="colorAccent">#FFFFFF</color>
+    <color name="colorAccent">#14CEE7</color>
 
     <color name="around_background_start_color">#FF0096D6</color>
     <color name="around_background_end_color">#002D64</color>
@@ -33,7 +33,7 @@
     <color name="white_24">#3DFFFFFF</color>
     <color name="white_16">#28FFFFFF</color>
     <color name="white_8">#14FFFFFF</color>
-    <color name="blue_dark">#0070BA</color>
+    <color name="blue">#0070C9</color>
     <color name="blue_light">#0070BA</color>
     <color name="blue_lucent">#0079AD</color>
     <color name="lighter_blue">#14CEE7</color>
@@ -57,14 +57,14 @@
     <color name="color_primary_dark">@android:color/transparent</color>
 
     <!-- First Time Use / Welcome Screen -->
-    <color name="post_other_background_start_color">#990000</color>
-    <color name="post_other_background_end_color">#990000</color>
+    <color name="post_other_background_start_color">#5DD1BB</color>
+    <color name="post_other_background_end_color">#57AFB1</color>
     <color name="post_sports_background_start_color">#069c77</color>
     <color name="post_sports_background_end_color">#015D84</color>
     <color name="post_concert_background_start_color">#640087</color>
     <color name="post_concert_background_end_color">#DE0063</color>
-    <color name="post_travel_background_start_color">#DE0063</color>
-    <color name="post_travel_background_end_color">#FF9600</color>
+    <color name="post_travel_background_start_color">#ED3052</color>
+    <color name="post_travel_background_end_color">#FC567A</color>
 
     <!-- light_blue_green_gradient -->
     <color name="gradient_light_blue">#FF4A90E2</color>
@@ -90,7 +90,7 @@
     <color name="button_primary_dark_background_pressed">@color/white_16</color>
 
     <!--buttons on light background-->
-    <color name="button_primary_light_background">@color/blue_dark</color>
+    <color name="button_primary_light_background">@color/blue_light</color>
     <color name="button_primary_light_background_pressed">@color/blue_light</color>
     <color name="button_primary_light_background_disabled">@color/black_24</color>
     <color name="button_primary_light_label">@color/white</color>

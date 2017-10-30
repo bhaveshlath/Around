@@ -30,4 +30,8 @@ public class AgeRange implements Serializable{
     public void setMaxAge(int maxAge) {
         this.maxAge = maxAge;
     }
+
+    public String getAgeRangeString(){
+        return this.getMinAge() + " - " + this.getMaxAge() + " years";
+    }
 }

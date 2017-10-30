@@ -1,13 +1,72 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.example.blath.around.fragments.HomeSearchFragment">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:context="com.example.blath.around.fragments.HomeSearchFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+            android:background="@drawable/button_white_rounded"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment"/>
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_medium">
+        <LinearLayout
+                android:id="@+id/post_type_button_list1" android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_small">
+            <Button android:id="@+id/sports_type"
+                    android:layout_width="@dimen/search_type_button_width"
+                    android:layout_height="@dimen/search_type_button_height"
+                    android:text="@string/sports" android:textSize="@dimen/text_size_xsmall"
+                    android:background="@color/black" android:textColor="@color/white"
+                    style="@style/SmallerButtonStyle"/>
+            <Button android:id="@+id/study_type"
+                    android:layout_width="@dimen/search_type_button_width"
+                    android:layout_height="@dimen/search_type_button_height"
+                    android:text="@string/study" android:textSize="@dimen/text_size_xsmall"
+                    android:background="@color/black" android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/margin_small"
+                    style="@style/SmallerButtonStyle"/>
+            <Button android:id="@+id/travel_type"
+                    android:layout_width="@dimen/search_type_button_width"
+                    android:layout_height="@dimen/search_type_button_height"
+                    android:text="@string/travel" android:textSize="@dimen/text_size_xsmall"
+                    android:background="@color/black" android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/margin_small"
+                    style="@style/SmallerButtonStyle"/>
+            <Button android:id="@+id/concert_type"
+                    android:layout_width="@dimen/search_type_button_width"
+                    android:layout_height="@dimen/search_type_button_height"
+                    android:text="@string/concert" android:textSize="@dimen/text_size_xsmall"
+                    android:background="@color/black" android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/margin_small"
+                    style="@style/SmallerButtonStyle"/>
+            <Button android:id="@+id/other_type"
+                    android:layout_width="@dimen/search_type_button_width"
+                    android:layout_height="@dimen/search_type_button_height"
+                    android:text="@string/other" android:textSize="@dimen/text_size_xsmall"
+                    android:background="@color/black" android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/margin_small"
+                    style="@style/SmallerButtonStyle"/>
+        </LinearLayout>
+        <View android:id="@+id/section_divider"
+              android:layout_width="2dp" android:layout_height="match_parent" android:background="@color/yellow"
+              android:layout_margin="@dimen/margin_small"/>
+        <LinearLayout android:id="@+id/search_keywords_container"
+                      android:orientation="vertical" android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_margin="@dimen/margin_small">
+            <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:hint="@string/search_keyword"/>
+            <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:hint="@string/search_keyword"/>
+            <Button
+                    android:layout_marginTop="@dimen/margin_small" android:layout_width="match_parent"
+                    android:layout_height="40dp" android:background="@drawable/button_blue_rounded"
+                    android:text="@string/search" android:textColor="@color/white"/>
+        </LinearLayout>
 
-</FrameLayout>
+    </LinearLayout>
+
+</RelativeLayout>

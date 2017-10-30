@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.blath.around.R;
 import com.example.blath.around.activities.IPostListener;
+import com.example.blath.around.commons.Utils.DateUtils;
 import com.example.blath.around.commons.Utils.UIUtils;
 import com.example.blath.around.models.Post;
 
@@ -45,8 +46,24 @@ public class PostDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_post_detail, container, false);
+        TextView profileUserName = (TextView) mView.findViewById(R.id.profile_user_name);
+        profileUserName.setText(mPost.getUser().getUserPersonalInformation().getName());
+        TextView profileUserInfo = (TextView) mView.findViewById(R.id.profile_user_info);
+        profileUserInfo.setText(mPost.getUser().getLastLocation().getCountry());
         TextView postTitleContent = (TextView) mView.findViewById(R.id.post_title_content);
         postTitleContent.setText(getPostTitle(mPost));
+        TextView postDateContent = (TextView) mView.findViewById(R.id.post_date_content);
+        postDateContent.setText(DateUtils.dateFormatterFromString(mPost.getDates().getStartDate().toString()));
+        TextView postTimeContent = (TextView) mView.findViewById(R.id.post_time_content);
+        postTimeContent.setText(mPost.getTime());
+        TextView postLocationContent = (TextView) mView.findViewById(R.id.post_location_content);
+        postLocationContent.setText(mPost.getLocation().getAddress());
+        TextView postAgeRangeContent = (TextView) mView.findViewById(R.id.post_age_range_content);
+        postAgeRangeContent.setText(mPost.getAgeRange().getAgeRangeString());
+        TextView postGenderContent = (TextView) mView.findViewById(R.id.post_gender_preference_content);
+        postGenderContent.setText(getPostTitle(mPost));
+        TextView postDescriptionContent = (TextView) mView.findViewById(R.id.post_description_content);
+        postDescriptionContent.setText(mPost.getDescription());
         return mView;
     }
 

@@ -9,11 +9,13 @@ import java.io.Serializable;
 public class User implements Serializable{
 
     public static final String KEY_USER_ID = "_id";
+    public static final String KEY_USER_IMAGE_URL = "image_url";
     public static final String KEY_USER_FIRST_NAME = "first_name";
     public static final String KEY_USER_LAST_NAME = "last_name";
     public static final String KEY_USER_EMAIL = "emailID";
     public static final String KEY_USER_PHONE_NUMBER = "phone_number";
     public static final String KEY_USER_DOB = "dob";
+    public static final String KEY_USER_GENDER = "gender";
     public static final String KEY_USER_PASSWORD = "password";
     public static final String KEY_USER_PROFILE_STATUS = "profile_status";
     public static final String KEY_USER_LONGITUTDE = "latitude";

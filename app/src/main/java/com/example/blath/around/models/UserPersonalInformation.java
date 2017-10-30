@@ -10,27 +10,33 @@ public class UserPersonalInformation implements Serializable{
     private String firstName;
     private String lastName;
     private String emailID;
-    private String dob;
+    private String DOB;
+    private String gender;
     private String phoneNumber;
     private String password;
 
-    public UserPersonalInformation(String firstName, String lastName, String emailID, String dob, String phoneNumber) {
+    public UserPersonalInformation(String firstName, String lastName, String emailID, String dob, String gender, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailID = emailID;
-        this.dob = dob;
+        this.DOB = dob;
+        this.gender = gender;
         this.phoneNumber = phoneNumber;
     }
 
-    public UserPersonalInformation(String firstName, String lastName, String emailID, String dob, String phoneNumber, String password) {
+    public UserPersonalInformation(String firstName, String lastName, String emailID, String dob, String gender, String phoneNumber, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailID = emailID;
-        this.dob = dob;
+        this.DOB = dob;
+        this.gender = gender;
         this.phoneNumber = phoneNumber;
         this.password = password;
     }
 
+    public String getName() {
+        return this.getFirstName() + (this.getLastName().isEmpty() ? "" : " " + this.getLastName());
+    }
     public String getFirstName() {
         return firstName;
     }
@@ -56,11 +62,19 @@ public class UserPersonalInformation implements Serializable{
     }
 
     public String getDOB() {
-        return dob;
+        return DOB;
     }
 
     public void setDOB(String dob) {
-        this.dob = dob;
+        this.DOB = dob;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public String getPhoneNumber() {

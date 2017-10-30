@@ -1,11 +1,15 @@
 package com.example.blath.around.fragments;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
@@ -16,6 +20,8 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 
 import com.example.blath.around.R;
@@ -45,6 +51,7 @@ public class RegisterMainFragment extends Fragment implements
         View.OnClickListener {
 
     private static final String TAG = RegisterActivity.class.getSimpleName();
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
 
     // Keys for storing activity state.
     private static final String KEY_CAMERA_POSITION = "camera_position";
@@ -100,6 +107,8 @@ public class RegisterMainFragment extends Fragment implements
         Button registerButton = (Button) mView.findViewById(R.id.register_button);
         registerButton.setOnClickListener(this);
         UIUtils.hideKeyboard(getActivity());
+        ImageView registerUserImage = (ImageView) mView.findViewById(R.id.register_user_image);
+        registerUserImage.setOnClickListener(this);
 
         return mView;
     }
@@ -114,6 +123,13 @@ public class RegisterMainFragment extends Fragment implements
     public void onPause() {
         EventBus.getDefault().unregister(this);
         super.onPause();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        UIUtils.animateStatusBarColorTransition(getActivity(), R.color.dropdown_blue, R.color.dropdown_blue);
     }
 
     public void onEventMainThread(RegisterUserEvent result) {
@@ -197,6 +213,9 @@ public class RegisterMainFragment extends Fragment implements
     public void onClick(View v) {
 
         switch (v.getId()) {
+            case R.id.register_user_image:
+                createImagePickerOptionDialog();
+                break;
             case R.id.register_button:
                 EditText firstName = (EditText) mView.findViewById(R.id.register_first_name);
                 EditText lastName = (EditText) mView.findViewById(R.id.register_last_name);
@@ -218,7 +237,6 @@ public class RegisterMainFragment extends Fragment implements
                                 mMapUtils.getUserLocation().getPostalCode() == null ? "" : mMapUtils.getUserLocation().getPostalCode(),
                                 mMapUtils.getUserLocation().getCountry() == null ? "" : mMapUtils.getUserLocation().getCountry()));
                 break;
-
             case R.id.register_date_picker_button:
                 final Calendar c = Calendar.getInstance();
                 int year = c.get(Calendar.YEAR);
@@ -271,5 +289,50 @@ public class RegisterMainFragment extends Fragment implements
             getFragmentManager().beginTransaction().remove(f).commit();
         }
         mMapUtils.stopDestroyGoogleClient();
+    }
+
+    private void createImagePickerOptionDialog(){
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.setContentView(R.layout.image_picker_options);
+        dialog.setTitle(getResources().getString(R.string.pick_image_from));
+
+        LinearLayout optionCamera = (LinearLayout) dialog.findViewById(R.id.option_camera);
+        LinearLayout optionGallery = (LinearLayout) dialog.findViewById(R.id.option_gallery);
+        // if button is clicked, close the custom dialog
+        optionCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dispatchTakePictureIntent();
+                dialog.dismiss();
+            }
+        });
+
+        optionGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIUtils.showShortToast("Gallery", getActivity());
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        UIUtils.showShortToast("Camera Image picked", getActivity());
+//        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+//            Bundle extras = data.getExtras();
+//            Bitmap imageBitmap = (Bitmap) extras.get("data");
+//            mImageView.setImageBitmap(imageBitmap);
+//        }
     }
 }
