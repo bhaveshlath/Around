@@ -2,7 +2,7 @@ package com.example.blath.around.commons.Utils;
 
 import android.support.annotation.Nullable;
 
-import com.example.blath.around.commons.Utils.app.AroundApplication;
+import com.example.blath.around.commons.Utils.app.AroundAppHandles;
 import com.example.blath.around.models.Post;
 import com.example.blath.around.models.ResponseObject;
 import com.example.blath.around.models.User;
@@ -30,16 +30,16 @@ public class ResponseOperations {
         if (responseBodyType != null) {
             switch (responseBodyType) {
                 case Operations.KEY_USER:
-                    responseObject = AroundApplication.getGsonInstance().fromJson(responseString, new TypeToken<ResponseObject<User>>() {
+                    responseObject = AroundAppHandles.getGsonInstance().fromJson(responseString, new TypeToken<ResponseObject<User>>() {
                     }.getType());
                     break;
                 case Operations.KEY_POSTS:
-                    responseObject = AroundApplication.getGsonInstance().fromJson(responseString, new TypeToken<ResponseObject<List<Post>>>() {
+                    responseObject = AroundAppHandles.getGsonInstance().fromJson(responseString, new TypeToken<ResponseObject<List<Post>>>() {
                     }.getType());
                     break;
             }
         } else {
-            responseObject = AroundApplication.getGsonInstance().fromJson(responseString, new TypeToken<ResponseObject>() {
+            responseObject = AroundAppHandles.getGsonInstance().fromJson(responseString, new TypeToken<ResponseObject>() {
             }.getType());
         }
         return responseObject;

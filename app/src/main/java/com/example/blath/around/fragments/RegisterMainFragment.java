@@ -1,13 +1,10 @@
 package com.example.blath.around.fragments;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,7 +18,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Switch;
 
 import com.example.blath.around.R;
@@ -32,6 +28,7 @@ import com.example.blath.around.commons.Utils.Operations;
 import com.example.blath.around.commons.Utils.RequestOperations;
 import com.example.blath.around.commons.Utils.ResponseOperations;
 import com.example.blath.around.commons.Utils.UIUtils;
+import com.example.blath.around.events.ProfileUpdateEvent;
 import com.example.blath.around.events.RegisterUserEvent;
 import com.example.blath.around.models.AroundLocation;
 import com.example.blath.around.models.User;
@@ -51,26 +48,25 @@ public class RegisterMainFragment extends Fragment implements
         View.OnClickListener {
 
     private static final String TAG = RegisterActivity.class.getSimpleName();
-    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    // A default location (Sydney, Australia) and default zoom to use when location permission is
+    // not granted.
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
     // Keys for storing activity state.
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
+    private static int mInvalidField;
 
     // The geographical location where the device is currently located. That is, the last-known
     // location retrieved by the Fused Location Provider.
     private Location mLastKnownLocation;
     private CameraPosition mCameraPosition;
 
-    // A default location (Sydney, Australia) and default zoom to use when location permission is
-    // not granted.
-    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-
     private View mView;
     private FragmentActivity mActivity;
 
     private MapUtils mMapUtils;
-    private static int mInvalidField;
+    private String mCameraPhotoPath;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -114,8 +110,8 @@ public class RegisterMainFragment extends Fragment implements
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
     }
 
@@ -142,6 +138,14 @@ public class RegisterMainFragment extends Fragment implements
                     .commit();
         } else {
             UIUtils.showLongToast(result.getResponseObject().getMessage(), mActivity);
+        }
+    }
+
+    public void onEventMainThread(ProfileUpdateEvent profileUpdateEvent) {
+        if (!profileUpdateEvent.isError) {
+            ImageView imageView = (ImageView) mView.findViewById(R.id.register_user_image);
+            imageView.setImageBitmap(profileUpdateEvent.mProfileImage);
+        } else {
         }
     }
 
@@ -192,30 +196,9 @@ public class RegisterMainFragment extends Fragment implements
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[],
-                                           @NonNull int[] grantResults) {
-        mMapUtils.mLocationPermissionGranted = false;
-        switch (requestCode) {
-            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mMapUtils.mLocationPermissionGranted = true;
-                }
-            }
-        }
-        mMapUtils.updateLocationUI();
-        mMapUtils.getDeviceLocation();
-    }
-
-    @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.register_user_image:
-                createImagePickerOptionDialog();
-                break;
             case R.id.register_button:
                 EditText firstName = (EditText) mView.findViewById(R.id.register_first_name);
                 EditText lastName = (EditText) mView.findViewById(R.id.register_last_name);
@@ -291,48 +274,22 @@ public class RegisterMainFragment extends Fragment implements
         mMapUtils.stopDestroyGoogleClient();
     }
 
-    private void createImagePickerOptionDialog(){
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.setContentView(R.layout.image_picker_options);
-        dialog.setTitle(getResources().getString(R.string.pick_image_from));
-
-        LinearLayout optionCamera = (LinearLayout) dialog.findViewById(R.id.option_camera);
-        LinearLayout optionGallery = (LinearLayout) dialog.findViewById(R.id.option_gallery);
-        // if button is clicked, close the custom dialog
-        optionCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dispatchTakePictureIntent();
-                dialog.dismiss();
-            }
-        });
-
-        optionGallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UIUtils.showShortToast("Gallery", getActivity());
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-    }
-
-
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
-    }
-
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        UIUtils.showShortToast("Camera Image picked", getActivity());
-//        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-//            Bundle extras = data.getExtras();
-//            Bitmap imageBitmap = (Bitmap) extras.get("data");
-//            mImageView.setImageBitmap(imageBitmap);
-//        }
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        mMapUtils.mLocationPermissionGranted = false;
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    mMapUtils.mLocationPermissionGranted = true;
+                }
+                break;
+        }
+        mMapUtils.updateLocationUI();
+        mMapUtils.getDeviceLocation();
     }
 }

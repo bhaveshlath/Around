@@ -35,13 +35,16 @@ dependencies {
     compile "com.android.support:support-v13:${supportLibVersion}"
     compile "com.android.support:design:${supportLibVersion}"
     compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.squareup:android-times-square:1.6.5@aar'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.google.android.gms:play-services-maps:10.2.4'
     compile 'com.google.android.gms:play-services-location:10.2.4'
     compile 'com.google.android.gms:play-services-places:10.2.4'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'de.greenrobot:eventbus:2.4.0'
-    compile 'com.android.volley:volley:1.0.0'
     compile 'com.google.code.gson:gson:2.6.2'
+    compile 'de.greenrobot:eventbus:2.4.0'
+    compile 'com.theartofdev.edmodo:android-image-cropper:1.1.1'
+    compile 'com.squareup.okhttp3:okhttp:3.9.0'
+    compile 'com.squareup:android-times-square:1.6.5@aar'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
     testCompile 'junit:junit:4.12'
 }

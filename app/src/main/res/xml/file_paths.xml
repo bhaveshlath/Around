@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <cache-path name="videos" path="shared/videos/"/>
+    <!-- Represents files in the root of the external storage area -->
+    <external-path name="external_files" path="."/>
+</paths>

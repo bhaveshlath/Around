@@ -13,7 +13,7 @@ import com.example.blath.around.R;
 import com.example.blath.around.commons.Utils.Operations;
 import com.example.blath.around.commons.Utils.ResponseOperations;
 import com.example.blath.around.commons.Utils.UIUtils;
-import com.example.blath.around.commons.Utils.app.AroundApplication;
+import com.example.blath.around.commons.Utils.app.AroundAppHandles;
 import com.example.blath.around.events.LoginUserEvent;
 import com.example.blath.around.models.AroundLocation;
 import com.example.blath.around.models.User;
@@ -80,12 +80,12 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         super.onPause();
     }
 
-    public void onEvent(LoginUserEvent result) {
+    public void onEventMainThread(LoginUserEvent result) {
         if (ResponseOperations.isError(result.getResponseObject())) {
             findViewById(R.id.progress_overlay_container).setVisibility(View.GONE);
             UIUtils.showLongToast(result.getResponseObject().getMessage(), this);
         } else {
-            SharedPreferences sharedPref = getSharedPreferences(AroundApplication.AROUND_SHARED_PREFERENCE, Context.MODE_PRIVATE);
+            SharedPreferences sharedPref = getSharedPreferences(AroundAppHandles.AROUND_SHARED_PREFERENCE, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
 
             User userObject = (User)result.getResponseObject().getBody();

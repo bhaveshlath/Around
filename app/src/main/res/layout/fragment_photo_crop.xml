@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@color/black_80"
+             android:orientation="vertical">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:paddingBottom="@dimen/margin_7">
+
+        <com.theartofdev.edmodo.cropper.CropImageView
+                android:id="@+id/CropImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                tools:visibility="visible" />
+    </LinearLayout>
+
+    <LinearLayout
+            style="@style/PhotoButtonLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <RelativeLayout style="@style/PhotoButtonPad">
+
+            <TextView
+                    android:id="@+id/rotate_photo"
+                    style="@style/PhotoCropButton"
+                    android:text="@string/rotate" />
+        </RelativeLayout>
+
+        <RelativeLayout style="@style/PhotoButtonPad">
+
+            <TextView
+                    android:id="@+id/crop_photo"
+                    style="@style/PhotoCropButton"
+                    android:text="@string/crop" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <include layout="@layout/layout_progress" />
+
+</FrameLayout>

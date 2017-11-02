@@ -25,7 +25,7 @@ import com.example.blath.around.commons.Utils.DateUtils;
 import com.example.blath.around.commons.Utils.Operations;
 import com.example.blath.around.commons.Utils.ResponseOperations;
 import com.example.blath.around.commons.Utils.UIUtils;
-import com.example.blath.around.commons.Utils.app.AroundApplication;
+import com.example.blath.around.commons.Utils.app.AroundAppHandles;
 import com.example.blath.around.events.GetPostsEvent;
 import com.example.blath.around.models.Post;
 import com.example.blath.around.models.User;
@@ -77,7 +77,7 @@ public class HomePostsFragment extends Fragment {
             }
         });
 
-        SharedPreferences userDetails = getActivity().getSharedPreferences(AroundApplication.AROUND_SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences userDetails = getActivity().getSharedPreferences(AroundAppHandles.AROUND_SHARED_PREFERENCE, Context.MODE_PRIVATE);
         Operations.getPosts(new LatLng(Double.parseDouble(userDetails.getString(User.KEY_USER_LATITUDE, "37.399345")),
                 Double.parseDouble(userDetails.getString(User.KEY_USER_LONGITUTDE, "-121.919924"))));
 

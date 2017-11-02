@@ -3,9 +3,13 @@ package com.example.blath.around.commons.Utils;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
@@ -19,6 +23,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
@@ -27,11 +32,16 @@ import android.widget.Toast;
 
 import com.example.blath.around.R;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
 /**
  * Created by blath on 4/15/17.
  */
 
 public class UIUtils {
+    private final static int IMAGE_MAX_SIZE = 800;
 
     public static void showToolbar(@NonNull View view,
                                    @IdRes int toolBarTitleId,
@@ -178,5 +188,44 @@ public class UIUtils {
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    public static Bitmap getBitmap(Uri uri, ContentResolver contentResolver) {
+        InputStream in = null;
+        try {
+            in = contentResolver.openInputStream(uri);
+            if (null != in) {
+                //Decode image size
+                BitmapFactory.Options o = new BitmapFactory.Options();
+                o.inJustDecodeBounds = true;
+
+                // actual decoding bitmap info to have o.outWidth and o.outHeight not 0.
+                BitmapFactory.decodeStream(in, null, o);
+                // after stream is decoded it cannot be reused again as file. So open another stream
+                in.close();
+                in = contentResolver.openInputStream(uri);
+
+                int scale = 1;
+                if (o.outHeight > IMAGE_MAX_SIZE || o.outWidth > IMAGE_MAX_SIZE) {
+                    scale = (int) Math.pow(2, (int) Math.round(Math.log(IMAGE_MAX_SIZE / (double) Math.max(o.outHeight, o.outWidth)) / Math.log(0.5)));
+                }
+
+                BitmapFactory.Options o2 = new BitmapFactory.Options();
+                o2.inSampleSize = scale;
+                Bitmap b = BitmapFactory.decodeStream(in, null, o2);
+
+                in.close();
+                return b;
+            }
+        } catch (FileNotFoundException e) {
+//            if (BuildConfig.DEBUG) {
+                Log.e("Cropper", "file " + uri.toString() + " not found", e);
+//            }
+        } catch (IOException e) {
+//            if (BuildConfig.DEBUG) {
+                Log.e("Cropper", "file " + uri.getPath() + " not io", e);
+//            }
+        }
+        return null;
     }
 }

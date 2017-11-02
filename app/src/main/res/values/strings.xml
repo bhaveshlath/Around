@@ -26,6 +26,9 @@
     <string name="age_range_post_text">Age Range: %1$d - %2$d years</string>
     <string name="gender_preference_post_text">Gender: %1$s</string>
     <string name="post_detail">Post Detail</string>
+    <string name="rotate">Rotate</string>
+    <string name="crop">Crop</string>
+
 
     <!-- Strings for Login Activity -->
     <string name="login">Login</string>

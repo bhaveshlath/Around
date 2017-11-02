@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         <ImageView
-                android:src="@drawable/ic_user"
+                android:src="@drawable/binoculars"
                 android:id="@+id/register_user_image"
                 android:layout_width="@dimen/register_user_image"
                 android:layout_height="@dimen/register_user_image"

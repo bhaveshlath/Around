@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.blath.around.R;
-import com.example.blath.around.activities.INewPostListener;
 
 /**
  * Created by blath on 4/17/17.
@@ -19,7 +18,6 @@ public class NewPostSportAdapter extends BaseAdapter {
     Context mContext;
     int[] mSportNames;
     int[] mSportIcons;
-    INewPostListener mINewPostListener;
     TextView mTextView;
 
     private static LayoutInflater inflater = null;
@@ -30,7 +28,6 @@ public class NewPostSportAdapter extends BaseAdapter {
         mSportIcons = sportIcons;
         inflater = (LayoutInflater) context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mINewPostListener = (INewPostListener) mContext;
         mTextView = view;
     }
 
@@ -58,7 +55,6 @@ public class NewPostSportAdapter extends BaseAdapter {
         }
         holder.sportName = (TextView) convertView.findViewById(R.id.sport_name);
         holder.sportIcon = (ImageView) convertView.findViewById(R.id.sport_icon);
-
         holder.sportName.setText(mSportNames[position]);
         holder.sportIcon.setImageResource(mSportIcons[position]);
 

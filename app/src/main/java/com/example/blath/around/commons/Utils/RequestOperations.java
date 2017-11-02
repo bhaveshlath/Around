@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.example.blath.around.R;
-import com.example.blath.around.commons.Utils.app.AroundApplication;
+import com.example.blath.around.commons.Utils.app.AroundAppHandles;
 import com.example.blath.around.commons.Utils.app.AroundUtils;
 import com.example.blath.around.models.AroundLocation;
 import com.example.blath.around.models.User;
@@ -58,7 +58,7 @@ public class RequestOperations {
 
 
     public static User getUserObject(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(AroundApplication.AROUND_SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(AroundAppHandles.AROUND_SHARED_PREFERENCE, Context.MODE_PRIVATE);
         return new User(new UserPersonalInformation(sharedPreferences.getString(User.KEY_USER_FIRST_NAME, "Doe"),
                 sharedPreferences.getString(User.KEY_USER_LAST_NAME, "Doe"),
                 sharedPreferences.getString(User.KEY_USER_EMAIL, "abc@xyz.com"),

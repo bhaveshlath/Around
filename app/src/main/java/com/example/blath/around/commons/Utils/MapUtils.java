@@ -1,5 +1,6 @@
 package com.example.blath.around.commons.Utils;
 
+import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -126,7 +127,7 @@ public class MapUtils implements OnMapReadyCallback,
             mLocationPermissionGranted = true;
         } else {
             ActivityCompat.requestPermissions(mActivity,
-                    new String[] { android.Manifest.permission.ACCESS_FINE_LOCATION },
+                    new String[] { android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA },
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
         /*

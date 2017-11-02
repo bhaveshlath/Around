@@ -1,28 +1,25 @@
 package com.example.blath.around.commons.Utils;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.blath.around.commons.Utils.app.AroundApplication;
+import com.example.blath.around.commons.Utils.app.AroundAppHandles;
 import com.example.blath.around.events.GetPostsEvent;
 import com.example.blath.around.events.LoginUserEvent;
 import com.example.blath.around.events.RegisterUserEvent;
 import com.example.blath.around.events.SubmitPostEvent;
+import com.example.blath.around.models.LoginCredentials;
 import com.example.blath.around.models.Post;
 import com.example.blath.around.models.User;
 import com.google.android.gms.maps.model.LatLng;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
 
 import de.greenrobot.event.EventBus;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.MediaType;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Created by blath on 7/6/17.
@@ -37,149 +34,108 @@ public class Operations {
     private static final String KEY_REGISTER_LOGIN_USER = "register/loginUser";
     public static final String KEY_POSTS = "Posts";
     public static final String KEY_USER = "User";
+    public static final MediaType JSON
+            = MediaType.parse("application/json; charset=utf-8");
 
-    public static JSONObject getJsonMapperObject(String jsonString) {
-        JSONObject jsonObject = null;
-        try {
-            jsonObject = new JSONObject(jsonString);
-        } catch (JSONException e) {
-            e.getStackTrace();
-        }
-        return jsonObject;
-    }
-
+    //to login in the application with user credentials
     public static void loginUserOperation(final String username, final String password) {
-        JSONObject loginJsonObject = new JSONObject();
-        try {
-            JSONObject credentialsJsonObject = new JSONObject();
-            credentialsJsonObject.put("emailID", username);
-            credentialsJsonObject.put("password", password);
-            loginJsonObject.put("userCredentials", credentialsJsonObject);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        LoginCredentials loginCredentials = new LoginCredentials(username, password);
+        String loginCredentialJsonString = AroundAppHandles.getGsonInstance().toJson(loginCredentials);
+        RequestBody requestBody = RequestBody.create(JSON, loginCredentialJsonString);
+        Request request = new Request.Builder()
+                .url(BASE_URL + KEY_REGISTER_LOGIN_USER)
+                .post(requestBody)
+                .build();
 
-        JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST, BASE_URL + KEY_REGISTER_LOGIN_USER  , loginJsonObject,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        EventBus.getDefault().post(new LoginUserEvent(ResponseOperations.getResponseObject(response.toString(), KEY_USER)));
-                    }
-                }, new Response.ErrorListener() {
+        AroundAppHandles.getOkHttpClient().newCall(request).enqueue(new Callback() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.e("Error: ", error.getMessage());
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
             }
-        }) {
+
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                return headers;
+            public void onResponse(Call call, final Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    throw new IOException("Unexpected code " + response);
+                }
+                EventBus.getDefault().post(new LoginUserEvent(ResponseOperations.getResponseObject(response.body().string(), KEY_USER)));
             }
-        };
-
-        loginRequest.setRetryPolicy(new DefaultRetryPolicy(
-                0,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-        AroundApplication.getInstance().addToRequestQueue(loginRequest);
+        });
     }
 
-    public static void registerUserOperation(final User userDetail) {
+    //register new user
+    public static void registerUserOperation(User userDetail) {
+        String userJsonString = AroundAppHandles.getGsonInstance().toJson(userDetail);
+        RequestBody requestBody = RequestBody.create(JSON, userJsonString);
+        Request request = new Request.Builder()
+                .url(BASE_URL + KEY_REGISTER_USER)
+                .post(requestBody)
+                .build();
 
-        JSONObject jsonObject = getJsonMapperObject(AroundApplication.getGsonInstance().toJson(userDetail));
-
-        JsonObjectRequest registerRequest = new JsonObjectRequest(Request.Method.POST, BASE_URL + KEY_REGISTER_USER, jsonObject,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        EventBus.getDefault().post(new RegisterUserEvent(ResponseOperations.getResponseObject(response.toString(), null)));
-                    }
-                }, new Response.ErrorListener() {
+        AroundAppHandles.getOkHttpClient().newCall(request).enqueue(new Callback() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.e("Error: ", error.getMessage());
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
             }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                return headers;
-            }
-        };
-        registerRequest.setRetryPolicy(new DefaultRetryPolicy(
-                0,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        AroundApplication.getInstance().addToRequestQueue(registerRequest);
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    throw new IOException("Unexpected code " + response);
+                }
+                EventBus.getDefault().post(new RegisterUserEvent(ResponseOperations.getResponseObject(response.body().string(), null)));
+            }
+        });
     }
 
     //Submit the users request and handles the server response
     public static void submitPost(final Post post) {
+        String userJsonString = AroundAppHandles.getGsonInstance().toJson(post);
+        RequestBody requestBody = RequestBody.create(JSON, userJsonString);
+        Request request = new Request.Builder()
+                .url(BASE_URL + KEY_POSTS_SUBMIT)
+                .post(requestBody)
+                .build();
 
-        JSONObject jsonObject = getJsonMapperObject(AroundApplication.getGsonInstance().toJson(post));
-
-        JsonObjectRequest submitPostRequest = new JsonObjectRequest(Request.Method.POST, BASE_URL + KEY_POSTS_SUBMIT, jsonObject,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        EventBus.getDefault().post(new SubmitPostEvent(ResponseOperations.getResponseObject(response.toString(), null)));
-                    }
-                }, new Response.ErrorListener() {
+        AroundAppHandles.getOkHttpClient().newCall(request).enqueue(new Callback() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.e("Error: ", error.getMessage());
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
             }
-        }) {
+
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                return headers;
+            public void onResponse(Call call, final Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    throw new IOException("Unexpected code " + response);
+                }
+                EventBus.getDefault().post(new SubmitPostEvent(ResponseOperations.getResponseObject(response.body().string(), null)));
             }
-        };
-
-        submitPostRequest.setRetryPolicy(new DefaultRetryPolicy(
-                0,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-        AroundApplication.getInstance().addToRequestQueue(submitPostRequest);
+        });
     }
 
     //Fetches the posts near user's current location and handles the server response
     public static void getPosts(LatLng latLng) {
 
-        JSONObject jsonObject = getJsonMapperObject(AroundApplication.getGsonInstance().toJson(latLng));
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(BASE_URL + KEY_POSTS_GET).newBuilder();
+        String url = urlBuilder.build().toString();
 
-        JsonObjectRequest getPosts = new JsonObjectRequest(Request.Method.GET, BASE_URL + KEY_POSTS_GET, jsonObject,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        EventBus.getDefault().post(new GetPostsEvent(ResponseOperations.getResponseObject(response.toString(), KEY_POSTS)));
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.e("Error: ", error.getMessage());
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                return headers;
-            }
-        };
-        getPosts.setRetryPolicy(new DefaultRetryPolicy(
-                0,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
 
-        AroundApplication.getInstance().addToRequestQueue(getPosts);
+        AroundAppHandles.getOkHttpClient().newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    throw new IOException("Unexpected code " + response);
+                }
+                EventBus.getDefault().post(new GetPostsEvent(ResponseOperations.getResponseObject(response.body().string(), KEY_POSTS)));
+            }
+        });
     }
 }
