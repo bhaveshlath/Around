@@ -165,12 +165,12 @@ public class HomePostsFragment extends Fragment {
         @Override
         public DashboardPostsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             final Context context = parent.getContext();
-            View view = LayoutInflater.from(context).inflate(R.layout.posts_row_item, parent, false);
+            View view = LayoutInflater.from(context).inflate(R.layout.posts_list_item, parent, false);
             return new DashboardPostsViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(DashboardPostsViewHolder holder, int position) {
+        public void onBindViewHolder(DashboardPostsViewHolder holder, final int position) {
             Resources resources = getResources();
             final Post post = mDataSet.get(position);
             setContentAreaBackground(post.getType(), holder.mContentArea);
@@ -190,14 +190,19 @@ public class HomePostsFragment extends Fragment {
             holder.postReply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    UIUtils.showLongToast("This Is me " + post.getTitle(), getActivity());
+                    UIUtils.showLongToast("This Is me " + String.valueOf(position) + post.getTitle(), getActivity());
                 }
             });
 
             holder.postComments.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    UIUtils.showLongToast("This Is me2 " + post.getTitle(), getActivity());
+                    Intent intent = new Intent(getActivity(), PostActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString(KEY_POST_ACTION, KEY_POST_COMMENTS);
+                    bundle.putSerializable(KEY_POST, mDataSet.get(position));
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 }
             });
         }

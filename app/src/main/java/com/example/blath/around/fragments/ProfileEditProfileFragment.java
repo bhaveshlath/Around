@@ -3,7 +3,6 @@ package com.example.blath.around.fragments;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -28,9 +27,6 @@ import java.io.IOException;
 
 public class ProfileEditProfileFragment extends Fragment implements View.OnClickListener{
     public static final int PROFILE_CAMERA_PERMISSION_GROUP_ID = 2;
-    private static final String IMAGE_FILE_NAME = "around_profile";
-    private static final String IMAGE_FILE_TYPE = ".jpg";
-    private static final String AROUND_PATH = "/around";
 
     private View mView;
 
@@ -40,6 +36,8 @@ public class ProfileEditProfileFragment extends Fragment implements View.OnClick
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_profile_edit_profile, container, false);
         mView.findViewById(R.id.profile_user_image).setOnClickListener(this);
+
+//        updateUserProfileItems();
         return  mView;
     }
 
@@ -78,11 +76,6 @@ public class ProfileEditProfileFragment extends Fragment implements View.OnClick
 
     private void takePhotoFromCamera() {
         requestRuntimePermissions(PROFILE_CAMERA_PERMISSION_GROUP_ID, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA);
-    }
-
-    public void setProfileImage(Bitmap bmp){
-        ImageView profileUserImage =  (ImageView)mView.findViewById(R.id.profile_user_image);
-        profileUserImage.setImageBitmap(bmp);
     }
 
     public ImageView getProfileImageView(){

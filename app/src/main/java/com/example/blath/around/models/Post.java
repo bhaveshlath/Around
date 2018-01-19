@@ -17,6 +17,7 @@ public class Post implements Serializable {
     public static final String KEY_TYPE_CONCERT = "concert";
     public static final String KEY_TYPE_OTHER = "other";
 
+    private String _id;
     private User user;
     private String type;
     private String title;
@@ -28,10 +29,11 @@ public class Post implements Serializable {
     private DateRange dates;
     private String time;
     private int commentsCount;
-    private ArrayList<String> comments;
+    private ArrayList<Comment> comments;
     private Date postedDate;
+    private PostStatus status;
 
-    public Post(User user, String type, String title, String subtitle, AroundLocation location, AgeRange ageRange, String genderPreference, String description, DateRange dates, String time, int commentsCount, ArrayList<String> comments) {
+    public Post(User user, String type, String title, String subtitle, AroundLocation location, AgeRange ageRange, String genderPreference, String description, DateRange dates, String time, int commentsCount, ArrayList<Comment> comments, PostStatus postStatus) {
         this.user = user;
         this.type = type;
         this.title = title;
@@ -46,6 +48,25 @@ public class Post implements Serializable {
         this.comments = comments;
         Calendar calendar = Calendar.getInstance();
         this.postedDate = calendar.getTime();
+        this.status = postStatus;
+    }
+
+    public Post(String _id, User user, String type, String title, String subtitle, AroundLocation location, AgeRange ageRange, String genderPreference, String description, DateRange dates, String time, int commentsCount, ArrayList<Comment> comments, Date postedDate, PostStatus status) {
+        this._id = _id;
+        this.user = user;
+        this.type = type;
+        this.title = title;
+        this.subtitle = subtitle;
+        this.location = location;
+        this.ageRange = ageRange;
+        this.genderPreference = genderPreference;
+        this.description = description;
+        this.dates = dates;
+        this.time = time;
+        this.commentsCount = commentsCount;
+        this.comments = comments;
+        this.postedDate = postedDate;
+        this.status = status;
     }
 
     public User getUser() {
@@ -136,11 +157,11 @@ public class Post implements Serializable {
         this.commentsCount = commentsCount;
     }
 
-    public ArrayList<String> getComments() {
+    public ArrayList<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(ArrayList<String> comments) {
+    public void setComments(ArrayList<Comment> comments) {
         this.comments = comments;
     }
 
@@ -158,5 +179,21 @@ public class Post implements Serializable {
 
     public void setPostedDate(Date postedDate) {
         this.postedDate = postedDate;
+    }
+
+    public String getStatus() {
+        return status.getStatusString();
+    }
+
+    public void setStatus(PostStatus status) {
+        this.status = status;
+    }
+
+    public String getId() {
+        return _id;
+    }
+
+    public void setId(String id) {
+        this._id = id;
     }
 }

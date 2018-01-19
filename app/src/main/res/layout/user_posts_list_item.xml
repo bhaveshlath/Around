@@ -6,29 +6,22 @@
               android:orientation="vertical"
               android:layout_marginTop="@dimen/margin_medium">
     <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:padding="@dimen/padding_small">
-        <ImageView
-                android:id="@+id/post_user_icon"
-                android:layout_width="@dimen/posts_user_icon"
-                android:layout_height="@dimen/posts_user_icon"/>
+                    android:padding="@dimen/padding_small">
 
         <TextView
-                android:id="@+id/post_user_name"
-                android:layout_toRightOf="@id/post_user_icon"
+                android:id="@+id/post_status"
                 android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLength="30"
                 android:textColor="@color/around_background_end_color"
-                android:textSize="@dimen/text_size_h2"
-                android:layout_centerInParent="true"
+                android:textSize="@dimen/text_size_primary"
                 android:layout_marginLeft="@dimen/margin_medium"/>
 
         <TextView
                 android:id="@+id/posted_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:layout_alignParentRight="true"
                 android:textColor="@color/donate_carmine"
                 android:layout_alignParentEnd="true"/>
@@ -98,23 +91,4 @@
                     style="@style/PostDataText"/>
         </LinearLayout>
     </LinearLayout>
-    <RelativeLayout android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_medium">
-        <Button android:id="@+id/post_reply"
-                android:layout_width="@dimen/profile_icons"
-                android:layout_height="@dimen/profile_icons"
-                android:background="@drawable/ic_reply"/>
-        <Button android:id="@+id/post_comments"
-                android:layout_width="@dimen/profile_icons"
-                android:layout_height="@dimen/profile_icons"
-                android:layout_toRightOf="@id/post_reply"
-                android:background="@drawable/ic_comment"
-                android:layout_marginLeft="@dimen/margin_medium"/>
-        <TextView android:id="@+id/post_comment_count"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_alignParentEnd="true"
-                  android:layout_alignParentRight="true"/>
-    </RelativeLayout>
 </LinearLayout>

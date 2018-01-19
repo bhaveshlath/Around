@@ -82,6 +82,48 @@
                 android:textColorHint="@color/white_56"
                 android:hint="@string/phone_number"
                 android:ems="10"/>
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:background="@android:color/transparent">
+            <TextView
+                    android:id="@+id/gender_selection_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/margin_xsmall"
+                    android:text="@string/gender"
+                    android:gravity="center_vertical"
+                    style="@style/SmallText.gray"/>
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_xsmall"
+                    android:layout_margin="@dimen/margin_small"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/spinner_background"
+                    android:orientation="horizontal">
+                <Spinner
+                        android:id="@+id/gender_selection_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:background="@android:color/transparent"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/margin_xsmall"
+                        android:layout_marginStart="@dimen/margin_xsmall"
+                        android:spinnerMode="dropdown"/>
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="@dimen/margin_xsmall"
+                        android:layout_marginEnd="@dimen/margin_xsmall"
+                        android:src="@drawable/ic_dropdown"/>
+            </RelativeLayout>
+        </LinearLayout>
         <EditText
                 android:id="@+id/register_password"
                 android:layout_width="match_parent"

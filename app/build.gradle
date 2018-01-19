@@ -22,10 +22,6 @@ android {
     }
 }
 
-ext {
-    supportLibVersion = "25.3.1"
-}
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -36,9 +32,10 @@ dependencies {
     compile "com.android.support:design:${supportLibVersion}"
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.google.android.gms:play-services-maps:10.2.4'
-    compile 'com.google.android.gms:play-services-location:10.2.4'
-    compile 'com.google.android.gms:play-services-places:10.2.4'
+    compile "com.google.android.gms:play-services-maps:${playServicesVersion}"
+    compile "com.google.android.gms:play-services-location:${playServicesVersion}"
+    compile "com.google.android.gms:play-services-places:${playServicesVersion}"
+    compile "com.google.android.gms:play-services-auth:${playServicesVersion}"
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.theartofdev.edmodo:android-image-cropper:1.1.1'
@@ -46,5 +43,10 @@ dependencies {
     compile 'com.squareup:android-times-square:1.6.5@aar'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
+    compile 'com.koushikdutta.ion:ion:2.+'
+    compile 'com.koushikdutta.async:androidasync:2.+'
+    compile 'com.firebase:firebase-client-android:2.5.2+'
     testCompile 'junit:junit:4.12'
 }
+
+apply plugin: 'com.google.gms.google-services'

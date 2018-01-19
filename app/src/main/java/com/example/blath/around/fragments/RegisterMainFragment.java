@@ -12,12 +12,15 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Switch;
 
 import com.example.blath.around.R;
@@ -65,8 +68,8 @@ public class RegisterMainFragment extends Fragment implements
     private View mView;
     private FragmentActivity mActivity;
 
+    private String mGender;
     private MapUtils mMapUtils;
-    private String mCameraPhotoPath;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -105,6 +108,23 @@ public class RegisterMainFragment extends Fragment implements
         UIUtils.hideKeyboard(getActivity());
         ImageView registerUserImage = (ImageView) mView.findViewById(R.id.register_user_image);
         registerUserImage.setOnClickListener(this);
+
+        Spinner genderSelectionSpinner = (Spinner) mView.findViewById(R.id.gender_selection_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mActivity,
+                R.array.gender_options, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        genderSelectionSpinner.setAdapter(adapter);
+        genderSelectionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mGender = (String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                mGender = "";
+            }
+        });
 
         return mView;
     }
@@ -150,7 +170,7 @@ public class RegisterMainFragment extends Fragment implements
     }
 
     private void submitUserDetails(String firstName, String lastName, String emailID, String dateOfBirth, String phoneNumber,
-                                   String password, AroundLocation userLocation) {
+                                   String password, AroundLocation userLocation, String gender) {
 
         if (firstName.equals("")
                 || lastName.equals("")
@@ -159,6 +179,8 @@ public class RegisterMainFragment extends Fragment implements
                 || phoneNumber.equals("")
                 || password.equals("")) {
             UIUtils.showLongToast(getString(R.string.all_details_alert), mActivity);
+        } else if(gender.equals("")){
+            UIUtils.showLongToast(getString(R.string.gender_alert), mActivity);
         } else if (userLocation == null) {
             UIUtils.showLongToast(getString(R.string.location_alert), mActivity);
         } else if (isRegisterDataValid(emailID, phoneNumber, dateOfBirth.substring(dateOfBirth.lastIndexOf(',') + 2)) != 0) {
@@ -176,7 +198,7 @@ public class RegisterMainFragment extends Fragment implements
                     break;
             }
         } else {
-            User newUser = new User(new UserPersonalInformation(firstName, lastName, emailID, dateOfBirth, phoneNumber, password), userLocation, "Pending-Verification");
+            User newUser = new User(new UserPersonalInformation(firstName, lastName, emailID, dateOfBirth, mGender, phoneNumber, password), userLocation, "Pending-Verification");
             Operations.registerUserOperation(newUser);
         }
     }
@@ -207,7 +229,6 @@ public class RegisterMainFragment extends Fragment implements
                 EditText password = (EditText) mView.findViewById(R.id.register_password);
                 EditText dateOfBirth = (EditText) mView.findViewById(R.id.register_DOB);
 
-
                 submitUserDetails(firstName.getText().toString(),
                         lastName.getText().toString(),
                         emailID.getText().toString(),
@@ -218,7 +239,7 @@ public class RegisterMainFragment extends Fragment implements
                                 mMapUtils.getUserLocation().getLongitude(),
                                 mMapUtils.getUserLocation().getAddress() == null ? "" : mMapUtils.getUserLocation().getAddress(),
                                 mMapUtils.getUserLocation().getPostalCode() == null ? "" : mMapUtils.getUserLocation().getPostalCode(),
-                                mMapUtils.getUserLocation().getCountry() == null ? "" : mMapUtils.getUserLocation().getCountry()));
+                                mMapUtils.getUserLocation().getCountry() == null ? "" : mMapUtils.getUserLocation().getCountry()), mGender);
                 break;
             case R.id.register_date_picker_button:
                 final Calendar c = Calendar.getInstance();

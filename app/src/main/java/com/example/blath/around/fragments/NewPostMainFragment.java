@@ -36,7 +36,9 @@ import com.example.blath.around.commons.Utils.UIUtils;
 import com.example.blath.around.commons.Utils.app.AroundUtils;
 import com.example.blath.around.models.AgeRange;
 import com.example.blath.around.models.AroundLocation;
+import com.example.blath.around.models.Comment;
 import com.example.blath.around.models.Post;
+import com.example.blath.around.models.PostStatus;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
@@ -226,7 +228,7 @@ public class NewPostMainFragment extends Fragment implements View.OnClickListene
                             getSubTitleContent(),
                             mMapUtils.getUserLocation(),
                             new AgeRange(Integer.parseInt(mAgeRangeMin.getText().toString()), Integer.parseInt(mAgeRangeMax.getText().toString())),
-                            mGenderPreference, descriptionText.getText().toString(), DateUtils.getDateRange(mDate.getText().toString()), mTime.getText().toString(), 0, new ArrayList<String>()));
+                            mGenderPreference, descriptionText.getText().toString(), DateUtils.getDateRange(mDate.getText().toString()), mTime.getText().toString(), 0, new ArrayList<Comment>(), PostStatus.ACTIVE));
                     NewPostReviewFragment newPostReviewFragment = new NewPostReviewFragment();
                     newPostReviewFragment.setArguments(bundle);
                     getFragmentManager().beginTransaction().replace(R.id.new_post_container, newPostReviewFragment).addToBackStack(null).commit();

@@ -1,5 +1,7 @@
 package com.example.blath.around.models;
 
+import com.example.blath.around.commons.Utils.Operations;
+
 import java.io.Serializable;
 
 /**
@@ -9,9 +11,10 @@ import java.io.Serializable;
 public class User implements Serializable{
 
     public static final String KEY_USER_ID = "_id";
-    public static final String KEY_USER_IMAGE_URL = "image_url";
+    public static final String KEY_USER_PROFILE_IMAGE = "profile_image";
     public static final String KEY_USER_FIRST_NAME = "first_name";
     public static final String KEY_USER_LAST_NAME = "last_name";
+    public static final String KEY_USERNAME = "username";
     public static final String KEY_USER_EMAIL = "emailID";
     public static final String KEY_USER_PHONE_NUMBER = "phone_number";
     public static final String KEY_USER_DOB = "dob";
@@ -23,8 +26,10 @@ public class User implements Serializable{
     public static final String KEY_USER_LOCATION_ADDRESS = "location_address";
     public static final String KEY_USER_LOCATION_POSTALCODE = "location_postal_code";
     public static final String KEY_USER_LOCATION_COUNTRY = "location_country";
+    public static final String KEY_DEFAULT_PROFILE_ICON = Operations.BASE_URL + "uploadsss/59c84d47b383a86db532eacf.jpeg";
 
     private String _id;
+    private String profileImage;
     private UserPersonalInformation userPersonalInformation;
     private AroundLocation lastLocation;
     private String profileStatus;
@@ -35,13 +40,15 @@ public class User implements Serializable{
         this.userPersonalInformation = userPersonalInformation;
         this.lastLocation = lastLocation;
         this.profileStatus = profileStatus;
+        this.profileImage = KEY_DEFAULT_PROFILE_ICON;
     }
 
-    public User(String userId, UserPersonalInformation userPersonalInformation, AroundLocation lastLocation, String profileStatus) {
+    public User(String userId, UserPersonalInformation userPersonalInformation, AroundLocation lastLocation, String profileStatus, String profileImageURL) {
         this._id = userId;
         this.userPersonalInformation = userPersonalInformation;
         this.lastLocation = lastLocation;
         this.profileStatus = profileStatus;
+        this.profileImage = profileImageURL;
     }
 
     public AroundLocation getLastLocation() {
@@ -52,7 +59,7 @@ public class User implements Serializable{
         this._id = userId;
     }
 
-    public String getKeyUserId() {
+    public String getUserId() {
         return _id;
     }
 
@@ -74,5 +81,13 @@ public class User implements Serializable{
 
     public void setUserPersonalInformation(UserPersonalInformation userPersonalInformation) {
         this.userPersonalInformation = userPersonalInformation;
+    }
+
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 }

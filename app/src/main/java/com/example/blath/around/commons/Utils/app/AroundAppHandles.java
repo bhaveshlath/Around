@@ -18,6 +18,7 @@ public class AroundAppHandles {
     private static AroundAppHandles sInstance;
     private static Gson sGson;
     private static final OkHttpClient sOkHttpClient = new OkHttpClient();
+    private static final String sAroundUsersDBReference = "https://around-165219.firebaseio.com/users";
     private ImageUtils mImageUtils;
 
 //    private RequestQueue mRequestQueue;
@@ -59,5 +60,9 @@ public class AroundAppHandles {
 
     public static ImageUtils getImageUtils() {
         return sInstance.mImageUtils;
+    }
+
+    public static String getsAroundUsersDBReference() {
+        return sInstance.sAroundUsersDBReference;
     }
 }

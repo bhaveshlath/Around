@@ -18,10 +18,11 @@ import com.example.blath.around.events.LoginUserEvent;
 import com.example.blath.around.models.AroundLocation;
 import com.example.blath.around.models.User;
 import com.example.blath.around.models.UserPersonalInformation;
+import com.firebase.client.Firebase;
 
 import de.greenrobot.event.EventBus;
 
-public class LoginActivity extends FragmentActivity implements View.OnClickListener {
+public class LoginActivity extends FragmentActivity implements View.OnClickListener{
 
     private static final String TAG = RegisterActivity.class.getSimpleName();
 
@@ -40,8 +41,8 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login_button:
-                EditText username = (EditText) findViewById(R.id.username);
-                EditText password = (EditText) findViewById(R.id.password);
+                EditText username = (EditText) findViewById(R.id.login_emailID);
+                EditText password = (EditText) findViewById(R.id.login_password);
                 String usernameText = username.getText().toString();
                 String passwordText = password.getText().toString();
                 verifyLoginCredentials(usernameText, passwordText);
@@ -55,14 +56,14 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         }
     }
 
-    private boolean verifyLoginCredentials(String username, String password) {
-        if (username.equals("")) {
-            UIUtils.showShortToast("Please enter username", this);
+    private boolean verifyLoginCredentials(String emailID, String password) {
+        if (emailID.equals("")) {
+            UIUtils.showShortToast("Please enter emailID", this);
         } else if (password.equals("")) {
             UIUtils.showShortToast("Please enter password", this);
         } else {
             findViewById(R.id.progress_overlay_container).setVisibility(View.VISIBLE);
-            Operations.loginUserOperation(username, password);
+            Operations.loginUserOperation(emailID, password);
         }
         return false;
     }
@@ -87,18 +88,23 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         } else {
             SharedPreferences sharedPref = getSharedPreferences(AroundAppHandles.AROUND_SHARED_PREFERENCE, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
+            editor.clear();
 
             User userObject = (User)result.getResponseObject().getBody();
             UserPersonalInformation personalInformationObject = userObject.getUserPersonalInformation();
             AroundLocation locationObject = userObject.getLastLocation();
 
             editor.putString(User.KEY_USER_PROFILE_STATUS, userObject.getProfileStatus());
+            editor.putString(User.KEY_USER_ID, userObject.getUserId());
+            editor.putString(User.KEY_USER_PROFILE_IMAGE, userObject.getProfileImage());
 
             editor.putString(User.KEY_USER_FIRST_NAME, personalInformationObject.getFirstName());
             editor.putString(User.KEY_USER_LAST_NAME, personalInformationObject.getLastName());
+            editor.putString(User.KEY_USERNAME, personalInformationObject.getFirstName() + (personalInformationObject.getLastName().isEmpty() ? "" : " " + personalInformationObject.getLastName()));
             editor.putString(User.KEY_USER_EMAIL, personalInformationObject.getEmailID());
             editor.putString(User.KEY_USER_PHONE_NUMBER, personalInformationObject.getPhoneNumber());
             editor.putString(User.KEY_USER_DOB, personalInformationObject.getDOB());
+            editor.putString(User.KEY_USER_PASSWORD, personalInformationObject.getPassword());
 
             editor.putString(User.KEY_USER_LATITUDE, Double.toString(locationObject.getLatitude()));
             editor.putString(User.KEY_USER_LONGITUTDE, Double.toString(locationObject.getLongitude()));
@@ -107,9 +113,13 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
             editor.putString(User.KEY_USER_LOCATION_COUNTRY, locationObject.getCountry());
 
             editor.commit();
+            Firebase.setAndroidContext(this);
+            Firebase firebaseUsersDBRef = new Firebase(AroundAppHandles.getsAroundUsersDBReference());
+            firebaseUsersDBRef.child(userObject.getUserId()).child("name").setValue(personalInformationObject.getFirstName() + (personalInformationObject.getLastName().isEmpty() ? "" : " " + personalInformationObject.getLastName()));
             findViewById(R.id.progress_overlay_container).setVisibility(View.GONE);
-            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-            startActivity(intent);
+            Intent loginIntent = new Intent(LoginActivity.this, HomeActivity.class);
+            loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(loginIntent);
         }
     }
 }

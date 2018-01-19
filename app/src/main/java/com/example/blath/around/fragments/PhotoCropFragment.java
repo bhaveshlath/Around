@@ -3,11 +3,11 @@ package com.example.blath.around.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -21,9 +21,14 @@ import android.widget.TextView;
 
 import com.example.blath.around.R;
 import com.example.blath.around.activities.ProfileActivity;
+import com.example.blath.around.commons.Utils.Operations;
 import com.example.blath.around.commons.Utils.UIUtils;
+import com.example.blath.around.commons.Utils.app.AroundAppHandles;
+import com.example.blath.around.models.User;
+import com.koushikdutta.ion.Ion;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -43,7 +48,9 @@ public class PhotoCropFragment extends Fragment implements LoaderManager.LoaderC
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_photo_crop, container, false);
+        View view = inflater.inflate(R.layout.fragment_photo_crop, container, false);
+        Ion.getDefault(getActivity()).configure().setLogging("ion-sample", Log.DEBUG);
+        return view;
     }
 
     private final static int PHOTO_LOADER_ID = 1;
@@ -207,11 +214,12 @@ public class PhotoCropFragment extends Fragment implements LoaderManager.LoaderC
                 if (activity == null) {
                     return;
                 }
-                //Test storing the image and getting the url perfect
-                saveProfileImageInDirectory();
-                Intent returnedUri = new Intent();
-                returnedUri.putExtra(ProfileActivity.INTENT_EXTRA_FRAGMENT_ARGS, uri);
-                activity.setResult(RESULT_OK, returnedUri);
+
+                Log.d("Photo Path2:", uri.toString());
+                saveProfileImageInDirectory(uri);
+                Intent croppedImageByteArray = new Intent();
+                croppedImageByteArray.putExtra(ProfileActivity.INTENT_EXTRA_FRAGMENT_ARGS, getCroppedImageByteArray());
+                activity.setResult(RESULT_OK, croppedImageByteArray);
                 activity.finish();
             }
         });
@@ -224,24 +232,31 @@ public class PhotoCropFragment extends Fragment implements LoaderManager.LoaderC
         });
     }
 
-    public void saveProfileImageInDirectory(){
-//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//        mCroppedImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-//        byte[] byteArray = stream.toByteArray();
+    public byte[] getCroppedImageByteArray() {
+        if (mCroppedImage != null) {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            mCroppedImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            return stream.toByteArray();
+        }
+        return null;
+    }
 
-
-        String root = Environment.getExternalStorageDirectory().toString();
-        File myDir = new File(root + "/around/profile_images");
-        myDir.mkdirs();
-        String fname = "testing.jpg";
-        File file = new File (myDir, fname);
-        if (file.exists ())
-            file.delete ();
+    // replaces original Clicked Image with the cropped image
+    // oldImage is the image Clicked by the camera
+    // newImage is the Image created after cropping
+    public void saveProfileImageInDirectory(Uri originalUri) {
         try {
-            FileOutputStream out = new FileOutputStream(file);
-            mCroppedImage.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            File newCroppedFile = new File(originalUri.getPath());
+            if (newCroppedFile.exists()) {
+                newCroppedFile.delete();
+                newCroppedFile = new File(originalUri.getPath());
+            }
+            FileOutputStream out = new FileOutputStream(newCroppedFile, false);
+            mCroppedImage.compress(Bitmap.CompressFormat.JPEG, 100, out);
             out.flush();
             out.close();
+            SharedPreferences userDetails = getActivity().getSharedPreferences(AroundAppHandles.AROUND_SHARED_PREFERENCE, Context.MODE_PRIVATE);
+            Operations.uploadProfileImage(userDetails.getString(User.KEY_USER_ID, "001100110011"), newCroppedFile);
 
         } catch (Exception e) {
             e.printStackTrace();

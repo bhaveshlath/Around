@@ -1,19 +1,26 @@
 package com.example.blath.around.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.example.blath.around.R;
 import com.example.blath.around.commons.Utils.CircleTransform;
 import com.example.blath.around.commons.Utils.app.AroundAppHandles;
+import com.example.blath.around.fragments.HomeProfileFragment;
 import com.example.blath.around.fragments.ProfileEditProfileFragment;
 import com.example.blath.around.fragments.ProfileFeedbackFragment;
 import com.example.blath.around.fragments.ProfileTermsFragment;
 import com.example.blath.around.fragments.ProfileUserPostsFragment;
+import com.example.blath.around.models.User;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,8 +29,10 @@ public class ProfileActivity extends AppCompatActivity {
     public static final int REQUEST_PICK_FROM_CAMERA = 1; // choose profile photo from camera
     public static final int REQUEST_PICK_FROM_EXISTING = 2; // choose profile photo from gallery
     public static final int REQUEST_CROPPED_IMAGE = 3; // request cropped image
-    private static final String PROFILE_IMAGE_PREFIX = "PROFILE_IMAGE";
     public static final String INTENT_EXTRA_FRAGMENT_ARGS = "fragment_args";
+    private static final String IMAGE_FILE_TYPE = ".jpeg";
+    private static final String AROUND_PATH = "/Around";
+    private static final String AROUND_PROFILE_IMAGE_PATH = "/Profile Images";
 
     private File mProfilePhotoFile;
     ProfileEditProfileFragment mProfileEditProfileFragment;
@@ -33,7 +42,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        switch (getIntent().getExtras().getInt("selectedOption")){
+        switch (getIntent().getExtras().getInt(HomeProfileFragment.KEY_SELECTED_OPTION)){
             case 0:
                 ProfileUserPostsFragment profileUserPostsFragment = new ProfileUserPostsFragment();
                 getSupportFragmentManager().beginTransaction().add(R.id.profile_container, profileUserPostsFragment).commit();
@@ -59,12 +68,16 @@ public class ProfileActivity extends AppCompatActivity {
 
     // When user takes a photo, it will be saved in the File specified here
     public File createProfileImageFile() throws IOException {
-        File storageDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);
+        String picturesStorageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES).toString();
+        File aroundPictureDirectory = new File(picturesStorageDir + AROUND_PATH + AROUND_PROFILE_IMAGE_PATH);
+        aroundPictureDirectory.mkdirs();
+        SharedPreferences userDetails = this.getSharedPreferences(AroundAppHandles.AROUND_SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        String userId = userDetails.getString(User.KEY_USER_ID, "001100110011");
         mProfilePhotoFile = File.createTempFile(
-                PROFILE_IMAGE_PREFIX,
-                ".jpg",
-                storageDir
+                userId + "_",
+                IMAGE_FILE_TYPE,
+                aroundPictureDirectory
         );
         //noinspection ResultOfMethodCallIgnored
         mProfilePhotoFile.delete(); // we just need a temporary name
@@ -90,14 +103,19 @@ public class ProfileActivity extends AppCompatActivity {
                 }
                 break;
             case REQUEST_CROPPED_IMAGE:
-               Uri croppedImageUri = data.getExtras().getParcelable(INTENT_EXTRA_FRAGMENT_ARGS);
-                if(croppedImageUri != null) {
-                    AroundAppHandles.getImageUtils().loadImage(croppedImageUri, mProfileEditProfileFragment.getProfileImageView(), new CircleTransform());
+               byte[] croppedImageByteArray = data.getByteArrayExtra(INTENT_EXTRA_FRAGMENT_ARGS);
+                if(croppedImageByteArray != null) {
+                    Bitmap croppedImageBitmap = BitmapFactory.decodeByteArray(croppedImageByteArray, 0, croppedImageByteArray.length);
+                    CircleTransform circleTransform =  new CircleTransform();
+                    croppedImageBitmap = circleTransform.transform(croppedImageBitmap);
+                    mProfileEditProfileFragment.getProfileImageView().setImageBitmap(croppedImageBitmap);
                 }
+                break;
             default:
                 break;
         }
         if (photoUri != null) {
+            Log.d("Photo Path1:", photoUri.toString());
             doCropImage(photoUri);
         }
     }

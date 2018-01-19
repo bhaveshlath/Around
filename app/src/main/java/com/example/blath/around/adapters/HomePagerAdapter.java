@@ -1,22 +1,22 @@
 package com.example.blath.around.adapters;
 
-import com.example.blath.around.fragments.HomeMessageFragment;
-import com.example.blath.around.fragments.HomePostsFragment;
-import com.example.blath.around.activities.HomeActivity;
-import com.example.blath.around.fragments.HomeProfileFragment;
-import com.example.blath.around.fragments.HomeSearchFragment;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.example.blath.around.activities.HomeActivity;
+import com.example.blath.around.fragments.HomeMessageFragment;
+import com.example.blath.around.fragments.HomePostsFragment;
+import com.example.blath.around.fragments.HomeProfileFragment;
+import com.example.blath.around.fragments.HomeSearchFragment;
+
 /**
- * Created by blath on 4/12/17.
+ * Created by blath on 1/14/18.
  */
 
-public class DashboardPagerAdapter extends FragmentPagerAdapter {
+public class HomePagerAdapter extends FragmentPagerAdapter {
 
-    public DashboardPagerAdapter(FragmentManager fm) {
+    public HomePagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
@@ -25,13 +25,13 @@ public class DashboardPagerAdapter extends FragmentPagerAdapter {
         Fragment fragment = null;
         switch(position){
             case 0: fragment = new HomePostsFragment();
-                    break;
+                break;
             case 1: fragment = new HomeSearchFragment();
-                    break;
+                break;
             case 2: fragment = new HomeMessageFragment();
-                    break;
+                break;
             case 3: fragment = new HomeProfileFragment();
-                    break;
+                break;
         }
         return fragment;
     }

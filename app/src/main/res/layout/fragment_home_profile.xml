@@ -13,15 +13,21 @@
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/menu_home_green_background_start_color"
                 android:padding="@dimen/padding_large">
 
             <ImageView
-                    android:id="@+id/profile_user_image"
+                    android:id="@+id/user_profile_image"
                     android:layout_width="@dimen/register_user_image"
                     android:layout_height="@dimen/register_user_image"/>
             <TextView
-                    android:id="@+id/profile_user_name"
-                    android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:id="@+id/user_name"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:text="@string/profile"
+                    style="@style/MediumText.White"
+                    android:textStyle="italic"
                     android:gravity="center_vertical"/>
         </LinearLayout>
         <View
@@ -33,12 +39,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/user_profile"
                 android:layout_marginTop="@dimen/margin_large"
-                android:padding="@dimen/padding_small"/>
+                android:padding="@dimen/padding_small"
+                android:fontFamily="monospace"
+                android:textColor="@color/around_home_header_color"/>
         <LinearLayout
                 android:id="@+id/profile_user_posts_row"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/padding_medium">
+                android:padding="@dimen/padding_small">
 
             <ImageView
                     android:id="@+id/profile_user_posts_icon"
@@ -50,13 +58,14 @@
                     android:layout_width="match_parent" android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:text="@string/user_posts"
+                    android:textColor="@color/black"
                     android:layout_marginLeft="@dimen/margin_medium"/>
         </LinearLayout>
         <LinearLayout
                 android:id="@+id/profile_edit_profile_row"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/padding_medium">
+                android:padding="@dimen/padding_small">
 
             <ImageView
                     android:id="@+id/profile_user_edit_icon"
@@ -68,6 +77,7 @@
                     android:layout_width="match_parent" android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:text="@string/edit_profile"
+                    android:textColor="@color/black"
                     android:layout_marginLeft="@dimen/margin_medium"/>
         </LinearLayout>
 
@@ -76,13 +86,15 @@
                 android:layout_height="wrap_content"
                 android:text="@string/help_and_settings"
                 android:padding="@dimen/padding_small"
+                android:fontFamily="monospace"
+                android:textColor="@color/around_home_header_color"
                 android:layout_marginTop="@dimen/margin_large"/>
 
         <LinearLayout
                 android:id="@+id/profile_feedback_row"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/padding_medium">
+                android:padding="@dimen/padding_small">
 
             <ImageView
                     android:id="@+id/profile_feedback_icon"
@@ -91,16 +103,18 @@
                     android:src="@drawable/feedback"/>
             <TextView
                     android:id="@+id/profile_feedback_text"
-                    android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:text="@string/feedback"
+                    android:textColor="@color/black"
                     android:layout_marginLeft="@dimen/margin_medium"/>
         </LinearLayout>
         <LinearLayout
                 android:id="@+id/profile_terms_row"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/padding_medium">
+                android:padding="@dimen/padding_small">
 
             <ImageView
                     android:id="@+id/profile_term_of_service_icon"
@@ -109,16 +123,18 @@
                     android:src="@drawable/terms_and_condition"/>
             <TextView
                     android:id="@+id/profile_term_of_service_text"
-                    android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:text="@string/terms_of_service"
+                    android:textColor="@color/black"
                     android:layout_marginLeft="@dimen/margin_medium"/>
         </LinearLayout>
         <LinearLayout
                 android:id="@+id/profile_logout_row"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/padding_medium">
+                android:padding="@dimen/padding_small">
 
             <ImageView
                     android:id="@+id/profile_log_out_icon"
@@ -127,9 +143,11 @@
                     android:src="@drawable/logout"/>
             <TextView
                     android:id="@+id/profile_log_out_text"
-                    android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:text="@string/logout"
+                    android:textColor="@color/black"
                     android:layout_marginLeft="@dimen/margin_medium"/>
         </LinearLayout>
 

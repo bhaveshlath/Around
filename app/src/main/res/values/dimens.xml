@@ -31,6 +31,7 @@
     <dimen name="text_size_h1">28dp</dimen>
     <dimen name="text_size_h2">20sp</dimen>
     <dimen name="text_size_h3">17sp</dimen>
+    <dimen name="text_size_medium">16sp</dimen>
     <dimen name="text_size_primary">14sp</dimen>
     <dimen name="text_size_secondary">12sp</dimen>
     <dimen name="text_size_small">10sp</dimen>
@@ -60,4 +61,5 @@
 
     <!-- header heights -->
     <dimen name="header_short_height">56dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 </resources>
