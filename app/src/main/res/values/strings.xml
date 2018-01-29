@@ -44,7 +44,8 @@
     <string name="logout_heading">Are you sure?</string>
     <string name="logout_message">You’re about to log out.</string>
 
-
+    <!-- Strings for Home Messages Fragment -->
+    <string name="no_messages_text">You don\'t have any messages yet. Send a post, start a conversation and make connections near you.</string>
 
     <!-- Strings for Register Activity -->
     <string name="first_name">First Name</string>

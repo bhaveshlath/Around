@@ -57,14 +57,15 @@
     <color name="color_primary_dark">@android:color/transparent</color>
 
     <!-- First Time Use / Welcome Screen -->
-    <color name="post_other_background_start_color">#5DD1BB</color>
-    <color name="post_other_background_end_color">#57AFB1</color>
+    <color name="post_other_background_start_color">#FFC066</color>
+    <color name="post_other_background_end_color">#FF9600</color>
     <color name="post_sports_background_start_color">#069c77</color>
     <color name="post_sports_background_end_color">#015D84</color>
     <color name="post_concert_background_start_color">#640087</color>
-    <color name="post_concert_background_end_color">#DE0063</color>
-    <color name="post_travel_background_start_color">#ED3052</color>
-    <color name="post_travel_background_end_color">#FC567A</color>
+    <color name="post_concert_background_end_color">#4b1b80</color>
+    <!--<color name="post_concert_background_color">#DE0063</color>-->
+    <color name="post_travel_background_start_color">#FC567A</color>
+    <color name="post_travel_background_end_color">#ED3052</color>
 
     <!-- light_blue_green_gradient -->
     <color name="gradient_light_blue">#FF4A90E2</color>

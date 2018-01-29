@@ -5,7 +5,10 @@
               android:background="@drawable/button_white_rounded"
               android:orientation="vertical"
               android:layout_marginTop="@dimen/margin_medium">
-    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+    <RelativeLayout
+            android:id="@+id/header_layout"
+            android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:padding="@dimen/padding_small">
 
         <TextView
@@ -14,7 +17,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLength="30"
-                android:textColor="@color/around_background_end_color"
+                android:textColor="@color/white"
                 android:textSize="@dimen/text_size_primary"
                 android:layout_marginLeft="@dimen/margin_medium"/>
 
@@ -23,14 +26,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:textColor="@color/donate_carmine"
+                android:textColor="@color/white_72"
                 android:layout_alignParentEnd="true"/>
     </RelativeLayout>
     <LinearLayout android:id="@+id/post_content_area"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:padding="@dimen/padding_small"
-                  android:background="@drawable/post_sport_background">
+                  android:padding="@dimen/padding_small">
         <LinearLayout android:id="@+id/post_left_container"
                       android:layout_width="75dp"
                       android:layout_height="match_parent"

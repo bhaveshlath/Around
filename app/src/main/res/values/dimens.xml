@@ -28,9 +28,10 @@
     <dimen name="padding_10">80dp</dimen>
 
     <!-- labels text sizes -->
+    <dimen name="text_size_h0">34dp</dimen>
     <dimen name="text_size_h1">28dp</dimen>
     <dimen name="text_size_h2">20sp</dimen>
-    <dimen name="text_size_h3">17sp</dimen>
+    <dimen name="text_size_h3">18sp</dimen>
     <dimen name="text_size_medium">16sp</dimen>
     <dimen name="text_size_primary">14sp</dimen>
     <dimen name="text_size_secondary">12sp</dimen>

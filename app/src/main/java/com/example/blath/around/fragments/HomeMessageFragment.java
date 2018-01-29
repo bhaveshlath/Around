@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.blath.around.R;
 import com.example.blath.around.commons.Utils.Operations;
@@ -28,16 +29,17 @@ public class HomeMessageFragment extends Fragment {
     ListView chatUserList;
     ArrayList<String> usernames;
     ArrayList<String> userIDs;
+    View mView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_home_message, container, false);
-        chatUserList = (ListView) view.findViewById(R.id.chat_user_list);
+        mView = inflater.inflate(R.layout.fragment_home_message, container, false);
+        chatUserList = (ListView) mView.findViewById(R.id.chat_user_list);
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(AroundAppHandles.AROUND_SHARED_PREFERENCE, Context.MODE_PRIVATE);
         Operations.getChatUsersList(sharedPreferences.getString(User.KEY_USER_ID, "1111111"));
-        return view;
+        return mView;
     }
 
     @Override
@@ -79,10 +81,12 @@ public class HomeMessageFragment extends Fragment {
             }
         }
 
-        if(totalChatUsers > 0){
+        if(totalChatUsers > 1){
             chatUserList.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_expandable_list_item_1, usernames));
         }else{
-
+            chatUserList.setVisibility(View.GONE);
+            TextView noMessagesText = (TextView) mView.findViewById(R.id.no_messages_text);
+            noMessagesText.setVisibility(View.VISIBLE);
         }
     }
 }

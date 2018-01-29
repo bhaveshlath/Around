@@ -1,11 +1,10 @@
 package com.example.blath.around.fragments;
 
-import android.app.Dialog;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -100,37 +99,22 @@ public class HomeProfileFragment extends Fragment implements View.OnClickListene
     }
 
     private void createImagePickerOptionDialog() {
-        Resources resources = getResources();
-        final Dialog dialog = new Dialog(mActivity);
-        dialog.setContentView(R.layout.logout_dialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(R.string.logout_heading)
+                .setMessage(R.string.logout_message)
+                .setPositiveButton(R.string.logout, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        mLogout = true;
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
 
-        TextView heading = (TextView) dialog.findViewById(R.id.dialog_heading);
-        TextView message = (TextView) dialog.findViewById(R.id.dialog_message);
-        TextView dialogPositiveButton = (TextView) dialog.findViewById(R.id.dialog_positive_button);
-        TextView dialogNegativeButton = (TextView) dialog.findViewById(R.id.dialog_negative_button);
-
-        heading.setText(resources.getString(R.string.logout_heading));
-        message.setText(resources.getString(R.string.logout_message));
-        dialogPositiveButton.setText(resources.getString(R.string.cancel));
-        dialogNegativeButton.setText(resources.getString(R.string.logout));
-
-        //Cancel is clicked
-        dialogPositiveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        //Logout is clicked
-        dialogNegativeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mLogout = true;
-                dialog.dismiss();
-            }
-        });
-
+        AlertDialog dialog = builder.create();
         dialog.show();
         dialog.setOnDismissListener(this);
     }

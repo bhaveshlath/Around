@@ -4,14 +4,16 @@
               android:layout_height="wrap_content"
               android:background="@drawable/button_white_rounded"
               android:orientation="vertical"
-              android:layout_marginTop="@dimen/margin_medium">
-    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:padding="@dimen/padding_small">
+              android:layout_marginTop="@dimen/home_posts_margin_top">
+    <RelativeLayout
+            android:id="@+id/post_header_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_small">
         <ImageView
                 android:id="@+id/post_user_icon"
                 android:layout_width="@dimen/posts_user_icon"
                 android:layout_height="@dimen/posts_user_icon"/>
-
         <TextView
                 android:id="@+id/post_user_name"
                 android:layout_toRightOf="@id/post_user_icon"
@@ -19,38 +21,36 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLength="30"
-                android:textColor="@color/around_background_end_color"
-                android:textSize="@dimen/text_size_h3"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_h2"
                 android:textStyle="italic"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="@dimen/margin_medium"/>
-
         <TextView
                 android:id="@+id/posted_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_alignParentRight="true"
-                android:textColor="@color/donate_carmine"
+                android:textColor="@color/white_76"
                 android:layout_alignParentEnd="true"/>
     </RelativeLayout>
     <LinearLayout android:id="@+id/post_content_area"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:padding="@dimen/padding_small"
-                  android:background="@drawable/post_sport_background">
+                  android:padding="@dimen/padding_small">
         <LinearLayout android:id="@+id/post_left_container"
                       android:layout_width="75dp"
                       android:layout_height="match_parent"
                       android:gravity="center_vertical"
                       android:orientation="vertical">
-
             <TextView
                     android:id="@+id/post_day"
                     android:gravity="center_horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_size_h1"
+                    android:textStyle="bold|italic"
+                    android:textSize="@dimen/text_size_h0"
                     android:textColor="@color/light_gray"/>
             <TextView
                     android:id="@+id/post_month_year"
@@ -66,7 +66,6 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_h3"
                     android:textColor="@color/light_gray"/>
-
         </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"
@@ -99,6 +98,9 @@
                     style="@style/PostDataText"/>
         </LinearLayout>
     </LinearLayout>
+    <View android:layout_width="match_parent"
+          android:layout_height="1px"
+          android:background="@color/black_16" />
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/padding_medium">

@@ -13,7 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.blath.around.R;
@@ -114,7 +114,7 @@ public class ProfileUserPostsFragment extends Fragment {
     class UserPostsAdapter extends RecyclerView.Adapter<UserPostsAdapter.UserPostsViewHolder> {
 
         class UserPostsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-            final LinearLayout mContentArea;
+            final RelativeLayout headerLayout;
             final TextView postedDate;
             final TextView postDay;
             final TextView postMonthYear;
@@ -127,7 +127,7 @@ public class ProfileUserPostsFragment extends Fragment {
 
             UserPostsViewHolder(View v) {
                 super(v);
-                mContentArea = (LinearLayout) v.findViewById(R.id.post_content_area);
+                headerLayout = (RelativeLayout) v.findViewById(R.id.header_layout);
                 postStatus = (TextView) v.findViewById(R.id.post_status);
                 postedDate = (TextView) v.findViewById(R.id.posted_date);
                 postDay = (TextView) v.findViewById(R.id.post_day);
@@ -167,13 +167,13 @@ public class ProfileUserPostsFragment extends Fragment {
         public void onBindViewHolder(UserPostsViewHolder holder, int position) {
             Resources resources = getResources();
             final Post post = mDataSet.get(position);
-            setContentAreaBackground(post.getType(), holder.mContentArea);
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(post.getDates().getStartDate());
             holder.postedDate.setText(DateUtils.dateFormatterFromString(post.getPostedDate().toString()));
             holder.postDay.setText(DateUtils.twoDigitDayOfMonth(calendar));
             holder.postMonthYear.setText(DateUtils.monthName(calendar) + ", " + DateUtils.lastTwoDigitYear(calendar));
             holder.postWeekDay.setText(DateUtils.weekDayName(calendar));
+            setBackgroundAndTextColor(post.getType(), holder.headerLayout, holder.postDay, holder.postMonthYear, holder.postWeekDay);
             holder.postStatus.setText(post.getStatus());
             holder.postTitleSubtitle.setText(getPostTitle(post));
             holder.ageRange.setText(resources.getString(R.string.age_range_post_text, post.getAgeRange().getMinAge(), post.getAgeRange().getMaxAge()));
@@ -192,22 +192,38 @@ public class ProfileUserPostsFragment extends Fragment {
             notifyDataSetChanged();
         }
 
-        private void setContentAreaBackground(String type, LinearLayout contentArea) {
+        private void setBackgroundAndTextColor(String type, RelativeLayout headerLayout, TextView postDay, TextView postMonthYear, TextView postWeekDay) {
+            Resources resources = getResources();
             switch (type) {
                 case Post.KEY_TYPE_SPORTS:
-                    contentArea.setBackgroundResource(R.drawable.post_sport_background);
+                    headerLayout.setBackgroundResource(R.color.post_sport_background_start_color);
+                    postDay.setTextColor(resources.getColor(R.color.post_sport_background_end_color));
+                    postMonthYear.setTextColor(resources.getColor(R.color.post_sport_background_end_color));
+                    postWeekDay.setTextColor(resources.getColor(R.color.post_sport_background_end_color));
                     break;
                 case Post.KEY_TYPE_STUDY:
-                    contentArea.setBackgroundResource(R.drawable.post_study_background);
+                    headerLayout.setBackgroundResource(R.color.around_background_end_color);
+                    postDay.setTextColor(resources.getColor(R.color.around_background_start_color));
+                    postMonthYear.setTextColor(resources.getColor(R.color.around_background_start_color));
+                    postWeekDay.setTextColor(resources.getColor(R.color.around_background_start_color));
                     break;
                 case Post.KEY_TYPE_TRAVEL:
-                    contentArea.setBackgroundResource(R.drawable.post_travel_background);
+                    headerLayout.setBackgroundResource(R.color.post_travel_background_end_color);
+                    postDay.setTextColor(resources.getColor(R.color.post_travel_background_start_color));
+                    postMonthYear.setTextColor(resources.getColor(R.color.post_travel_background_start_color));
+                    postWeekDay.setTextColor(resources.getColor(R.color.post_travel_background_start_color));
                     break;
                 case Post.KEY_TYPE_CONCERT:
-                    contentArea.setBackgroundResource(R.drawable.post_concert_background);
+                    headerLayout.setBackgroundResource(R.color.post_concert_background_end_color);
+                    postDay.setTextColor(resources.getColor(R.color.post_concert_background_start_color));
+                    postMonthYear.setTextColor(resources.getColor(R.color.post_concert_background_start_color));
+                    postWeekDay.setTextColor(resources.getColor(R.color.post_concert_background_start_color));
                     break;
                 case Post.KEY_TYPE_OTHER:
-                    contentArea.setBackgroundResource(R.drawable.post_other_background);
+                    headerLayout.setBackgroundResource(R.color.post_other_background_end_color);
+                    postDay.setTextColor(resources.getColor(R.color.post_other_background_start_color));
+                    postMonthYear.setTextColor(resources.getColor(R.color.post_other_background_start_color));
+                    postWeekDay.setTextColor(resources.getColor(R.color.post_other_background_start_color));
                     break;
                 default:
                     break;

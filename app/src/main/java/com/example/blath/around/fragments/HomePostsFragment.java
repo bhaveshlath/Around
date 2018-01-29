@@ -15,7 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.blath.around.R;
@@ -114,7 +114,7 @@ public class HomePostsFragment extends Fragment {
     class DashboardPostsAdapter extends RecyclerView.Adapter<DashboardPostsAdapter.DashboardPostsViewHolder> {
 
         class DashboardPostsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-            final LinearLayout mContentArea;
+            final RelativeLayout postHeaderLayout;
             final ImageView postUserIcon;
             final TextView postedDate;
             final TextView postDay;
@@ -130,7 +130,7 @@ public class HomePostsFragment extends Fragment {
 
             DashboardPostsViewHolder(View v) {
                 super(v);
-                mContentArea = (LinearLayout) v.findViewById(R.id.post_content_area);
+                postHeaderLayout = (RelativeLayout) v.findViewById(R.id.post_header_layout);
                 postUserIcon = (ImageView) v.findViewById(R.id.post_user_icon);
                 postUsername = (TextView) v.findViewById(R.id.post_user_name);
                 postedDate = (TextView) v.findViewById(R.id.posted_date);
@@ -173,7 +173,6 @@ public class HomePostsFragment extends Fragment {
         public void onBindViewHolder(DashboardPostsViewHolder holder, final int position) {
             Resources resources = getResources();
             final Post post = mDataSet.get(position);
-            setContentAreaBackground(post.getType(), holder.mContentArea);
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(post.getDates().getStartDate());
             holder.postUserIcon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.baseball));
@@ -181,6 +180,7 @@ public class HomePostsFragment extends Fragment {
             holder.postDay.setText(DateUtils.twoDigitDayOfMonth(calendar));
             holder.postMonthYear.setText(DateUtils.monthName(calendar) + ", " + DateUtils.lastTwoDigitYear(calendar));
             holder.postWeekDay.setText(DateUtils.weekDayName(calendar));
+            setBackgroundAndTextColor(post.getType(), holder.postHeaderLayout, holder.postDay, holder.postMonthYear, holder.postWeekDay);
             holder.postUsername.setText(post.getUser().getUserPersonalInformation().getFirstName() + " " +
                     post.getUser().getUserPersonalInformation().getLastName());
             holder.postTitleSubtitle.setText(getPostTitle(post));
@@ -218,22 +218,38 @@ public class HomePostsFragment extends Fragment {
             notifyDataSetChanged();
         }
 
-        private void setContentAreaBackground(String type, LinearLayout contentArea) {
+        private void setBackgroundAndTextColor(String type, RelativeLayout headerLayout, TextView postDay, TextView postMonthYear, TextView postWeekDay) {
+            Resources resources = getResources();
             switch (type) {
                 case Post.KEY_TYPE_SPORTS:
-                    contentArea.setBackgroundResource(R.drawable.post_sport_background);
+                    headerLayout.setBackgroundResource(R.color.post_sport_background_start_color);
+                    postDay.setTextColor(resources.getColor(R.color.post_sport_background_end_color));
+                    postMonthYear.setTextColor(resources.getColor(R.color.post_sport_background_end_color));
+                    postWeekDay.setTextColor(resources.getColor(R.color.post_sport_background_end_color));
                     break;
                 case Post.KEY_TYPE_STUDY:
-                    contentArea.setBackgroundResource(R.drawable.post_study_background);
+                    headerLayout.setBackgroundResource(R.color.around_background_end_color);
+                    postDay.setTextColor(resources.getColor(R.color.around_background_start_color));
+                    postMonthYear.setTextColor(resources.getColor(R.color.around_background_start_color));
+                    postWeekDay.setTextColor(resources.getColor(R.color.around_background_start_color));
                     break;
                 case Post.KEY_TYPE_TRAVEL:
-                    contentArea.setBackgroundResource(R.drawable.post_travel_background);
+                    headerLayout.setBackgroundResource(R.color.post_travel_background_end_color);
+                    postDay.setTextColor(resources.getColor(R.color.post_travel_background_start_color));
+                    postMonthYear.setTextColor(resources.getColor(R.color.post_travel_background_start_color));
+                    postWeekDay.setTextColor(resources.getColor(R.color.post_travel_background_start_color));
                     break;
                 case Post.KEY_TYPE_CONCERT:
-                    contentArea.setBackgroundResource(R.drawable.post_concert_background);
+                    headerLayout.setBackgroundResource(R.color.post_concert_background_end_color);
+                    postDay.setTextColor(resources.getColor(R.color.post_concert_background_start_color));
+                    postMonthYear.setTextColor(resources.getColor(R.color.post_concert_background_start_color));
+                    postWeekDay.setTextColor(resources.getColor(R.color.post_concert_background_start_color));
                     break;
                 case Post.KEY_TYPE_OTHER:
-                    contentArea.setBackgroundResource(R.drawable.post_other_background);
+                    headerLayout.setBackgroundResource(R.color.post_other_background_end_color);
+                    postDay.setTextColor(resources.getColor(R.color.post_other_background_start_color));
+                    postMonthYear.setTextColor(resources.getColor(R.color.post_other_background_start_color));
+                    postWeekDay.setTextColor(resources.getColor(R.color.post_other_background_start_color));
                     break;
                 default:
                     break;
