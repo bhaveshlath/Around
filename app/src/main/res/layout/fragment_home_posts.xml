@@ -1,24 +1,41 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/gradient_blue_15"
-            android:padding="@dimen/padding_xsmall">
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 android:id="@+id/content"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:background="@color/white_30"
+                                                 android:padding="@dimen/padding_xsmall">
 
     <android.support.v7.widget.RecyclerView
             android:id="@+id/posts_recycler"
             android:scrollbars="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"/>
 
+    <LinearLayout
+            android:id="@+id/no_posts_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:visibility="gone">
+        <ImageView android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:src="@drawable/ic_explorer"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textAlignment="center"
+                  android:textSize="@dimen/text_size_h2"
+                  android:textColor="@color/black"
+                  android:text="@string/no_posts_text"
+                  android:layout_margin="@dimen/margin_medium"/>
+    </LinearLayout>
     <android.support.design.widget.FloatingActionButton
             android:id="@+id/dashboard_newpost_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
-            android:src="@drawable/ic_add_black_24dp"
-            app:layout_anchor="@id/posts_recycler"
-            app:layout_anchorGravity="bottom|right|end" />
+            android:src="@drawable/ic_add_black_24dp" />
 
 </android.support.design.widget.CoordinatorLayout>

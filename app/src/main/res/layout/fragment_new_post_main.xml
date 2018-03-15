@@ -159,7 +159,7 @@
                             android:id="@+id/new_post_date_button"
                             android:layout_width="0dp"
                             android:layout_weight="1"
-                            android:src="@drawable/calendar"
+                            android:src="@drawable/ic_calendar"
                             android:padding="@dimen/padding_xsmall"
                             android:background="@drawable/button_white_rounded"
                             android:layout_height="wrap_content"/>

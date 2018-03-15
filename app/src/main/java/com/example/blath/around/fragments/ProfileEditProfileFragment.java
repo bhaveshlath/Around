@@ -2,7 +2,9 @@ package com.example.blath.around.fragments;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -13,13 +15,19 @@ import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.example.blath.around.R;
 import com.example.blath.around.activities.ProfileActivity;
+import com.example.blath.around.commons.Utils.CircleTransform;
 import com.example.blath.around.commons.Utils.PermissionsHelper;
 import com.example.blath.around.commons.Utils.UIUtils;
+import com.example.blath.around.commons.Utils.app.AroundAppHandles;
+import com.example.blath.around.models.User;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +45,7 @@ public class ProfileEditProfileFragment extends Fragment implements View.OnClick
         mView = inflater.inflate(R.layout.fragment_profile_edit_profile, container, false);
         mView.findViewById(R.id.profile_user_image).setOnClickListener(this);
 
-//        updateUserProfileItems();
+        populateUserProfileData();
         return  mView;
     }
 
@@ -135,5 +143,24 @@ public class ProfileEditProfileFragment extends Fragment implements View.OnClick
                 }
                 break;
         }
+    }
+
+    private void populateUserProfileData(){
+        EditText firstNameEditText = (EditText) mView.findViewById(R.id.profile_first_name);
+        EditText lastNameEditText = (EditText) mView.findViewById(R.id.profile_last_name);
+        EditText phoneNumberEditText = (EditText) mView.findViewById(R.id.profile_phone_number);
+        TextView emailIdEditText = (TextView) mView.findViewById(R.id.profile_email);
+        SeekBar searchDistanceSeekBar = (SeekBar) mView.findViewById(R.id.profile_range);
+        ImageView userProfileImageView = (ImageView) mView.findViewById(R.id.profile_user_image);
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(AroundAppHandles.AROUND_SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        String profileImageURL = sharedPreferences.getString(User.KEY_USER_PROFILE_IMAGE, User.KEY_DEFAULT_PROFILE_ICON);
+        firstNameEditText.setText(sharedPreferences.getString(User.KEY_USER_FIRST_NAME, "John"));
+        lastNameEditText.setText(sharedPreferences.getString(User.KEY_USER_LAST_NAME, "Doe"));
+        phoneNumberEditText.setText(sharedPreferences.getString(User.KEY_USER_PHONE_NUMBER, "0000000000"));
+        emailIdEditText.setText(sharedPreferences.getString(User.KEY_USER_EMAIL, "abc@xyz.com"));
+        searchDistanceSeekBar.setProgress(Integer.valueOf(sharedPreferences.getString(User.KEY_USER_SEARCH_RADIUS_LENGTH, "25")));
+
+        AroundAppHandles.getImageUtils().loadImage(profileImageURL, userProfileImageView, new CircleTransform());
     }
 }

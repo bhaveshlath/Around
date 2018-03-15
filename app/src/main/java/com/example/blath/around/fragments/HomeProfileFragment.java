@@ -91,10 +91,10 @@ public class HomeProfileFragment extends Fragment implements View.OnClickListene
         SharedPreferences userDetails = mActivity.getSharedPreferences(AroundAppHandles.AROUND_SHARED_PREFERENCE, Context.MODE_PRIVATE);
         String usernameString = userDetails.getString(User.KEY_USERNAME, "Bhavesh Lath");
         String profileImageURL = userDetails.getString(User.KEY_USER_PROFILE_IMAGE, User.KEY_DEFAULT_PROFILE_ICON);
-        ImageView userProfileImage = (ImageView) mView.findViewById(R.id.user_profile_image);
+        ImageView userProfileImageView = (ImageView) mView.findViewById(R.id.user_profile_image);
         TextView username = (TextView) mView.findViewById(R.id.user_name);
 
-        AroundAppHandles.getImageUtils().loadImage(profileImageURL, userProfileImage, new CircleTransform());
+        AroundAppHandles.getImageUtils().loadImage(profileImageURL, userProfileImageView, new CircleTransform());
         username.setText(usernameString);
     }
 

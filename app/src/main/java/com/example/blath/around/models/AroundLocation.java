@@ -8,39 +8,24 @@ import java.io.Serializable;
 
 public class AroundLocation implements Serializable{
 
-    private double latitude;
-    private double longitude;
+    private Location loc;
     private String address;
     private String postalCode;
     private String country;
 
-    public AroundLocation(double latitude, double longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
-
     public AroundLocation(double latitude, double longitude, String address, String postalCode, String country) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.loc = new Location(new Double[]{longitude, latitude});
         this.address = address;
         this.postalCode = postalCode;
         this.country = country;
     }
 
-    public double getLatitude() {
-        return latitude;
+    public Location getLoc() {
+        return loc;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
+    public void setLoc(Location loc) {
+        this.loc = loc;
     }
 
     public String getAddress() {

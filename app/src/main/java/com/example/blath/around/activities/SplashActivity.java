@@ -94,8 +94,8 @@ public class SplashActivity extends AppCompatActivity {
             editor.putString(User.KEY_USER_DOB, personalInformationObject.getDOB());
             editor.putString(User.KEY_USER_PASSWORD, personalInformationObject.getPassword());
 
-            editor.putString(User.KEY_USER_LATITUDE, Double.toString(locationObject.getLatitude()));
-            editor.putString(User.KEY_USER_LONGITUTDE, Double.toString(locationObject.getLongitude()));
+            editor.putString(User.KEY_USER_LATITUDE, Double.toString(locationObject.getLoc().getCoordinates()[1]));
+            editor.putString(User.KEY_USER_LONGITUTDE, Double.toString(locationObject.getLoc().getCoordinates()[0]));
             editor.putString(User.KEY_USER_LOCATION_ADDRESS, locationObject.getAddress());
             editor.putString(User.KEY_USER_LOCATION_POSTALCODE, locationObject.getPostalCode());
             editor.putString(User.KEY_USER_LOCATION_COUNTRY, locationObject.getCountry());

@@ -103,7 +103,7 @@
           android:background="@color/black_16" />
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_medium">
+                    android:padding="@dimen/padding_small">
         <Button android:id="@+id/post_reply"
                 android:layout_width="@dimen/profile_icons"
                 android:layout_height="@dimen/profile_icons"

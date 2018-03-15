@@ -38,15 +38,8 @@ import java.util.List;
 import de.greenrobot.event.EventBus;
 
 public class HomePostsFragment extends Fragment {
-
-    public static final String KEY_POST = "key_post";
-    public static final String KEY_POST_ACTION = "key_post_action";
-    public static final String KEY_POST_DETAIL = "key_post_detail";
-    public static final String KEY_POST_COMMENTS = "key_post_comments";
-    public static final String KEY_POST_REPLY = "key_post_reply";
-
-    RecyclerView mRecyclerView;
-    List<Post> mDataSet;
+    private RecyclerView mRecyclerView;
+    private List<Post> mDataSet;
     private DashboardPostsAdapter mAdapter;
     private View mView;
 
@@ -78,8 +71,8 @@ public class HomePostsFragment extends Fragment {
         });
 
         SharedPreferences userDetails = getActivity().getSharedPreferences(AroundAppHandles.AROUND_SHARED_PREFERENCE, Context.MODE_PRIVATE);
-        Operations.getPosts(new LatLng(Double.parseDouble(userDetails.getString(User.KEY_USER_LATITUDE, "37.399345")),
-                Double.parseDouble(userDetails.getString(User.KEY_USER_LONGITUTDE, "-121.919924"))));
+        Operations.getPosts(userDetails.getString(User.KEY_USER_ID, "111111"), new LatLng(Double.parseDouble(userDetails.getString(User.KEY_USER_LATITUDE, "37.399345")),
+                Double.parseDouble(userDetails.getString(User.KEY_USER_LONGITUTDE, "-121.919924"))), Integer.valueOf(userDetails.getString(User.KEY_USER_SEARCH_RADIUS_LENGTH, "25")));
 
         return mView;
     }
@@ -101,7 +94,12 @@ public class HomePostsFragment extends Fragment {
         if (!ResponseOperations.isError(result.getResponseObject())) {
             try {
                 List<Post> posts = (List<Post>) result.getResponseObject().getBody();
-                mAdapter.updateData(posts);
+                if(posts.size() <= 0){
+                    mView.findViewById(R.id.no_posts_content).setVisibility(View.VISIBLE);
+                }else{
+                    mView.findViewById(R.id.no_posts_content).setVisibility(View.GONE);
+                    mAdapter.updateData(posts);
+                }
             } catch (Exception e) {
 
             }
@@ -151,8 +149,8 @@ public class HomePostsFragment extends Fragment {
                 int itemPosition = mRecyclerView.getChildLayoutPosition(v);
                 Intent intent = new Intent(getActivity(), PostActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString(KEY_POST_ACTION, KEY_POST_DETAIL);
-                bundle.putSerializable(KEY_POST, mDataSet.get(itemPosition));
+                bundle.putString(Post.KEY_POST_ACTION, Post.KEY_POST_DETAIL);
+                bundle.putSerializable(Post.KEY_POST, mDataSet.get(itemPosition));
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -199,8 +197,8 @@ public class HomePostsFragment extends Fragment {
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(), PostActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putString(KEY_POST_ACTION, KEY_POST_COMMENTS);
-                    bundle.putSerializable(KEY_POST, mDataSet.get(position));
+                    bundle.putString(Post.KEY_POST_ACTION, Post.KEY_POST_COMMENTS);
+                    bundle.putSerializable(Post.KEY_POST, mDataSet.get(position));
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }

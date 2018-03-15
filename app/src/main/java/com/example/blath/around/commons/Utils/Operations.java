@@ -96,7 +96,8 @@ public class Operations {
                 if (!response.isSuccessful()) {
                     throw new IOException("Unexpected code " + response);
                 }
-                EventBus.getDefault().post(new RegisterUserEvent(ResponseOperations.getResponseObject(response.body().string(), null)));
+                RegisterUserEvent registerUserEvent = new RegisterUserEvent(ResponseOperations.getResponseObject(response.body().string(), null));
+                EventBus.getDefault().post(registerUserEvent);
             }
         });
     }
@@ -127,9 +128,13 @@ public class Operations {
     }
 
     //Fetches the posts near user's current location and handles the server response
-    public static void getPosts(LatLng latLng) {
+    public static void getPosts(String userID, LatLng latLng, int searchRadiusLength) {
 
         HttpUrl.Builder urlBuilder = HttpUrl.parse(BASE_URL + KEY_POSTS_GET).newBuilder();
+        urlBuilder.addQueryParameter("userID", userID);
+        urlBuilder.addQueryParameter("latitude", String.valueOf(latLng.latitude));
+        urlBuilder.addQueryParameter("longitude", String.valueOf(latLng.longitude));
+        urlBuilder.addQueryParameter("searchRadiusLength", String.valueOf(searchRadiusLength));
         String url = urlBuilder.build().toString();
 
         Request request = new Request.Builder()

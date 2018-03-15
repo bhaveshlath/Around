@@ -16,6 +16,11 @@ public class Post implements Serializable {
     public static final String KEY_TYPE_TRAVEL = "travel";
     public static final String KEY_TYPE_CONCERT = "concert";
     public static final String KEY_TYPE_OTHER = "other";
+    public static final String KEY_POST = "key_post";
+    public static final String KEY_POST_ACTION = "key_post_action";
+    public static final String KEY_POST_DETAIL = "key_post_detail";
+    public static final String KEY_POST_COMMENTS = "key_post_comments";
+    public static final String KEY_POST_REPLY = "key_post_reply";
 
     private String _id;
     private User user;

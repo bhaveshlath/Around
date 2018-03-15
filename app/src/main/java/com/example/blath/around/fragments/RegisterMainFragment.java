@@ -235,8 +235,8 @@ public class RegisterMainFragment extends Fragment implements
                         dateOfBirth.getText().toString(),
                         phoneNumber.getText().toString(),
                         password.getText().toString(),
-                        mMapUtils.getUserLocation() == null ? null : new AroundLocation(mMapUtils.getUserLocation().getLatitude(),
-                                mMapUtils.getUserLocation().getLongitude(),
+                        mMapUtils.getUserLocation() == null ? null : new AroundLocation(mMapUtils.getUserLocation().getLoc().getCoordinates()[1],
+                                mMapUtils.getUserLocation().getLoc().getCoordinates()[0],
                                 mMapUtils.getUserLocation().getAddress() == null ? "" : mMapUtils.getUserLocation().getAddress(),
                                 mMapUtils.getUserLocation().getPostalCode() == null ? "" : mMapUtils.getUserLocation().getPostalCode(),
                                 mMapUtils.getUserLocation().getCountry() == null ? "" : mMapUtils.getUserLocation().getCountry()), mGender);

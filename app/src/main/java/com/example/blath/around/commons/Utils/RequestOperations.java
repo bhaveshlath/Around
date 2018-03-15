@@ -59,7 +59,7 @@ public class RequestOperations {
 
     public static User getUserObject(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(AroundAppHandles.AROUND_SHARED_PREFERENCE, Context.MODE_PRIVATE);
-        return new User(new UserPersonalInformation(sharedPreferences.getString(User.KEY_USER_FIRST_NAME, "Doe"),
+        return new User(sharedPreferences.getString(User.KEY_USER_ID, ""), new UserPersonalInformation(sharedPreferences.getString(User.KEY_USER_FIRST_NAME, "John"),
                 sharedPreferences.getString(User.KEY_USER_LAST_NAME, "Doe"),
                 sharedPreferences.getString(User.KEY_USER_EMAIL, "abc@xyz.com"),
                 sharedPreferences.getString(User.KEY_USER_DOB, "01 Jan, 2017"),
@@ -71,7 +71,8 @@ public class RequestOperations {
                         sharedPreferences.getString(User.KEY_USER_LOCATION_ADDRESS, "Los Angeles,CA 90007, USA"),
                         sharedPreferences.getString(User.KEY_USER_LOCATION_POSTALCODE, "90007"),
                         sharedPreferences.getString(User.KEY_USER_LOCATION_COUNTRY, "USA")),
-                sharedPreferences.getString(User.KEY_USER_PROFILE_STATUS, "Pending-Verification"));
+                sharedPreferences.getString(User.KEY_USER_PROFILE_STATUS, "Pending-Verification"),
+                sharedPreferences.getString(User.KEY_USER_PROFILE_IMAGE, User.KEY_DEFAULT_PROFILE_ICON));
     }
 
     private static boolean verifyMinMaxAgeRange(String minAge, String maxAge) {

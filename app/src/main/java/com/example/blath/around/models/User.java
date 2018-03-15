@@ -25,14 +25,17 @@ public class User implements Serializable{
     public static final String KEY_USER_LATITUDE = "longitude";
     public static final String KEY_USER_LOCATION_ADDRESS = "location_address";
     public static final String KEY_USER_LOCATION_POSTALCODE = "location_postal_code";
+    public static final String KEY_USER_SEARCH_RADIUS_LENGTH = "search_radius_length";
     public static final String KEY_USER_LOCATION_COUNTRY = "location_country";
     public static final String KEY_DEFAULT_PROFILE_ICON = Operations.BASE_URL + "uploadsss/59c84d47b383a86db532eacf.jpeg";
+    public static final Integer KEY_DEFAULT_SEARCH_RADIUS_LENGTH = 25; //miles
 
     private String _id;
     private String profileImage;
     private UserPersonalInformation userPersonalInformation;
     private AroundLocation lastLocation;
     private String profileStatus;
+    private Integer searchRadiusLength;
 
     public User(){}
 
@@ -41,6 +44,7 @@ public class User implements Serializable{
         this.lastLocation = lastLocation;
         this.profileStatus = profileStatus;
         this.profileImage = KEY_DEFAULT_PROFILE_ICON;
+        this.searchRadiusLength = KEY_DEFAULT_SEARCH_RADIUS_LENGTH;
     }
 
     public User(String userId, UserPersonalInformation userPersonalInformation, AroundLocation lastLocation, String profileStatus, String profileImageURL) {
@@ -89,5 +93,13 @@ public class User implements Serializable{
 
     public void setProfileImage(String profileImage) {
         this.profileImage = profileImage;
+    }
+
+    public Integer getSearchRadiusLength() {
+        return searchRadiusLength;
+    }
+
+    public void setSearchRadiusLength(Integer searchRadiusLength) {
+        this.searchRadiusLength = searchRadiusLength;
     }
 }
